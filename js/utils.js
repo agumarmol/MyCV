@@ -107,7 +107,7 @@ export const ITEM_TEMPLATES = {
 // ---------------------------------------------
 
 export const STYLE_SETTINGS = [
-  { id: 'background-color', cssVar: '--page-background-color', key: 'backgroundColor' },
+  // { id: 'page-background-color', cssVar: '--page-background-color', key: 'backgroundColor' },
   { id: 'main-background-color', cssVar: '--main-background-color', key: 'mainBackgroundColor' },
   { id: 'sidebar-background-color', cssVar: '--sidebar-background-color', key: 'sidebarBackgroundColor' },
   { id: 'title-background-color', cssVar: '--section-title-bg-color', key: 'titleBackgroundColor'},

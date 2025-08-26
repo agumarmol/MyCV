@@ -22,6 +22,9 @@ import {
   setupPhotoUploadListener 
 } from './cvUploader.js';
 
+import { preloadFaceApiModels, setupFaceCentering } from './faceCentering.js';
+
+
 export {
   // setupMenuDropdown, // 1 - (interno)
   // restoreCustomStyles, // 5.5 - (interno) - IMPORTANTE: está duplicada en styleManager (comentada)
@@ -73,11 +76,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error("Error al cargar el CV:", error);
   }
 
+
+
+  // 🔹 Otras inicializaciones
   // 🔹 Incluye idioma, contenido y foto. También inicializa el selector de idiomas.
   // 🔹 No vuelve a llamar a restoreCustomStyles()
 
   // 5️⃣ Interactividad General: Configurar el comportamiento interactivo
   console.log("Configurando comportamiento interactivo...");
+
   setupResizer();                   // 5.1 Resizer del sidebar
   setupPersonalizationListeners();  // 5.2 Inputs para personalización (color pickers, sliders...)
   setupToggleSections();            // 5.3 Secciones colapsables en contenido (educación, skills, etc.)
@@ -124,6 +131,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 🔄 🆕 Escuchar carga de archivos del usuario
   setupMenuListeners();
+
+  // 🔹 🆕 Carga de modelos de face-api en segundo plano (no bloquea la página)
+  preloadFaceApiModels();
+
+  // 🔹 Configura el botón de centrar rostro
+  setupFaceCentering();
 });
 
 // ===================================
@@ -314,3 +327,4 @@ function setupMenuListeners() {
 //     localStorage.setItem('openSections', JSON.stringify(openSections));
 //   }
 // }
+

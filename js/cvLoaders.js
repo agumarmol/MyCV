@@ -619,7 +619,9 @@ function getDefaultFaceCenter(img, container) {
  * - cW,cH: dimensiones del contenedor
  * - initialX, initialY, initialScale: valores de offset y escala iniciales
  */
-function setupImageDragAndZoom(img, containerWidth, containerHeight, startX = 0, startY = 0, startScale = 1, minScale = 1) {
+export function setupImageDragAndZoom(img, containerWidth, containerHeight, 
+  startX = 0, startY = 0, 
+  startScale = 1, minScale = 1) {
 
   // --- Asegurar que no queden listeners duplicados
   if (img._dragZoomListeners) {

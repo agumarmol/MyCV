@@ -17,9 +17,12 @@
   <!-- Fuentes de estilos Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <!-- Cargar Face-api.js primero -  API para detección de rostros -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script> <!-- usado en cvLoaders.js -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script> <-- version de TensorFlow.js compatible con navegadores -->
+  <!-- Cargar Face-api.js primero -  API para detección de rostros // face-api.js (la librería) es el código JavaScript que sabe cómo usar TensorFlow.js y cómo interpretar los modelos. -->
+  <!-- <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"> </script> --> <!-- usado en cvLoaders.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script> --> <!-- version de TensorFlow.js compatible con navegadores -->
+  <!-- <script defer src="https://unpkg.com/face-api.js"></script> --> <!-- Otra versión -->
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.1/dist/face-api.min.js"></script>
+
 
   <!-- Vincula utils.js antes de main.js -->
   <script type="module" src="js/utils.js"></script> <!-- Funciones adicionales-->
@@ -194,21 +197,25 @@
           <i class="fas fa-sync-alt"></i> Restablecer imagen
         </button>
 
-        <button id="reset-preferences-btn" class="action-btn" aria-label="Restablecer preferencias">
-          <i class="fas fa-sync-alt"></i> Restablecer preferencias
+        <button id="center-face-btn" class="action-btn" aria-label="Centrar rostro">
+          <i class="fas fa-user-circle"></i> Centrar rostro
         </button>
 
         <button id="import-prefs-btn" class="action-btn" aria-label="Importar preferencias">
           <i class="fas fa-file-import"></i> Importar preferencias
         </button>
+        <input type="file" id="import-prefs-file" accept=".json" style="display: none;" />
 
         <button id="export-prefs-btn" class="action-btn" aria-label="Exportar preferencias">
           <i class="fas fa-file-export"></i> Exportar preferencias
         </button>
 
-        <input type="file" id="import-prefs-file" accept=".json" style="display: none;" />
-      </div>
+        <button id="reset-preferences-btn" class="action-btn" aria-label="Restablecer preferencias">
+          <i class="fas fa-sync-alt"></i> Restablecer preferencias
+        </button>
 
+      </div>
+      
       <!-- NUEVO CONTROL: Evitar cortes en Impresión -->
       <div class="actions-button-group2">
         <button id="toggle-print-break" type="button" class="action-btn" aria-label="Evitar cortes en impresión">

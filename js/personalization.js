@@ -57,9 +57,9 @@ import {
   enhanceSectionItems, renderItems,
   // enhanceSkillIcons, enhanceLanguageIcons, 
   adjustTextShadowBasedOnSidebarColor, adjustColorBasedOnInversion,
-  updateTimelineLine, 
-} from './utils.js';
+  updateTimelineLine } from './utils.js';
 
+import { setupFaceCentering } from './faceCentering.js';
 
 
 // 1️⃣ - Inicialización de todos los listeners del panel de personalización
@@ -95,16 +95,17 @@ export function setupPersonalizationListeners() {
   // 1️⃣.4️⃣ Botones de acción
   const buttons = [
     { id: 'reset-img-btn',             callback: setupResetImgButton },
+    { id: 'center-face-btn',           callback: setupFaceCentering },
+    { id: 'import-prefs-btn',          callback: () => document.getElementById('import-prefs-file').click() },
+    { id: 'export-prefs-btn',          callback: exportCustomStyles },
     { id: 'reset-preferences-btn',     callback: resetPreferences },
+    { id: 'toggle-print-break',        callback: setupPrintBreakToggle },
     { id: 'close-personalization-btn', callback: () => handlePanelToggle({
                                             panelId: "personalization-panel",
                                             buttonSelector: ".personalize-btn",
                                             action: "close"
-                                          }) 
-    },
-    { id: 'import-prefs-btn',          callback: () => document.getElementById('import-prefs-file').click() },
-    { id: 'export-prefs-btn',          callback: exportCustomStyles },
-    { id: 'toggle-print-break',        callback: setupPrintBreakToggle },
+                                          })
+    }
   ];
   buttons.forEach(b => setupButtonListener(b.id, b.callback));
 
@@ -612,5 +613,4 @@ export function importCustomStyles(file) {
     }
   };
   reader.readAsText(file);
-}
-
+} 
