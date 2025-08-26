@@ -1,0 +1,461 @@
+{
+  "es": {
+    "secciones": {
+      "sobreMi": "Sobre mí",
+      "objetivo": "Objetivo",
+      "contacto": "Contacto",
+      "habilidades": "Habilidades",
+      "idiomas": "Idiomas",
+      "hobbies": "Pasatiempos",
+      "experiencia": "Experiencia Profesional",
+      "estudios": "Estudios",
+      "logros": "Logros"
+    },
+    "nombre": "Pablo Marmol",
+    "titulo": "Doctor en Leyes y Abogado",
+    "foto": "foto-pablo2.jpg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "pablo.marmol@example.com",
+        "icono": "fas fa-envelope",
+        "etiqueta": "Correo"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+34 612 345 678",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "Teléfono"
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "Madrid, España",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "Ciudad"
+      },
+      {
+        "tipo": "linkedin",
+        "valor": "https://linkedin.com/in/pablomarmol",
+        "icono": "fab fa-linkedin",
+        "etiqueta": "LinkedIn"
+      }
+    ],
+    "resumen": "Especialista en derecho internacional con más de 10 años de experiencia en litigios y asesoría legal. Amplio conocimiento en arbitraje internacional, litigios transnacionales y resolución de conflictos entre estados y empresas multinacionales.",
+    "objetivo": "Contribuir con mi experiencia legal en un entorno desafiante, y especialmente insertarme en el mercado laboral japonés. Busco desarrollar proyectos que involucren la interacción de sistemas legales internacionales y apoyar a organizaciones a manejar riesgos legales en el ámbito global.",
+    "habilidades": [
+      {
+        "nombre": "Derecho Internacional",
+        "nivel": 5,
+        "icono": "fas fa-globe"
+      },
+      {
+        "nombre": "Litigación",
+        "nivel": 5,
+        "icono": "fas fa-gavel"
+      },
+      {
+        "nombre": "Negociación",
+        "nivel": 4,
+        "icono": "fas fa-handshake"
+      },
+      {
+        "nombre": "Redacción Legal",
+        "nivel": 5,
+        "icono": "fas fa-file-contract"
+      },
+      {
+        "nombre": "Asesoría Legal Corporativa",
+        "nivel": 5,
+        "icono": "fas fa-building"
+      }
+    ],
+    "idiomas": [
+      {
+        "idioma": "Español",
+        "nivel": "Nativo",
+        "codigo": "es",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "Inglés",
+        "nivel": "C1",
+        "codigo": "en",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "Japonés",
+        "nivel": "B2",
+        "codigo": "ja",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "Chino",
+        "nivel": "A2",
+        "codigo": "zh",
+        "icono": "fas fa-language"
+      }
+    ],
+    "hobbies": [
+      {
+        "nombre": "Ajedrez",
+        "icono": "fas fa-chess"
+      },
+      {
+        "nombre": "Lectura",
+        "icono": "fas fa-book"
+      },
+      {
+        "nombre": "Viajes",
+        "icono": "fas fa-plane"
+      },
+      {
+        "nombre": "Cine y Documentales",
+        "icono": "fas fa-film"
+      }
+    ],
+    "experiencia": [
+      {
+        "puesto": "Abogado Senior",
+        "empresa": "Legal Global",
+        "fecha": "2015 - Presente",
+        "descripcion": "Representación legal en casos internacionales y asesoría en contratos transnacionales. Asesoré a empresas multinacionales en la implementación de políticas legales para su expansión en mercados internacionales.",
+        "icono": "fas fa-briefcase",
+        "detalles": "Responsable de más de 50 casos exitosos en arbitraje internacional y resolución de conflictos complejos entre entidades públicas y privadas en diversas jurisdicciones."
+      },
+      {
+        "puesto": "Asociado Principal",
+        "empresa": "Abogados Internacionales S.A.",
+        "fecha": "2010 - 2015",
+        "descripcion": "Defensa y asesoría legal para clientes en el ámbito del derecho internacional y comercio internacional. Representé clientes en juicios de propiedad intelectual y disputas comerciales.",
+        "icono": "fas fa-briefcase",
+        "detalles": "Coordinación de equipos legales multidisciplinarios en litigios complejos que involucraron legislación internacional sobre patentes y contratos."
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "Doctorado en Derecho Internacional",
+        "instituto": "Universidad Complutense de Madrid",
+        "fecha": "2008 - 2012",
+        "icono": "fas fa-university",
+        "detalles": "Investigación en conflictos legales entre estados y organismos multilaterales. Mi tesis se centró en los mecanismos de resolución de conflictos entre estados soberanos en el marco de la Organización de las Naciones Unidas."
+      },
+      {
+        "titulo": "Licenciatura en Derecho",
+        "instituto": "Universidad de Salamanca",
+        "fecha": "2003 - 2008",
+        "icono": "fas fa-university",
+        "detalles": "Enfoque en derecho internacional y derecho comparado. Prácticas en bufetes de abogados especializados en derecho mercantil y civil."
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "Premio a la Excelencia Jurídica",
+        "descripcion": "Otorgado por el Colegio de Abogados Internacionales",
+        "fecha": "2020",
+        "detalles": "Reconocimiento por trayectoria y casos relevantes en el ámbito legal internacional, especialmente en resolución de disputas comerciales internacionales."
+      },
+      {
+        "titulo": "Premio al Mejor Abogado Internacional",
+        "descripcion": "Otorgado por la Cámara de Comercio Internacional",
+        "fecha": "2018",
+        "detalles": "Premio al abogado con mayor impacto en la resolución de arbitrajes internacionales durante el año."
+      }
+    ]
+  },
+  "ja": {
+    "secciones": {
+      "sobreMi": "自己紹介",
+      "objetivo": "目標",
+      "contacto": "連絡先",
+      "habilidades": "スキル",
+      "idiomas": "言語",
+      "hobbies": "趣味",
+      "experiencia": "職務経験",
+      "estudios": "学歴",
+      "logros": "実績"
+    },
+    "nombre": "Pablo Marmol (パブロ・ケリド)",
+    "titulo": "法学博士・弁護士",
+    "foto": "foto-pablo.jpg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "pablo.marmol@example.com",
+        "icono": "fas fa-envelope",
+        "etiqueta": "メール"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+34 612 345 678",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "電話"
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "マドリード、スペイン",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "都市"
+      },
+      {
+        "tipo": "linkedin",
+        "valor": "https://linkedin.com/in/pablomarmol",
+        "icono": "fab fa-linkedin",
+        "etiqueta": "LinkedIn"
+      }
+    ],
+    "resumen": "国際法の専門家として10年以上の経験を持ち、訴訟および法律相談を行ってきました。国際仲裁や跨国訴訟に関する広範な知識を有し、多国籍企業の法的リスク管理に関する戦略を提供しています。",
+    "objetivo": "チャレンジングな環境で自分の法的経験を活かし、日本の労働市場に参入することを目指しています。特に国際法の分野で新しい課題を解決する機会を探しています。",
+    "habilidades": [
+      {
+        "nombre": "国際法",
+        "nivel": 5,
+        "icono": "fas fa-globe"
+      },
+      {
+        "nombre": "訴訟",
+        "nivel": 5,
+        "icono": "fas fa-gavel"
+      },
+      {
+        "nombre": "交渉",
+        "nivel": 4,
+        "icono": "fas fa-handshake"
+      },
+      {
+        "nombre": "法律文書作成",
+        "nivel": 5,
+        "icono": "fas fa-file-contract"
+      },
+      {
+        "nombre": "企業法務アドバイス",
+        "nivel": 5,
+        "icono": "fas fa-building"
+      }
+    ],
+    "idiomas": [
+      {
+        "idioma": "スペイン語",
+        "nivel": "ネイティブ",
+        "codigo": "es",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "英語",
+        "nivel": "C1",
+        "codigo": "en",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "日本語",
+        "nivel": "B2",
+        "codigo": "ja",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "中国語",
+        "nivel": "A2",
+        "codigo": "zh",
+        "icono": "fas fa-language"
+      }
+    ],
+    "hobbies": [
+      {
+        "nombre": "チェス",
+        "icono": "fas fa-chess"
+      },
+      {
+        "nombre": "読書",
+        "icono": "fas fa-book"
+      },
+      {
+        "nombre": "旅行",
+        "icono": "fas fa-plane"
+      },
+      {
+        "nombre": "映画とドキュメンタリー",
+        "icono": "fas fa-film"
+      }
+    ],
+    "experiencia": [
+      {
+        "puesto": "シニア弁護士",
+        "empresa": "Legal Global",
+        "fecha": "2015年～現在",
+        "descripcion": "国際案件の法的代理および国際契約に関する助言を担当。多国籍企業に対して法的リスクを管理するための戦略を提供しています。",
+        "icono": "fas fa-briefcase",
+        "detalles": "国際仲裁で50件以上の成功事例を担当し、複雑な国際商事訴訟を解決しました。"
+      },
+      {
+        "puesto": "アソシエイト弁護士",
+        "empresa": "Abogados Internacionales S.A.",
+        "fecha": "2010年～2015年",
+        "descripcion": "国際商取引、特に特許法や契約法に関連する訴訟で顧客を代表しました。",
+        "icono": "fas fa-briefcase",
+        "detalles": "法的文書作成や交渉を主導し、クライアントの商業的利益を守る戦略を提供しました。"
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "国際法博士号",
+        "instituto": "マドリード・コンプルテンセ大学",
+        "fecha": "2008年～2012年",
+        "icono": "fas fa-university",
+        "detalles": "国家間および多国間機関における法的紛争の研究。国際法の主要な分野を深く学びました。"
+      },
+      {
+        "titulo": "法学士",
+        "instituto": "サラマンカ大学",
+        "fecha": "2003年～2008年",
+        "icono": "fas fa-university",
+        "detalles": "国際法および商法に重点を置いた法学の学位。実務経験を通じて学んだ知識を強化。"
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "法律功績賞",
+        "descripcion": "国際弁護士協会より授与",
+        "fecha": "2020年",
+        "detalles": "国際法の分野における顕著な業績と実績を評価され受賞。"
+      },
+      {
+        "titulo": "国際弁護士賞",
+        "descripcion": "国際商業会議所より授与",
+        "fecha": "2018年",
+        "detalles": "50件以上の国際仲裁案件を成功裏に解決した功績に対し授与。"
+      }
+    ]
+  },
+  "zh": {
+    "secciones": {
+      "sobreMi": "关于我",
+      "objetivo": "目标",
+      "contacto": "联系方式",
+      "habilidades": "技能",
+      "idiomas": "语言",
+      "hobbies": "爱好",
+      "experiencia": "工作经历",
+      "estudios": "教育背景",
+      "logros": "成就"
+    },
+    "nombre": "巴布罗·克雷多",
+    "titulo": "法学博士与律师",
+    "foto": "foto-pablo.jpg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "pablo.marmol@example.com",
+        "icono": "fas fa-envelope",
+        "etiqueta": "电子邮件"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+34 612 345 678",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "电话"
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "西班牙马德里",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "城市"
+      },
+      {
+        "tipo": "linkedin",
+        "valor": "https://linkedin.com/in/pablomarmol",
+        "icono": "fab fa-linkedin",
+        "etiqueta": "LinkedIn"
+      }
+    ],
+    "resumen": "国际法专家，拥有超过10年的诉讼与法律咨询经验。",
+    "objetivo": "希望在具有挑战性的环境中发挥法律专业知识，特别是进入日本职场。",
+    "habilidades": [
+      {
+        "nombre": "国际法",
+        "nivel": 5,
+        "icono": "fas fa-globe"
+      },
+      {
+        "nombre": "诉讼",
+        "nivel": 5,
+        "icono": "fas fa-gavel"
+      },
+      {
+        "nombre": "谈判",
+        "nivel": 4,
+        "icono": "fas fa-handshake"
+      },
+      {
+        "nombre": "法律文书写作",
+        "nivel": 5,
+        "icono": "fas fa-file-contract"
+      }
+    ],
+    "idiomas": [
+      {
+        "idioma": "西班牙语",
+        "nivel": "母语",
+        "codigo": "es",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "英语",
+        "nivel": "C1",
+        "codigo": "en",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "日语",
+        "nivel": "B2",
+        "codigo": "ja",
+        "icono": "fas fa-language"
+      },
+      {
+        "idioma": "中文",
+        "nivel": "A2",
+        "codigo": "zh",
+        "icono": "fas fa-language"
+      }
+    ],
+    "hobbies": [
+      {
+        "nombre": "国际象棋",
+        "icono": "fas fa-chess"
+      },
+      {
+        "nombre": "阅读",
+        "icono": "fas fa-book"
+      },
+      {
+        "nombre": "旅行",
+        "icono": "fas fa-plane"
+      }
+    ],
+    "experiencia": [
+      {
+        "puesto": "高级律师",
+        "empresa": "Legal Global",
+        "fecha": "2015年 - 至今",
+        "descripcion": "负责国际案件的法律代理与跨国合同咨询。",
+        "icono": "fas fa-briefcase",
+        "detalles": "成功处理了超过50起国际仲裁案件。"
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "国际法博士",
+        "instituto": "马德里康普顿斯大学",
+        "fecha": "2008年 - 2012年",
+        "icono": "fas fa-university",
+        "detalles": "研究国家与多边组织之间的法律冲突。"
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "法律卓越奖",
+        "descripcion": "由国际律师协会授予",
+        "fecha": "2020年",
+        "detalles": "表彰其在国际法律领域的成就与贡献。"
+      }
+    ]
+  }
+}

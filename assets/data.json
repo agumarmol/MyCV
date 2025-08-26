@@ -1,0 +1,331 @@
+{
+  "es": {
+    "secciones": {
+      "sobreMi": "Sobre mí",
+      "objetivo": "Objetivo",
+      "contacto": "Contacto",
+      "habilidades": "Habilidades",
+      "idiomas": "Idiomas",
+      "hobbies": "Hobbies",
+      "experiencia": "Experiencia Profesional",
+      "estudios": "Estudios",
+      "logros": "Logros y Reconocimientos"
+    },
+    "nombre": "Juan Pérez",
+    "titulo": "Analista de Datos",
+    "foto": "foto.jpg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "juan@example.com",
+        "icono": "fas fa-envelope",
+        "etiqueta": "E-Mail"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+34 600 123 456",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "Tel."
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "Madrid, España",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "Ciudad"
+      },
+      {
+        "tipo": "linkedin",
+        "valor": "https://linkedin.com/in/juanperez",
+        "icono": "fab fa-linkedin",
+        "etiqueta": "LinkedIn"
+      }
+    ],
+    "resumen": "Soy una persona estratégica, resiliente y con facilidad de adaptación...",
+    "objetivo": "Mi objetivo es integrarme en el campo de la ciencia de datos.",
+    "habilidades": [
+      {"nombre": "Python", "nivel": 5, "icono": "fab fa-python"},
+      {"nombre": "SQL", "nivel": 4, "icono": "fas fa-database"},
+      {"nombre": "Tableau", "nivel": 3, "icono": "fas fa-chart-bar"},
+      {"nombre": "Machine Learning", "nivel": 4, "icono": "fas fa-brain"}
+    ],
+    "idiomas": [
+      {"idioma": "Español", "nivel": "C2", "codigo": "es", "icono": "fas fa-language"},
+      {"idioma": "Inglés", "nivel": "B2", "codigo": "en", "icono": "fas fa-language"},
+      {"idioma": "Alemán", "nivel": "A2", "codigo": "de", "icono": "fas fa-language"}
+    ],
+    "hobbies": [
+      {"nombre": "Ciclismo", "icono": "fas fa-bicycle"},
+      {"nombre": "Lectura", "icono": "fas fa-book"},
+      {"nombre": "Fotografía", "icono": "fas fa-camera"},
+      {"nombre": "Viajar", "icono": "fas fa-plane"}
+    ],
+    "experiencia": [
+      {
+        "puesto": "Analista de Datos Junior",
+        "empresa": "Tech Solutions",
+        "fecha": "Ene 2020 - Dic 2022",
+        "descripcion": "Responsable del análisis de datos y generación de informes para el equipo de marketing.",
+        "icono": "fas fa-chart-line",
+        "detalles": "Participé en la automatización de reportes semanales, el desarrollo de dashboards interactivos con Power BI y colaboré en proyectos con el área comercial."
+      },
+      {
+        "puesto": "Interno de Ciencia de Datos",
+        "empresa": "Data Experts",
+        "fecha": "Jun 2019 - Dic 2019",
+        "descripcion": "Asistencia en el desarrollo de modelos predictivos y análisis de grandes volúmenes de datos.",
+        "icono": "fas fa-laptop-code",
+        "detalles": "Colaboré en la limpieza de datos, exploración de patrones y creación de un modelo de regresión logística para predicción de abandono de clientes."
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "Máster en Ciencia de Datos",
+        "instituto": "Universidad de Madrid",
+        "fecha": "2018 - 2020",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Proyecto final centrado en el uso de redes neuronales para clasificación de imágenes satelitales. Se utilizaron técnicas como CNN y transferencia de aprendizaje."
+      },
+      {
+        "titulo": "Grado en Estadística",
+        "instituto": "Universidad Autónoma de Madrid",
+        "fecha": "2014 - 2018",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Formación en inferencia estadística, econometría, análisis multivariante y programación en R."
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "Mejor Proyecto en Machine Learning",
+        "descripcion": "Premio otorgado por la Universidad de Madrid al mejor proyecto de Machine Learning aplicado a predicción de ventas.",
+        "fecha": "2023",
+        "detalles": "El proyecto integró modelos de series temporales con regresión por bosques aleatorios y logró una mejora del 20% sobre el benchmark."
+      },
+      {
+        "titulo": "Optimización de Procesos en Tech Solutions",
+        "descripcion": "Implementación de un proceso de análisis de datos que redujo el tiempo de reporte en un 40%.",
+        "fecha": "2022",
+        "detalles": "La solución incluyó la automatización de pipelines en Python y uso de SQL para reportes dinámicos, disminuyendo errores humanos."
+      }
+    ]
+  },
+  
+  "en": {
+    "secciones": {
+      "sobreMi": "About Me",
+      "objetivo": "Objective",
+      "contacto": "Contact",
+      "habilidades": "Skills",
+      "idiomas": "Languages",
+      "hobbies": "Hobbies",
+      "experiencia": "Professional Experience",
+      "estudios": "Education",
+      "logros": "Achievements"
+    },
+    "nombre": "John Perez",
+    "titulo": "Data Analyst",
+    "foto": "foto.jpg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "john@example.com",
+        "icono": "fas fa-envelope",
+        "etiqueta": "Email"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+44 7700 900123",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "Phone"
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "London, UK",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "City"
+      },
+      {
+        "tipo": "linkedin",
+        "valor": "https://linkedin.com/in/juanperez",
+        "icono": "fab fa-linkedin",
+        "etiqueta": "LinkedIn"
+      }
+    ],
+    "resumen": "I consider myself a strategic, resilient and adaptable person...",
+    "objetivo": "My goal is to enter the field of data science.",
+    "habilidades": [
+      {"nombre": "Python", "nivel": 5, "icono": "fab fa-python"},
+      {"nombre": "SQL", "nivel": 4, "icono": "fas fa-database"},
+      {"nombre": "Tableau", "nivel": 3, "icono": "fas fa-chart-bar"},
+      {"nombre": "Machine Learning", "nivel": 4, "icono": "fas fa-brain"}
+    ],
+    "idiomas": [
+      {"idioma": "Spanish", "nivel": "C2", "codigo": "es", "icono": "fas fa-language"},
+      {"idioma": "English", "nivel": "C2", "codigo": "en", "icono": "fas fa-language"},
+      {"idioma": "German", "nivel": "B1", "codigo": "de", "icono": "fas fa-language"}
+    ],
+    "hobbies": [
+      {"nombre": "Cycling", "icono": "fas fa-bicycle"},
+      {"nombre": "Reading", "icono": "fas fa-book"},
+      {"nombre": "Photography", "icono": "fas fa-camera"},
+      {"nombre": "Traveling", "icono": "fas fa-plane"}
+    ],
+    "experiencia": [
+      {
+        "puesto": "Junior Data Analyst",
+        "empresa": "Tech Solutions",
+        "fecha": "Jan 2020 - Dec 2022",
+        "descripcion": "Responsible for data analysis and report generation for the marketing team.",
+        "icono": "fas fa-chart-line",
+        "detalles": "I participated in the automation of weekly reports, the development of interactive dashboards with Power BI, and collaborated on commercial area projects."
+      },
+      {
+        "puesto": "Data Science Intern",
+        "empresa": "Data Experts",
+        "fecha": "Jun 2019 - Dec 2019",
+        "descripcion": "Assisted in developing predictive models and analyzing large datasets.",
+        "icono": "fas fa-laptop-code",
+        "detalles": "I helped clean data, explore patterns, and create a logistic regression model for customer churn prediction."
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "Master's in Data Science",
+        "instituto": "University of London",
+        "fecha": "2018 - 2020",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Final project focused on using neural networks for satellite image classification, including CNNs and transfer learning techniques."
+      },
+      {
+        "titulo": "Bachelor's in Statistics",
+        "instituto": "University of London",
+        "fecha": "2014 - 2018",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Training in statistical inference, econometrics, multivariate analysis, and programming in R."
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "Best Machine Learning Project",
+        "descripcion": "Awarded by the University of London for the best machine learning project applied to sales prediction.",
+        "fecha": "2023",
+        "detalles": "The project integrated time series models with random forest regression and achieved a 20% improvement over the benchmark."
+      },
+      {
+        "titulo": "Process Optimization at Tech Solutions",
+        "descripcion": "Implemented a data analysis process that reduced reporting time by 40%.",
+        "fecha": "2022",
+        "detalles": "The solution included automating pipelines in Python and using SQL for dynamic reporting, reducing human errors."
+      }
+    ]
+  },
+
+  "de": {
+    "secciones": {
+      "sobreMi": "Über mich",
+      "objetivo": "Ziel",
+      "contacto": "Kontakt",
+      "habilidades": "Fähigkeiten",
+      "idiomas": "Sprachen",
+      "hobbies": "Hobbys",
+      "experiencia": "Berufserfahrung",
+      "estudios": "Ausbildung",
+      "logros": "Auszeichnungen"
+    },
+    "nombre": "Johann Perez",
+    "titulo": "Datenanalyst",
+    "foto": "foto.jpg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "johann@example.com",
+        "icono": "fas fa-envelope",
+        "etiqueta": "E-Mail"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+49 170 1234567",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "Telefon"
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "Berlin, Deutschland",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "Stadt"
+      },
+      {
+        "tipo": "linkedin",
+        "valor": "https://linkedin.com/in/juanperez",
+        "icono": "fab fa-linkedin",
+        "etiqueta": "LinkedIn"
+      }
+    ],
+    "resumen": "Ich betrachte mich als strategisch, belastbar und anpassungsfähig...",
+    "objetivo": "Mein Ziel ist es, im Bereich Data Science Fuß zu fassen.",
+    "habilidades": [
+      {"nombre": "Python", "nivel": 5, "icono": "fab fa-python"},
+      {"nombre": "SQL", "nivel": 4, "icono": "fas fa-database"},
+      {"nombre": "Tableau", "nivel": 3, "icono": "fas fa-chart-bar"},
+      {"nombre": "Machine Learning", "nivel": 4, "icono": "fas fa-brain"}
+    ],
+    "idiomas": [
+      {"idioma": "Spanisch", "nivel": "C2", "codigo": "es", "icono": "fas fa-language"},
+      {"idioma": "Englisch", "nivel": "B2", "codigo": "en", "icono": "fas fa-language"},
+      {"idioma": "Deutsch", "nivel": "A2", "codigo": "de", "icono": "fas fa-language"}
+    ],
+    "hobbies": [
+      {"nombre": "Radfahren", "icono": "fas fa-bicycle"},
+      {"nombre": "Lesen", "icono": "fas fa-book"},
+      {"nombre": "Fotografie", "icono": "fas fa-camera"},
+      {"nombre": "Reisen", "icono": "fas fa-plane"}
+    ],
+    "experiencia": [
+      {
+        "puesto": "Junior Datenanalyst",
+        "empresa": "Tech Solutions",
+        "fecha": "Jan 2020 - Dez 2022",
+        "descripcion": "Verantwortlich für Datenanalyse und Berichtserstellung für das Marketingteam.",
+        "icono": "fas fa-chart-line",
+        "detalles": "Ich beteiligte mich an der Automatisierung wöchentlicher Berichte, der Entwicklung interaktiver Dashboards mit Power BI und der Zusammenarbeit mit der Vertriebsabteilung."
+      },
+      {
+        "puesto": "Data Science Praktikant",
+        "empresa": "Data Experts",
+        "fecha": "Jun 2019 - Dez 2019",
+        "descripcion": "Hilfe bei der Entwicklung von Vorhersagemodellen und der Analyse großer Datensätze.",
+        "icono": "fas fa-laptop-code",
+        "detalles": "Ich half bei der Datenbereinigung, der Erkennung von Mustern und der Erstellung eines logistischen Regressionsmodells zur Vorhersage der Kundenabwanderung."
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "Master in Data Science",
+        "instituto": "Universität Berlin",
+        "fecha": "2018 - 2020",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Das Abschlussprojekt konzentrierte sich auf den Einsatz von neuronalen Netzwerken zur Klassifizierung von Satellitenbildern mit CNNs und Transferlernen."
+      },
+      {
+        "titulo": "Bachelor in Statistik",
+        "instituto": "Universität Berlin",
+        "fecha": "2014 - 2018",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Ausbildung in statistischer Inferenz, Ökonometrie, multivariater Analyse und Programmierung in R."
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "Bester Machine Learning Projekt",
+        "descripcion": "Ausgezeichnet von der Universität Berlin für das beste Machine Learning Projekt zur Verkaufsprognose.",
+        "fecha": "2023",
+        "detalles": "Das Projekt kombinierte Zeitreihenmodelle mit Random Forest Regression und erreichte eine Verbesserung von 20 % gegenüber dem Benchmark."
+      },
+      {
+        "titulo": "Prozessoptimierung bei Tech Solutions",
+        "descripcion": "Implementierung eines Datenanalyseprozesses, der die Berichtserstellungszeit um 40% reduzierte.",
+        "fecha": "2022",
+        "detalles": "Die Lösung umfasste die Automatisierung von Pipelines in Python und die Verwendung von SQL für dynamische Berichte, wodurch menschliche Fehler reduziert wurden."
+      }
+    ]
+  }
+}

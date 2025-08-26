@@ -1,0 +1,366 @@
+<!-- index.html -->
+
+<!-- https://github.com/justadudewhohacks/face-api.js/tree/master/weights Modelos de Detección -->
+
+<!-- Nota: todos los span deben tener el ID correcto, basado en el ID del slider más -display. -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV Multilingüe</title>
+
+  <!-- Vincula tu archivo CSS -->
+  <link href="styles.css" rel="stylesheet" />
+
+  <!-- Fuentes de estilos Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Cargar Face-api.js primero -  API para detección de rostros -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script> <!-- usado en cvLoaders.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script> <-- version de TensorFlow.js compatible con navegadores -->
+
+  <!-- Vincula utils.js antes de main.js -->
+  <script type="module" src="js/utils.js"></script> <!-- Funciones adicionales-->
+  
+  <!-- Solo cargar el archivo main.js como módulo -->
+  <script type="module" src="js/main.js"></script>  <!-- Main.js carga el resto de los módulos -->
+
+</head>
+
+<body>
+  <!-- Barra superior fija -->
+  <header class="topbar no-print">
+
+        <!-- Menú de acciones desplegable -->
+    <div class="topbar-menu">
+      <button id="menu-toggle-btn" class="menu-toggle-btn"  title="Más opciones">☰</button>
+      
+      <div class="menu-dropdown" id="menuDropdown">
+        <label class="upload-label" for="jsonUpload">📄 Cargar CV (JSON)
+          <input type="file" id="jsonUpload" accept=".json">
+        </label>
+        <label class="upload-label" for="photoUpload">🖼️ Subir Foto
+          <input type="file" id="photoUpload" accept="image/*">
+        </label>
+        <!-- Más acciones futuras -->
+        <!-- <button class="menu-item">💾 Guardar</button> -->
+      </div>
+    </div>
+
+    <!-- Intro: Logo + Titular -->
+    <div class="topbar-intro">
+      <div class="topbar-logo"></div>
+      <h1 class="topbar-title">Mi CV Multilingüe</h1>
+    </div>
+  
+    <!-- Botones y menú -->
+    <div class="topbar-actions">
+      <!-- Selector de idiomas -->
+      <div class="language-switcher" id="languageSwitcher"></div>      
+        <!-- Botón de personalización -->
+      <button id="personalize-btn" class="personalize-btn">Personalizar</button>
+    </div>
+  </header>
+
+  <!-- Panel de Personalización -->
+  <div class="personalization" id="personalization-panel">
+    <h4>Personalización de Estilo</h4>
+
+    <!-- Zona 1: Controles generales (2 columnas) -->
+    <div class="panel-controls">
+      <!-- Temas por Defecto -->
+      <label for="theme-select">Selecciona Estilo:</label>
+      <select id="theme-select">
+        <option value="light">Modo Claro</option>
+        <option value="dark">Modo Oscuro</option>
+        <option value="sepia">Modo Sepia</option>
+        <option value="agustin">Modo Agustin</option>
+        <option value="pinky">Modo Pinky</option>
+        <option value="custom">Estilo Personalizado</option>
+      </select>
+
+      <!-- Botones para cambiar las vistas del sidebar -->
+      <label for="view-selector-sidebar">Formato de Visualización de Sidebar:</label>
+      <select id="view-selector-sidebar">
+        <option value="list-view">Vista en Lista</option>
+        <option value="grid-view">Vista en Cuadrícula</option>
+        <option value="compact-view">Vista Compacta</option>
+      </select>
+
+      <!-- Formato de presentación para main: Lista / Tabla  -->
+      <label for="view-selector-main">Formato de Visualización de Main:</label>
+      <select id="view-selector-main">
+        <option value="list">🧾 Lista</option>
+        <option value="grid">🔳 Tabla</option>
+      </select>
+    
+      <!-- 🎨 Fuente -->
+      <!-- <div style="display: flex; align-items: center; gap: 10px;"></div> -->
+      <label for="font-family">Fuente</label>
+      <select id="font-family"></select>
+            
+      <!-- 🔠 Tamaño de fuente -->
+      <label for="font-size-slider">Tamaño de Fuente</label>
+      <div class="range-control">
+        <input type="range" min="10" max="24" value="12" step="1" id="font-size-slider" />
+        <span id="font-size-slider-display">12px</span>
+      </div>
+
+      <!-- Padding Vertical de las Secciones -->
+      <label for="section-padding-vertical-slider">Padding Vertical de las Secciones</label>
+      <div class="range-control">
+        <input type="range" min="0" max="1" value="0.05" step="0.05" id="section-padding-vertical-slider" />
+        <span id="section-padding-vertical-slider-display">0vw</span>
+      </div>
+
+      <!-- Padding Horizontal de las Secciones -->
+      <label for="section-padding-horizontal-slider">Padding Horizontal de las Secciones</label>
+      <div class="range-control">
+        <input type="range" min="0" max="1" value="0.3" step="0.05" id="section-padding-horizontal-slider" />
+        <span id="section-padding-horizontal-slider-display">1vw</span>
+      </div>
+
+      <!-- 🃏 Tamaño Tarjetas del Sidebar -->
+      <label for="card-size-slider">Tamaño de las Tarjetas (Grid)</label>
+      <div class="range-control">
+        <input type="range" min="0.75" max="1.5" value="1" step="0.05" id="card-size-slider" />
+        <span id="card-size-slider-display">1x</span>
+      </div>
+
+      <!-- Gap entre Tarjetas -->
+      <label for="section-gap-horizontal-slider">Gap entre Tarjetas</label>
+      <div class="range-control">
+        <input type="range" min="0" max="1" value="0.3" step="0.05" id="card-gap-slider" />
+        <span id="card-gap-slider-display">1vw</span>
+      </div>
+
+      <!-- 🎯 Iconos sidebar -->
+      <label for="iconSelector">Icono de Nivel:</label>
+      <select id="iconSelector"></select>
+
+      <!-- 🖼️ Controles de la foto -->
+      <label for="foto-size-slider">Tamaño de la Foto</label>
+      <div class="range-control">
+        <input type="range" min="40" max="100" value="80" step="1" id="foto-size-slider" />
+        <span id="foto-size-slider-display">60%</span>
+      </div>
+
+      <label for="foto-radius-slider">Radio del Círculo de la Foto</label>
+      <div class="range-control">
+        <input type="range" min="0" max="50" value="50" step="1" id="foto-radius-slider" />
+        <span id="foto-radius-slider-display">50%</span>
+      </div>
+
+      <label for="foto-aspect-slider">Aspecto (Circular ↔ Ovalado)</label>
+      <div class="range-control">
+        <input type="range" min="0.5" max="2" value="1" step="0.05" id="foto-aspect-slider" />
+        <span id="foto-aspect-slider-display">1:1</span>
+      </div>
+    </div>
+    
+    <!-- 🎨 Zona 2: Bloque de colores personalizado - Color Picker (3 columnas) -->
+    <div class="panel-colors" id="custom-style-color">
+      <div class="color-grid-header">
+        <div></div>
+        <div>Fondo</div>
+        <div>Texto</div>
+      </div>
+
+      <div class="color-grid-row">
+        <label for="main-background-color">Principal</label>
+        <input type="color" id="main-background-color" value="#ffffff">
+        <input type="color" id="main-font-color" value="#000000">
+      </div>
+
+      <div class="color-grid-row">
+        <label for="sidebar-color">Sidebar</label>
+        <input type="color" id="sidebar-background-color" value="#f0f0f0">
+        <input type="color" id="sidebar-font-color" value="#000000">
+      </div>
+
+      <div class="color-grid-row">
+        <label for="section-title-color">Titulos</label>
+        <input type="color" id="title-background-color" value="#f0f0f0">
+        <input type="color" id="title-font-color" value="#000000">
+      </div>
+    </div>
+
+    <!-- Zona 3: Botones (en un contenedor grid) -->
+    <div class="panel-actions-buttons">
+      <div class="actions-button-group1">
+        <button id="reset-img-btn" class="action-btn" aria-label="Restablecer imagen">
+          <i class="fas fa-sync-alt"></i> Restablecer imagen
+        </button>
+
+        <button id="reset-preferences-btn" class="action-btn" aria-label="Restablecer preferencias">
+          <i class="fas fa-sync-alt"></i> Restablecer preferencias
+        </button>
+
+        <button id="import-prefs-btn" class="action-btn" aria-label="Importar preferencias">
+          <i class="fas fa-file-import"></i> Importar preferencias
+        </button>
+
+        <button id="export-prefs-btn" class="action-btn" aria-label="Exportar preferencias">
+          <i class="fas fa-file-export"></i> Exportar preferencias
+        </button>
+
+        <input type="file" id="import-prefs-file" accept=".json" style="display: none;" />
+      </div>
+
+      <!-- NUEVO CONTROL: Evitar cortes en Impresión -->
+      <div class="actions-button-group2">
+        <button id="toggle-print-break" type="button" class="action-btn" aria-label="Evitar cortes en impresión">
+          <i class="fas fa-print"></i> Evitar cortes
+        </button>
+      </div>
+
+      <button id="close-personalization-btn" class="action-btn close-btn" aria-label="Cerrar">
+        <i class="fas fa-times"></i> Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div id="cvContainer" class="cvContainer">
+    <!-- Sidebar -->
+    <aside class="sidebar resizable" id="sidebar" role="region" aria-label="Información lateral">
+      <div class="sidebar-content">
+
+        <!-- Foto --> 
+        <div class="section sidebar-section" id="fotoSection" role="region" aria-labelledby="fotoTitulo">
+          <div id="foto-container">
+            <div id="foto-wrapper">
+              <img id="foto" src="assets/foto.jpg" alt="Foto de perfil" 
+                  onerror="handleImageError()" class="foto">
+            </div>
+            <div class="foto-placeholder" id="foto-placeholder">Foto</div>
+          </div>
+        </div>
+        
+        <!-- Nombre y título -->  
+        <div class="section sidebar-section" id="nombreSection" role="region" aria-labelledby="nombreTitulo">
+          <div class="nombre-titulo">
+            <h1 id="nombre">Tu Nombre</h1>
+            <h2 id="titulo">Tu Título</h2>
+          </div>
+        </div>
+
+        <div class="divider sidebar-section"></div>
+
+        <!-- Contacto -->
+        <div class="section sidebar-section" id="contactoSection" role="region" aria-labelledby="contactoTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-envelope"></i>
+            <span id="contactoTitulo" class="section-title text-item">Contacto</span>
+          </h2>
+          <div class="content-container contacto" id="contacto"></div>
+        </div>
+
+        <!-- Habilidades -->
+        <div class="section sidebar-section" id="habilidadesSection" role="region" aria-labelledby="habilidadesTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-tools"></i>
+            <span id="habilidadesTitulo" class="section-title text-item">Habilidades</span>
+          </h2>
+          <div class="content-container habilidades" id="habilidades"></div>
+        </div>
+
+        <!-- Idiomas -->
+        <div class="section sidebar-section" id="idiomasSection" role="region" aria-labelledby="idiomasTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-language"></i>
+            <span id="idiomasTitulo" class="section-title text-item">Idiomas</span>
+          </h2>
+          <div class="content-container idiomas" id="idiomas"></div>
+        </div>
+
+        <!-- Sección Hobbies -->
+        <div class="section sidebar-section" id="hobbiesSection" role="region" aria-labelledby="hobbiesTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-gamepad"></i>
+            <span id="hobbiesTitulo" class="section-title text-item">Hobbies</span>
+          </h2>
+          <div class="content-container hobbies" id="hobbies"></div>
+        </div>
+
+      </div>
+
+      <div class="resizer"></div>
+
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main" role="main">
+      <div class="main-content">
+        <div class="section main-section" id="sobreMiSection" role="region" aria-labelledby="sobreMiTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-user"></i>
+            <span id="sobreMiTitulo" class="section-title text-item">Sobre mí</span>
+          </h2>
+          <div class="content-container sobreMi" id="resumen"></div>
+        </div>
+      
+        <div class="section main-section" id="objetivoSection" role="region" aria-labelledby="objetivoTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-bullseye"></i>
+            <span id="objetivoTitulo" class="section-title text-item">Objetivo</span>
+          </h2>
+          <div class="content-container objetivo" id="objetivo"></div>
+        </div>
+      
+        <div class="section main-section" id="estudiosSection" role="region" aria-labelledby="estudiosTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-graduation-cap"></i>
+            <span id="estudiosTitulo" class="section-title text-item">Estudios</span>
+          </h2>
+          <div class="content-container estudios" id="estudios"></div>
+        </div>
+      
+        <div class="section main-section" id="experienciaSection" role="region" aria-labelledby="experienciaTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-briefcase"></i>
+            <span id="experienciaTitulo" class="section-title text-item">Experiencia</span>
+          </h2>
+          <div class="content-container experiencia" id="experiencia"></div>
+        </div>
+      
+        <div class="section main-section" id="logrosSection" role="region" aria-labelledby="logrosTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-trophy"></i>
+            <span id="logrosTitulo" class="section-title text-item">Logros</span>
+          </h2>
+          <div class="content-container logros" id="logros"></div>
+        </div>
+
+        <!-- Línea de Tiempo con toggle -->
+        <div class="section main-section" id="timelineSection" role="region" aria-labelledby="timelineTitulo">
+          <h2 class="title-container">
+            <i class="section-icon fas fa-stream"></i>
+            <span id="timelineTitulo" class="section-title text-item">Línea de Tiempo</span>
+          </h2>
+          <div class="content-container timeline" id="timeline">
+            <div class="section-item-container timeline-visual" id="timeline-visual">
+              <!-- Las entradas se insertan aquí dinámicamente con JS -->
+              <div class="timeline-end-fade"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+</body>
+</html>
+
+    <!-- <button onclick="initCVData('es')" aria-label="Español">
+      <img src="https://flagcdn.com/w40/es.png" alt="Español" />
+    </button>
+    <button onclick="initCVData('en')" aria-label="English">
+      <img src="https://flagcdn.com/w40/us.png" alt="English" />
+    </button>
+    <button onclick="initCVData('de')" aria-label="Deutsch">
+      <img src="https://flagcdn.com/w40/de.png" alt="Deutsch" />
+    </button>
+  </div> -->

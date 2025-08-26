@@ -1,0 +1,104 @@
+{
+  "fr": {
+    "secciones": {
+      "sobreMi": "À propos de moi",
+      "objetivo": "Objectif",
+      "contacto": "Contact",
+      "habilidades": "Compétences",
+      "idiomas": "Langues",
+      "hobbies": "Loisirs",
+      "experiencia": "Expérience Professionnelle",
+      "estudios": "Études",
+      "logros": "Réalisations"
+    },
+    "nombre": "Élise Martin",
+    "titulo": "Designer Graphique",
+    "foto": "foto-elise.jpeg",
+    "contacto": [
+      {
+        "tipo": "email",
+        "valor": "elise.martin@example.fr",
+        "icono": "fas fa-envelope",
+        "etiqueta": "E-mail"
+      },
+      {
+        "tipo": "telefono",
+        "valor": "+33 6 45 67 89 10",
+        "icono": "fas fa-phone-alt",
+        "etiqueta": "Téléphone"
+      },
+      {
+        "tipo": "ciudad",
+        "valor": "Paris, France",
+        "icono": "fas fa-map-marker-alt",
+        "etiqueta": "Ville"
+      },
+      {
+        "tipo": "portfolio",
+        "valor": "https://eliseportfolio.fr",
+        "icono": "fas fa-globe",
+        "etiqueta": "Portfolio"
+      }
+    ],
+    "resumen": "Créative, rigoureuse et passionnée par le design visuel, j’ai plus de 4 ans d’expérience dans la création d’identités visuelles, interfaces web et supports imprimés.",
+    "objetivo": "Rejoindre une équipe innovante où je peux mettre à profit ma créativité et mes compétences en design UX/UI.",
+    "habilidades": [
+      {"nombre": "Adobe Photoshop", "nivel": 5, "icono": "fas fa-image"},
+      {"nombre": "Illustrator", "nivel": 5, "icono": "fas fa-pencil-alt"},
+      {"nombre": "Figma", "nivel": 4, "icono": "fas fa-vector-square"},
+      {"nombre": "UX/UI Design", "nivel": 4, "icono": "fas fa-laptop"}
+    ],
+    "idiomas": [
+      {"idioma": "Français", "nivel": "C2", "codigo": "fr", "icono": "fas fa-language"},
+      {"idioma": "Anglais", "nivel": "B2", "codigo": "en", "icono": "fas fa-language"},
+      {"idioma": "Italien", "nivel": "A2", "codigo": "it", "icono": "fas fa-language"}
+    ],
+    "hobbies": [
+      {"nombre": "Peinture", "icono": "fas fa-paint-brush"},
+      {"nombre": "Cinéma", "icono": "fas fa-film"},
+      {"nombre": "Randonnée", "icono": "fas fa-hiking"},
+      {"nombre": "Design d'intérieur", "icono": "fas fa-couch"}
+    ],
+    "experiencia": [
+      {
+        "puesto": "Designer UX/UI",
+        "empresa": "Studio Pixel",
+        "fecha": "Fév 2021 - Présent",
+        "descripcion": "Conception d’interfaces web et mobiles en collaboration avec les développeurs et chefs de produit.",
+        "icono": "fas fa-palette",
+        "detalles": "Responsable de la refonte UX du site e-commerce principal, augmentant le taux de conversion de 18%."
+      },
+      {
+        "puesto": "Graphiste Junior",
+        "empresa": "Agence CréaVisuel",
+        "fecha": "Jan 2019 - Jan 2021",
+        "descripcion": "Création de logos, brochures, affiches et contenus digitaux pour des clients variés.",
+        "icono": "fas fa-pen-nib",
+        "detalles": "A travaillé sur plus de 50 projets clients, en assurant la cohérence des identités visuelles."
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "Licence Design Graphique",
+        "instituto": "École Supérieure des Arts Appliqués de Paris",
+        "fecha": "2015 - 2018",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Formation complète en graphisme, typographie, illustration et création numérique."
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "Lauréate Concours Jeune Designer",
+        "descripcion": "Récompensée au concours national du design graphique organisé par l’AFA.",
+        "fecha": "2022",
+        "detalles": "Projet d’identité visuelle pour une ONG environnementale salué pour sa clarté et impact visuel."
+      },
+      {
+        "titulo": "Charte graphique pour startup tech",
+        "descripcion": "Création de l'identité visuelle complète d’une startup en intelligence artificielle.",
+        "fecha": "2023",
+        "detalles": "Développement du logo, palette, guidelines et mockups produit en collaboration avec les fondateurs."
+      }
+    ]
+  }
+}

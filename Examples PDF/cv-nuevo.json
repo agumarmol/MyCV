@@ -1,0 +1,30 @@
+{
+  "id": "id-y0r5ovkrq",
+  "timestamp": 1747321121292,
+  "datosPersonales": {
+    "nombre": "Agustin",
+    "apellido": "Tulipan",
+    "email": "tulipanesenviena@hotmail.com",
+    "telefono": "324213123123",
+    "ciudad": "Viena",
+    "domicilio": "Juanita Stevens 123",
+    "sobreMi": "Mi misión es ayudar a Laura a encontrar Yerba",
+    "objetivo": "Yerba"
+  },
+  "experiencia": [
+    {
+      "puesto": "Vendedor de Churros",
+      "empresa": "La Garita",
+      "lugar": "Cordoba",
+      "fechaInicio": "2014-10-12",
+      "fechaFin": "2017-12-05",
+      "continuaTrabajo": false,
+      "descripcion": "Adasdeasd"
+    }
+  ],
+  "estudios": [],
+  "hobbies": [],
+  "habilidades": [],
+  "idiomasHablados": [],
+  "idiomasObjetivo": []
+}

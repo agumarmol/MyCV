@@ -1,0 +1,71 @@
+/project-folder
+  /js
+    cvLoaders.js       // Carga y renderiza el CV
+    personalization.js  // Manejo de personalización del CV (temas, tamaños, etc.)
+    utils.js            // Funciones utilitarias (como el control de colores, sombras, etc.)
+    main.js             // Archivo principal que importa y ejecuta las funciones
+
+  index.html            // El archivo HTML que incluye los scripts
+
+/project-root
+  /js
+    main.js
+    personalization.js
+    cvLoaders.js
+    utils.js
+  /css
+    styles.css          // Tus estilos CSS
+  /assets
+    data.json
+    foto.jpg
+  index.html
+
+
+Estructura de funciones
+main.js
+├── cvLoaders.js
+│   ├── loadCV()
+│   ├── renderSection()
+│   ├── updatePhoto()
+│   ├── updateSkills()
+│   ├── updateLanguages()
+│   ├── updateExperiencia()
+│   ├── updateLogros()
+│   └── setupSectionFormatLoading()
+│
+personalization.js
+├── setupPersonalizationListeners()        // 1️⃣ Inicializar todos los listeners de personalización
+│   ├── setupfontSelector()                // 2️⃣ Configurar el selector de fuentes
+│   ├── setupItemTypeSelector()            // 5️⃣ Configurar el selector del tipo de ítem
+│   ├── setupFontSizeSlider()              // 6️⃣ Ajustar el tamaño de fuente
+│   ├── setupHobbySizeSlider()             // 7️⃣ Ajustar el tamaño de las tarjetas de hobbies
+│   ├── setupResetImgButton()              // 9️⃣ Botón para resetear la imagen
+│   ├── setTheme()                         // 3️⃣ Cambiar tema (Light/Dark) ← Función de utils.js
+│   └── applyChanges()                     // 4️⃣ Aplicar cambios generales de personalización
+├── setupfontSelector()                   // 2️⃣ Configurar el selector de fuentes
+├── setTheme(theme)                       // 3️⃣ Cambiar el tema (Light/Dark) ← Función de utils.js
+├── applyChanges()                         // 4️⃣ Aplicar cambios generales de personalización
+│   ├── adjustTextShadowBasedOnSidebarColor() // Ajustar la sombra de texto según el color del sidebar ← Función de utils.js
+├── setupItemTypeSelector()               // 5️⃣ Configurar selector del tipo de ítem
+├── setupFontSizeSlider()                 // 6️⃣ Ajustar el tamaño de fuente
+├── setupHobbySizeSlider()                // 7️⃣ Ajustar tamaño de las tarjetas de hobbies
+│   ├── adjustCardSize()                  // Subfunción de ajuste de hobbies
+├── togglePersonalization()                // 8️⃣ Mostrar/Ocultar panel de personalización
+├── setupResetImgButton()                 // 9️⃣ Botón para resetear la imagen
+│   ├── resetImageTransform()             // Subfunción para resetear transformaciones de imagen ← Función de utils.js
+├── resetPreferences()                    // 🔟 Resetear preferencias guardadas
+├── renderItems(filled, total)            // 🧩 Función extra para renderizar los items
+├── setupSectionFormatLoading()           // Subfunción de formato de secciones (Grid/Lista) ← Función de utils.js
+└── adjustCardSize(scaleFactor)           // Subfunción de ajuste de hobbies
+│
+utils.js
+├── setupSectionFormatLoading()            // Establecer el formato de las secciones (Grid/Lista)
+├── setTheme(theme)                        // Cambiar el tema (Light/Dark)
+├── rgbToHex(rgb)                          // Convertir RGB a Hex
+├── getBackgroundColor()                   // Obtener color de fondo desde las propiedades CSS
+├── getStoredSetting(key)                  // Obtener configuración guardada en localStorage
+├── setStoredSetting(key, value)           // Establecer configuración en localStorage
+├── updateItemsDisplay(itemType)           // Actualizar visualización de items (habilidades, idiomas, etc.)
+├── adjustTextShadowBasedOnSidebarColor()  // Ajustar la sombra de texto según el color del sidebar
+└── isLightColor(color)                    // Comprobar si el color es claro o oscuro
+└── resetImageTransform(img)               // Resetear transformación de imagen

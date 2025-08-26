@@ -1,0 +1,2799 @@
+/* styles.css */
+
+/* ============================================================================
+   📄 CV STYLESHEET – ESTRUCTURA PRINCIPAL
+   ============================================================================
+
+   Este archivo contiene todos los estilos para el generador de CV.
+   Las secciones están organizadas por bloques temáticos. Usa los comentarios
+   como guía para ubicarte rápidamente dentro del código.
+
+   🗂️ Índice de Secciones:
+
+    1. 🎨 Variables & Reset Base
+    2. 📐 Layout Principal (HTML, Body, Topbar)
+      2.0. 🧭 HTML BASE
+      2.1. 🧭 Barra Superior (Topbar)
+    3. 🧩 Panel de Personalización
+    4. 🖼️ Estilos Visuales Generales (Contenedores comunes al Sidebar, Main)
+      4.1. Clases utilitarias - NO USADAS TODAVIA
+      4.2. Estructura de Contenido (cvContainer -> Sidebar & Main)
+    5. 📁 Secciones del Sidebar
+      5.1. Foto de perfil
+      5.2.Sección Nombre y Titulo
+      5.3. Divider
+      5.4. Contenedores del Sidebar
+    6. 📄 Secciones del Main
+    8. 🎛️ Vistas / Formatos de Visualización
+    8. 🕒 Timeline (Línea de Tiempo)
+    9. 🖱️ Hovers Generales (Sidebar + Main)
+    10. 🖼️ Temas (Light, Dark, Sepia, Agustin)
+      10.1. Estilos Visuales por Temas
+      10.2. Estilos Visuales por Temas para el Timeline
+    11. 🖨️ Estilos para Impresión
+    12. 📱 Estilos Responsivos (móviles)
+    13. 📎 Otros Estilos
+
+============================================================================ */
+
+
+/* ============================================================================
+   1. 🎨 VARIABLES & RESET BASE
+============================================================================ */
+
+/* === VARIABLES === */
+:root {
+
+  /* === Variables Fijas === */
+
+  --font-family: 'sans-serif';
+
+  --font-size-base: 16px;
+
+  --font-size-sm: 0.875em;
+  --font-size-item: 0.9375em;
+  --font-size-md: 1.125em;
+  --font-size-lg: 1.25em;
+  
+  --text-shadow-black: -0.5px -0.5px 0 black, 0.5px -0.5px 0 black, -0.5px 0.5px 0 black, 0.5px 0.5px 0 black;
+  --text-shadow-white: -0.5px -0.5px 0 white, 0.5px -0.5px 0 white, -0.5px 0.5px 0 white, 0.5px 0.5px 0 white;
+
+  --transition-time: 0.3s;
+
+  --text-padding-inline: 0.5rem; /* izquierda/derecha */
+  --text-padding-block: 0.15rem; /* arriba/abajo */
+  --gap-sidebar-item: 1rem;
+
+  --border-size-sm: 1px;
+  --border-size-md: 2px;
+
+  --resizer-width: 10px;
+  --icon-sq-size: 1.5em; /* 1.5 veces el tamaño de fuente - anteriormente definido con '25px'*/
+  --line-height: 1.6;
+  --base-radius: 8px;
+
+  /* === Variables por Defecto ajustables desde el panel de Personalización === */
+
+  --main-background-color: #ffffff;
+  --main-font-color: #000000;
+
+  --sidebar-background-color: #f0f0f0;
+  --sidebar-font-color: #000000; /* Este color puede invertirse en el Tema Customizable */
+
+  --section-title-font-color: #d4af37;
+  --section-title-bg-color: #757575;
+
+  --section-padding-inline: 0.3vw; /* izquierda/derecha */
+  --section-padding-block: 0vw; /* arriba/abajo */
+
+  --foto-size: 80%;
+  --foto-radius: 50%;
+  --foto-aspect: 1/1;
+
+  --card-size-scale: 1;
+  --card-gap: 0vw;
+
+  --sidebar-view: column;
+
+  --sidebar_size: 30%; /* resizer */
+
+  /* Variables derivadas del Panel de Personalización y NO afectadas por temas*/
+
+  /* --card-min-width: 120px; /* No se usa *** */
+  /* --card-max-width: 200px; /* No se usa *** */
+  /* --card-gap: var(--space-sm); /* No se usa *** */
+
+  --transition-all: all var(--transition-time) ease; /* Transiciones comunes */
+
+    /* Espaciados derivados */
+    --space-min: 0.5vw;
+    --space-base: calc(var(--space-min) + 0.5 * (var(--section-padding-inline) + 0.5 * var(--section-padding-block)));
+    --space-2xs: calc(var(--space-base) * 0.25);
+    --space-xs:  calc(var(--space-base) * 0.5);
+    --space-sm:  calc(var(--space-base) * 0.75);
+    --space-md:  calc(var(--space-base) * 1);
+    --space-lg:  calc(var(--space-base) * 1.5);
+    --space-xl:  calc(var(--space-base) * 2);
+    --space-2xl: calc(var(--space-base) * 3);
+  
+    --ui-padding-btn: var(--section-padding-inline);
+    --ui-margin-top-btn: var(--section-padding-block);
+
+    /* Escalado general de Tarjetas */
+    --card-font-size: calc(var(--font-size-base) * var(--card-size-scale));
+    --card-padding: calc(var(--text-padding-inline) * var(--card-size-scale)); /* New */
+    --card-icon-size: calc(2* var(--font-size-base) * var(--card-size-scale)); /* Tamaño del Icono -> 2 veces el tamaño de fuente por la escala */
+    --card-width-factor: calc(0.5 + 0.5 * var(--card-size-scale));     /* Ancho de la tarjeta en grid-view (Sidebar) */
+
+  /* === Variables Fijas y NO afectadas por temas === */
+  --page-background-color: #ffffff;
+  --page-font-color: #000000; /* Este color puede invertirse en el Tema Customizable */
+
+  --topbar-font-color: var(--page-font-color);
+  --topbar-bg-color-rgb: 255, 255, 255; /* Color Blanco para el Fondo del Topbar */
+  --topbar-bg-color: rgb(var(--topbar-bg-color-rgb)); /* antes era 'transparent'; */
+  --topbar-btn-color: var(--page-font-color);
+
+  --topbar-font-color-hover: #998534;
+  --topbar-bg-color-hover: #2b673d;
+  --topbar-btn-color-hover: white;
+
+  --color-prueba: rgb(0, 145, 255);
+  --button-bg-color-rgb: 0, 145, 255;
+  --button-bg-color: rgba(var(--button-bg-color-rgb), var(--transparency));        /* Fondo de botones */
+  --button-bg-color-hover: rgba(var(--button-bg-color-rgb), 1);  /* Fondo de botones al pasar el cursor - solia ser #0056b3 */
+
+  --color-prueba: rgba(55, 0, 255);
+  --personalize-btn-bg-color: rgba(55, 0, 255, var(--transparency)); /* Azul claro: #007bff */
+  --personalize-btn-bg-color-hover: rgba(55, 0, 255, 1); /* Antes azul más oscuro: #0056b3 */
+
+  --items-color: lightgray;
+
+  --highlight-general-color-hover: rgb(3, 148, 39); /* Puede cambiar con Temas (Ej: Sepia) */
+  --highlight-topbar-color-hover: rgb(0, 170, 85);
+
+
+  /* === Variables afectadas por Temas === */
+
+  /* --section-title-bg-rgba: rgba(0, 0, 0, 0.05); /* No se usó */
+  /* --section-title-hover-bg: rgba(0, 0, 0, 0.08); /* No se usó */
+  /* --toggle-bg-hover: rgba(255, 255, 255, 0.3);  /* Parece que no se usa - CHECK +* */
+  /* --sidebar-item-hover-bg: rgba(0, 0, 0, 0.05); /* Parece que no se usa - CHECK +* */
+  /* --main-item-hover-bg: rgba(0, 0, 0, 0.05); /* Parece que no se usa - CHECK +* */
+
+  --transparency: 0.8; /* En todos los temas se ha definido el mismo valor, pero podría modificarse */
+
+  --section-background: rgba(0, 0, 0, 0.1); /* dark, sepia y agustin tienen personalizado */
+  --section-border-color: rgba(0, 0, 0, 0.1);
+
+  --item-background-rgb: 255, 255, 255;
+  --item-background: rgba(var(--item-background-rgb), 0.6);
+
+      /* Variables Personalizables derivadas afectadas por temas */
+      --section-title-border-color: var(--section-title-font-color);
+      --section-title-icon-color: var(--section-title-font-color);
+
+      --text-shadow-name: var(--text-shadow-white); /* Sombra de texto para nombres */
+      --text-shadow-section-title-icon: var(--text-shadow-black); /* Sombra de iconos de títulos */
+      --text-shadow-items-level: var(--text-shadow-black); /* Sombra de ítems */
+      /* --text-shadow-items-level:  0 0 4px rgba(0, 0, 0, 0.9),   /* Sombra del borde (negra o gris oscuro) */
+      /*                            0 0 8px rgba(0, 0, 0, 0.5);   /* Sombra más difusa */
+      --text-shadow-hobbies: var(--text-shadow-white); /* Sombra de hobbies */ 
+
+  /* NUEVAS VARIABLES */
+  /* Fondo base */
+  --color-bg: #f9f9f9;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f3f5f8;
+
+  /* Texto */
+  --color-text: #1a1a1a;
+  --color-text-muted: #666666;
+
+  /* Marca / acento */
+  --color-primary: #0073e6;      /* azul corporativo */
+  --color-primary-light: #3399ff;
+  --color-hover: #e6f0ff;        /* azul muy suave */
+
+  /* Bordes y sombras */
+  --color-border: #dcdcdc;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 2px 6px rgba(0,0,0,0.1);
+
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-med: 0.3s ease;
+}
+
+/* ============================================================================
+   2. 📐 Layout Principal (HTML, Body, Topbar)
+============================================================================ */
+
+/* ====== 2.0 🧭 HTML BASE ====== */
+/* Recomendación adicional para la escalabilidad completa */
+
+/* === RESET & BASE === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base); /* Base 1rem = 16px. Puedes ajustarlo según tus necesidades */
+  background: var(--page-background-color);
+}
+
+/* Estilo general del Body */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ====== 2.1 🧭 Barra Superior (Topbar) ====== */
+
+/* 2.1.1 Estilos generales de la barra superior */
+.topbar {
+  width: 100%;
+  height: 60px;
+  background-color: var(--topbar-bg-color);
+  color: var(--page-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  transition: background-color 0.3s, box-shadow 0.3s ease-in-out;
+}
+
+/* 2.1.2 Cambiar la sombra al hacer scroll */
+body.scrolled .topbar {
+  background-color: var(--topbar-scroll-bg, #222);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 2.1.3 Estilos del logo en la topbar */
+.topbar .topbar-logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--sidebar-font-color);
+  font-weight: 600;
+}
+
+/* 2.1.3 Estilos de los botones de la topbar (botones de idiomas y personalización) */
+.topbar .topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Espacio entre los botones */
+}
+
+/* ====== 2.2 🌐 Selector de Idiomas dentro de la Topbar ====== */ 
+.language-switcher {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-switcher .language-button {
+  background: none;
+  border: none;
+  color: var(--page-font-color);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Opcional: si usás imágenes de banderas */
+.language-switcher img {
+  width: 28px;
+  height: 20px;
+  border-radius: 4px;
+  border: var(--border-size-sm) solid var(--topbar-btn-color, #121212);
+}
+
+
+/* ====== 2.3 🖼️ Menú Desplegable del Topbar para Subida de Imagenes y Carga de JSON ====== */ 
+.topbar .topbar-menu {
+  position: relative;
+}
+
+.menu-toggle-btn {
+  background: none;
+  border: none;
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  color: var(--page-font-color);
+  transition: transform 0.2s;
+}
+
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px); /* separa el dropdown 8px debajo de la barra */
+  right: auto;      /* Eliminar alineación derecha */
+  left: 0;          /* Alinearlo con el borde izquierdo del botón */
+  
+  background: var(--page-background-color);
+  backdrop-filter: blur(6px); /* efecto cristal moderno */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+
+  border: var(--border-size-sm) solid rgba(0,0,0,0.2);
+  border-radius: 6px;
+
+  padding: 8px;
+  z-index: 2000;
+  min-width: 200px;
+  height: auto;
+}
+
+.menu-dropdown label,
+.menu-dropdown button.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: none;
+  border: none;
+  color: var(--page-font-color);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+/* ====== 2.4 🖼️ Hovers en el Topbar y elementos ====== */
+
+.topbar:hover {
+  background-color: var(--topbar-bg-color-hover);
+}
+
+.topbar-title:hover {
+  color: var(--topbar-font-color-hover);
+  filter: brightness(1.5); /* Aumenta el brillo general */
+  text-shadow: var(--text-shadow-black); /* simula borde */
+  transition: var(--transition-all);
+  transform: scale(1.10); /* Efecto visual de "escala" al pasar el ratón */
+}
+
+.topbar button:hover,
+.topbar button.active:hover {
+  color: var(--topbar-btn-color-hover);
+  background-color: var(--highlight-topbar-color-hover);
+  border: var(--border-size-sm) solid var(--topbar-btn-color-hover, #121212);
+  transform: scale(1.10);
+}
+
+.menu-dropdown label:hover,
+.menu-dropdown button.menu-item:hover {
+  color: var(--topbar-btn-color-hover);
+  background-color: var(--highlight-topbar-color-hover);
+}
+
+/* ====== 2.5 🖼️ Activations y Accionnes en el Topbar y elementos ====== */
+
+/* Activations - Selector de Idiomas */ 
+/* .language-switcher button:focus {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+} */
+
+/* Efecto para los botones activos del Topbar: agrega un borde para identificar mejor
+/* .language-switcher button.active */
+.topbar button.active {
+  outline: 2px solid var(--topbar-btn-color);
+  transform: scale(1.1);
+}
+
+/* Activations - Menu Dropdown */ 
+.menu-dropdown.active {
+  display: block; /* Mostrar el menú al activarlo */
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.menu-dropdown input[type="file"] {
+  display: none; /* Ocultar inputs nativos */
+}
+
+.topbar input[type="file"] {
+  display: none; /* Ocultar el input real de imagen y JSON */
+}
+
+/* ============================================================================
+   3. 🧩 Panel de Personalización
+============================================================================ */
+
+/* === Botón flotante: “Personalizar” === */
+.personalize-btn {
+  position: fixed;
+  top: 64px; /* Ajustado para no tapar la topbar */
+  right: 17px;
+  padding: 10px 20px;
+  background-color: var(--personalize-btn-bg-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+  z-index: 900;
+}
+
+/* === Panel contenedor base === */
+.personalization-panel {
+  display: none;
+}
+
+/* === Estilo del panel === */
+.personalization {
+  display: none;
+  position: fixed;
+  top: 64px;
+  right: 15px;
+  width: 425px;
+  padding: 5px;
+  background: #fff;
+  color: #222;
+  border: var(--border-size-sm) solid var(--section-title-bg-color, #ccc);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  font-size: 11px;
+  line-height: 1.6;
+  z-index: 1000;  
+}
+
+.personalization h4 {
+  display: flex;
+  font-size: 15px;
+  justify-content: center;
+  align-content: center;
+  margin: 5px;
+}
+
+/* === Hovers & Activations === */
+
+.personalize-btn.active {
+  outline: 2px solid var(--page-font-color);
+  background-color: var(--topbar-bg-color-hover);
+}
+
+#personalization-panel.active {
+  display: block;
+}
+
+.personalize-btn:hover {
+  outline: 2px solid var(--page-font-color);
+  transform: scale(1.05); /* Efecto visual de "escala" al pasar el ratón */
+  background-color: var(--personalize-btn-bg-color); /* Cambia el color de fondo al pasar el ratón */
+}
+
+.personalization.active {
+  display: block;
+}
+
+/* ============================================================================
+   Zona 1️⃣: Controles Generales (2 columnas)
+============================================================================ */
+.panel-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 2px;
+  margin: 2px
+}
+
+.panel-controls label {
+  align-self: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+.panel-controls input,
+.panel-controls select,
+.panel-controls .range-control {
+  width: 100%;
+  padding: 3px;
+  font-size: 11px;
+  border: var(--border-size-sm) solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.panel-controls .range-control {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  grid-column: 2;
+}
+
+/* ============================================================================
+   Zona 2️⃣: Selector de Colores (3 columnas)
+============================================================================ */
+.panel-colors {
+  margin-top: 12px;
+  display: grid;
+  gap: 2px;
+}
+
+.color-grid-header,
+.color-grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.color-grid-header div {
+  font-weight: bold;
+}
+
+.color-grid-row label {
+  text-align: center;
+}
+
+.color-grid-row input[type="color"] {
+  width: 100%;
+  height: 36px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* ============================================================================
+   Zona 3️⃣: Botones de Acción (acciones del panel)
+============================================================================ */
+.panel-actions-buttons {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Agrupación visual de bloques de botones */
+.actions-button-group1, 
+.actions-button-group2 {
+  display: contents; /* se integran al grid */
+}
+
+/* Estilos base para TODOS los botones */
+.panel-actions-buttons .action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* espacio entre ícono y texto */
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background-color: var(--button-bg-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+/* Íconos dentro de botones */
+.panel-actions-buttons .action-btn i {
+  font-size: 15px;
+}
+
+/* .panel-actions-buttons button i {
+  margin-right: 8px;
+} */
+
+/* Variantes de color */
+.panel-actions-buttons #reset-img-btn {
+  background-color: #dc3545; /* rojo */
+}
+
+.panel-actions-buttons #reset-preferences-btn {
+  background-color: #ffc107; /* amarillo */
+  color: #000;
+}
+
+.panel-actions-buttons #import-prefs-btn,
+.panel-actions-buttons #export-prefs-btn {
+  background-color: #17a2b8; /* info / turquesa */
+}
+
+.panel-actions-buttons .close-btn {
+  background-color: #6c757d;
+  font-weight: bold;
+  font-size: 15px;
+  color: white;
+  grid-column: 1 / -1; /* ocupa toda la fila */
+  order: 99;           /* se asegura de quedar al final */
+}
+
+/* Hovers Botones */
+.panel-actions-buttons .action-btn:hover {
+  background-color: var(--personalize-btn-bg-color-hover); 
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  transform: translateY(-1px) scale(1.03);
+}
+
+.panel-actions-buttons #reset-img-btn:hover {
+  background-color: #a71d2a;
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+}
+
+.panel-actions-buttons #reset-preferences-btn:hover {
+  background-color: #e0a800;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+}
+
+.panel-actions-buttons #import-prefs-btn:hover,
+.panel-actions-buttons #export-prefs-btn:hover {
+  background-color: #117a8b;
+  box-shadow: 0 3px 8px rgba(23, 162, 184, 0.35);
+  transform: scale(1.03);
+}
+
+.panel-actions-buttons #close-btn:hover {
+  background-color: #495057;
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
+}
+
+/* Estilos extra para botones de exportar/importar */
+#export-prefs-btn,
+#import-prefs-btn {
+  border-radius: 6px;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#export-prefs-btn:hover,
+#import-prefs-btn:hover {
+  background-color: #117a8b;
+  transform: scale(1.03);
+  box-shadow: 0 3px 8px rgba(23, 162, 184, 0.35);
+}
+
+/* ============================================================================
+   4. 🖼️ Estilos Visuales Generales (Contenedores comunes al Sidebar, Main)
+============================================================================ */
+
+/* 4.1. Clases utilitarias - NO USADAS TODAVIA */ 
+/* Ejemplo: sombras generales, bordes, botones, tipografías secundarias, etc. */
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-md {
+  border-radius: 6px;
+}
+
+
+/* ====== 4.2. Estructura de Contenido (cvContainer -> Sidebar & Main) ====== */
+
+/* 4.2.1 Estilo del contenedor principal (cvContainer) */
+.cvContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: calc(100vh - 60px); /* Ajustado por el alto de la topbar */
+  width: 100%;
+  margin: 60px auto 0 auto;  /* El margen superior asegura que no quede tapado por la topbar */
+  flex-grow: 1;
+  gap: var(--sidebar-main-gap, 0.3rem);
+  overflow: auto;
+}
+
+
+/* 4.2.2 Secciones Comunes del Sidebar y Main */ 
+/* ====== Sección ====== */
+.section {
+  width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+  box-sizing: border-box; /* Para incluir padding y borders en el cálculo del ancho */
+  border-radius: var(--base-radius);
+  border: var(--border-size-md) solid var(--section-border-color);
+  transition: background-color 0.3s ease;
+  /* padding: var(--space-xs); */ /* CHECK +* */
+  /* margin-bottom: var(--section-padding-block); */
+  background-color: var(--section-background);
+
+  margin: var(--section-padding-block) var(--section-padding-inline);
+
+  position: relative; /* Necesario para que z-index de hijos funcione */
+  z-index: 1;
+  overflow: visible; /* Permitir que lo escalado se muestre fuera */
+}
+
+/* ====== Estilos para el Título de la Sección ====== */
+.title-container {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.2em;
+  background-color: var(--section-title-bg-color);
+  color: var(--section-title-font-color); 
+
+  /* Espaciado interno*/
+  /* Espaciado interno */
+  /* padding-block: calc(var(--text-padding-block) + var(--section-padding-block)); /* arriba/abajo */
+  /* padding-inline: var(--text-padding-inline); /* izquierda/derecha */
+
+  padding-block: calc(var(--section-padding-block) + var(--text-padding-block));
+  padding-inline: calc(var(--section-padding-inline) + var(--text-padding-inline));
+
+  gap: var(--text-padding-inline); /* distancia entre icono y texto del título */
+
+  /* margin: var(--space-xs); */ /* CHECK +* */
+  /* gap: 0.5em; */
+
+  border-bottom: 2px solid var(--section-title-border-color);
+  cursor: pointer;
+  border-top-left-radius: var(--base-radius);
+  border-top-right-radius: var(--base-radius);
+  border-left: 3px solid var(--section-title-font-color, #ccc);
+}
+
+/* ====== Estilos para el Contenedor del Contenido de las Secciones ====== */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  /* padding: var(--section-padding-block) var(--section-padding-inline); */
+  padding: var(--card-gap);
+  gap: var(--card-gap); /* espacio entre item y borde */
+  /* padding: var(--card-gap); espacio entre items */
+  /* margin: var(--space-xs); CHECK +* */
+  transition: var(--transition-all);
+  width: 100%; /* Asegura que el contenedor de los items ocupe todo el ancho disponible */
+  box-sizing: border-box; /* Incluye padding y borders en el cálculo del ancho */
+}
+
+/* item-name --> (en sidebar dentro de item-info y en main como el subtitulo del item) */
+.item-name {
+  flex: 1;
+  text-align: left;
+  word-break: break-word;
+  padding: 0; /* Elimina cualquier espacio extra si lo tiene */
+  /* display: inline-block; o block /* flex */
+  display: flex;
+}
+
+/* ====== Elemento Individual (item - Ej: iconos e imágenes) ====== */
+
+/* .item { /* CHECK +* 
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-base);
+  padding: var(--section-padding-block) var(--section-padding-inline);
+  border-radius: var(--base-radius);
+  box-sizing: border-box;
+} */
+
+/* 1) Definir el tamaño base en el contenedor cuadrado */
+.item-icon-container {
+  width: var(--icon-sq-size);
+  height: var(--icon-sq-size);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: var(--icon-sq-size); /* 🔥 forzar tamaño base del ícono */
+}
+
+/* 2) Hacer que el <i> y su ::before llenen al 100% */
+.item-icon-container .item-icon {
+  display: inline-block;       /* que sea un bloque */
+  width: auto;
+  height: auto;
+
+  /* font-size: calc(var(--icon-sq-size) * 0.8); CHECK +* */
+  font-size: 1em;      /* Escala según el contenedor */
+  line-height: 1;       /* evita que se desplace por alturas de fuente */
+
+  /* text-align: center;   /* centrar horizontalmente */
+  vertical-align: middle;
+}
+
+/* 3) Forzar que el pseudo-elemento herede ese comportamiento */
+.item-icon-container .item-icon::before {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  font-size: inherit; /* 🔥 Escala correctamente el ícono */
+  line-height: 1;
+  /* text-align: center; */
+  vertical-align: middle;
+}
+
+/* 4) Banderas (<img>) también ocupan el 100% y mantienen proporción */
+.item-icon-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ====== 4.3 Sidebar (Sección Izquierda) ====== */
+
+/* 4.3.1 Estilo general del Sidebar */
+.cvContainer .sidebar {
+  flex-wrap: wrap;
+  position: relative;
+  width: var(--sidebar_size);
+  min-width: var(--sidebar-min-width, 280px);
+  max-width: var(--sidebar-max-width, 700px);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* profundidad lateral */
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--sidebar-background-color);
+  color: var(--sidebar-font-color);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 4.3.2 Estilo de contenido dentro del Sidebar */
+.cvContainer .sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  /* padding: var(--space-xs); */ /* CHECK +* */
+  padding: var(--section-padding-block) var(--section-padding-inline);
+  box-sizing: border-box;
+  border-radius: var(--base-radius);
+}
+
+/* 4.3.3 Divider visual dentro del Sidebar */
+.divider {
+  display: block;
+  width: 70%;
+  margin: 10px auto;
+  border-top: 1px solid var(--sidebar-font-color);
+  background: transparent;
+  z-index: 1000;
+}
+
+/* ====== 4.4 Main (Área principal de contenido) ====== */
+
+/* 4.4.1 Estilo principal del contenedor de contenido */
+.cvContainer main {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--main-background-color);
+  /* padding: var(--section-padding-block) var(--section-padding-inline); */
+  /* box-shadow: 0 var(--space-xs) 8px rgba(0, 0, 0, 0.1); */
+  /* border-left: var(--panel-border); */
+  box-sizing: border-box;
+  min-height: 100vh;
+  border-radius: var(--base-radius);
+  color: var(--main-font-color, #000);
+}
+
+/* 4.4.2 Estilo de scrollbar personalizado */
+.cvContainer .sidebar::-webkit-scrollbar,
+.cvContainer .main::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  right: calc(-0.5* var(--scrollbar-width)); 
+}
+
+.cvContainer .sidebar::-webkit-scrollbar-thumb,
+.cvContainer .main::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: var(--space-xs);
+}
+
+
+/* ====== 4.5 Resizer (División entre Sidebar y Main) ====== */
+.sidebar.resizable .resizer {
+  width: var(--resizer-width);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(-0.5* var(--resizer-width)); 
+  background: linear-gradient(to right, transparent 40%, rgba(0,0,0,0.1) 50%, transparent 60%);
+  cursor: col-resize;
+  z-index: 1001;
+  transition: none !important;
+  pointer-events: all;
+}
+
+body[data-theme="dark"] .sidebar.resizable .resizer {
+  background: linear-gradient(to right, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%); /* Resizer en sidebar */
+}
+
+.sidebar.resizable .resizer:hover {
+  background-color: rgba(256, 256, 256, 0.2);
+}
+
+body[data-theme="dark"] .resizer:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Hover en resizer */
+}
+
+
+/* ============================================================================
+   5. 🗂 SECCIONES DEL SIDEBAR
+============================================================================ */
+
+/* ================================= */
+/* ====== 5.1. Foto de perfil ====== */
+/* ================================= */
+
+/* Contenedor de la sección de foto */
+#fotoSection {
+  border: none !important;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Contenedor general de la imagen */
+#foto-container {
+  position: relative;
+  text-align: center;
+  width: var(--foto-size, 250px);         /* Usamos variable de tamaño */
+  aspect-ratio: var(--foto-aspect, 1/1);  /* Usamos variable de proporción */
+  overflow: hidden;
+  cursor: grab;
+  background-color: var(--foto-bg, #f0f0f0); /* Personalizable por tema */
+  border-radius: var(--foto-radius, 50%);   /* Variable para bordes redondeados */
+  border: var(--foto-border-size, 8px) solid var(--page-background-color, #ccc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
+
+/* Wrapper interno para manipulación */
+#foto-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Imagen de perfil */
+#foto-wrapper img,
+#foto {
+  width: auto; /* tamaño original para manipulación */
+  height: auto;
+
+  object-fit: none;              /* 'contain' evita recortes no deseados o 'none' para que JS maneje el zoom y desplazamiento */  
+  /* border-radius: 50%; /* No necesario -> máscara ya redondea */
+
+  object-position: center center;
+  opacity: 0;                       /* Oculto inicialmente */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 2;
+  display: block;                  /* Siempre en bloque, el control es por `opacity` */
+}
+
+#foto {
+  transform: translate(-50%, -50%); /* Centrado inicial, luego actualizado vía JS */
+  cursor: grab;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+/* Imagen visible */
+#foto-wrapper img.visible,
+#foto.visible {
+  opacity: 1;
+}
+
+/* Placeholder si no hay imagen cargada */
+.foto-placeholder,
+#foto-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-size-base, 15px);
+  font-weight: bold;
+  color: #fff;
+  background-color: var(--page-background-color, #bbb);
+  text-align: center;
+  border-radius: var(--foto-radius, 50%);
+  padding: var(--section-padding-inline, 1em);
+  border: var(--foto-border-size) solid var(--section-title-bg-color, white);
+  z-index: 1;
+  display: none;
+}
+
+/* Mostrar placeholder activamente */
+#foto-placeholder.show {
+  display: flex;
+}
+
+/* ========================================= */
+/* ====== 5.2.Sección Nombre y Titulo ====== */
+/* ========================================= */
+
+#nombreSection {
+  background-color: transparent;
+  border: none !important;
+  border-radius: var(--base-radius);
+  /* padding: var(--space-sm); */ /* CHECK +* */
+  padding: var(--section-padding-block) var(--section-padding-inline);
+  margin-bottom: var(--section-padding-block);
+  box-sizing: border-box;
+}
+
+#nombreSection .nombre-titulo {
+  display: flex; /* Flexbox para el contenedor */
+  flex-direction: column; /* Alinea los ítems en columna */
+  align-items: center; /* Alinea los ítems en el centro horizontalmente */
+  justify-content: center; /* Alinea los ítems en el centro verticalmente */
+  text-align: center;
+  gap: var(--space-sm); /* CHECK +* */
+  position: relative;
+}
+
+#nombreSection .section-item-container {
+  box-shadow: none; /* Quita la sombra global */
+  margin: 0;
+  display: inline-block; /* Ajusta al ancho del contenido */
+  border-radius: var(--base-radius);
+  width: 100%; /* Para que ocupe todo el ancho disponible */
+  text-align: center; /* Alinea el texto en el centro */
+
+  position: relative; /* Crea referencia para z-index */
+  z-index: 2; /* Ponerlo por encima del padre */
+}
+
+/* Estilo Nombre */
+#nombreSection #nombre .section-item-container {
+  color: var(--section-title-bg-color);
+  background-color: var(--section-title-font-color); /* Color de fondo */
+  padding: var(--space-2xs);
+}
+
+#nombreSection .nombre-titulo #nombre {
+  display: flex;
+  max-width: 70%; /* Limita el ancho al 70% */
+  align-items: center; /* Alinea verticalmente los elementos */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  word-wrap: break-word; /* Permite que las palabras se rompan */
+}
+
+#nombreSection .nombre-titulo p {
+  font-size: var(--font-size-md);
+  overflow-wrap: break-word; /* Permite que las palabras se rompan */
+}
+
+/* Estilo Titulo */
+#nombreSection #titulo .section-item-container {
+  color: var(--section-title-font-color); /* Color de texto */
+  background-color: var(--section-title-bg-color); /* Color de fondo */
+  padding: var(--space-2xs);
+}
+
+#nombreSection .nombre-titulo #titulo {
+  display: flex;
+  max-width: 80%; /* Limita el ancho al 80% */
+  align-items: center; /* Alinea verticalmente los elementos */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  word-wrap: break-word; /* Permite que las palabras se rompan */
+}
+
+#nombreSection h2 p {
+  font-size: var(--font-size-sm);
+  overflow-wrap: break-word; /* Permite que las palabras se rompan */
+}
+
+/* ========================== */
+/* ====== 5.3. Divider ====== */
+/* ========================== */
+
+.divider {
+  height: 1px;
+  background: #ccc;
+  margin: var(--space-sm) 0;
+}
+
+/* =========================================== */
+/* ====== 5.4. Contenedores del Sidebar ====== */
+/* =========================================== */
+
+/* ====== 🧩 Contenedor de ítems ====== */
+.section-item-container {
+  background-color: var(--item-background); /* Tiene transparencia aplicada */
+  border-radius: var(--base-radius);
+  border: var(--border-size-sm) solid rgba(0, 0, 0, 0.1); /* Borde suave y elegante */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: var(--text-padding-block) var(--text-padding-inline);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* esto centra verticalmente los hijos */
+  gap: var(--space-2xs);
+  transition: background-color 0.3s ease;
+  align-items: stretch;    /* o center si quieres que no ocupe todo el ancho */
+  position: relative;
+  z-index: 1;
+}
+
+
+.sidebar .item-info .item-name {
+  /* color: var(--sidebar-font-color); CHECK +* */
+  font-weight: normal;
+  align-items: center;
+
+  line-height: 1; 
+  transform-origin: left center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.sidebar #contacto .item-info .item-name {
+  font-weight: bold;
+}
+
+.main-content .item-title .item-name {
+  color: var(--main-font-color);
+  font-weight: bold;
+  
+  line-height: 1; 
+  font-weight: bold;
+  transform-origin: left center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.item-value {
+  font-weight: 400;
+
+  text-align: center;
+  /* overflow: hidden; */
+  overflow: visible; /* deja que se muestren todas las estrellas */
+
+  /* text-overflow: ellipsis; /* solo funciona si overflow: hidden y white-space: nowrap, pero aquí el overflow: visible */
+  text-overflow: unset;    
+  
+  /* white-space: normal;                      /* Permite que el texto se ajuste a múltiples líneas - No se necesita */
+  white-space: nowrap; /* suficiente, no necesita preserve */
+
+  overflow-wrap: break-word;                /* Permite que el texto se divida entre palabras */
+  hyphens: auto;    
+
+  /* min-width: 4rem;           /* Ajustalo según el espacio mínimo deseado */
+  min-width: auto; /* deja que el ancho dependa del contenido */
+
+  /* flex-shrink: 0;            /* Opcional: evita que se colapse demasiado */
+  flex-shrink: 1; /* permite que el contenedor se ajuste */
+
+  height: auto;
+  line-height: 1.4;         /* evita corte vertical de estrellas */
+
+  /* padding-left: var(--space-xs); CHECK +* */
+  /* color: var(--sidebar-font-color); CHECK +* */
+}
+
+/* ⭐ Fix: asegurar que las estrellas no se corten en ninguna vista */
+.item-value,
+.item-name {
+  height: auto;           /* Permite crecer según contenido */
+  line-height: 1.4;       /* Más alto que 1.0/1.2 para que entre la estrella */
+}
+
+
+.contacto .item-value {
+  font-size: var(--font-size-sm);
+}
+
+/* excepción con los items de nivel */
+.habilidades .item-value,
+.idiomas .item-value {
+  white-space: nowrap;
+  overflow-wrap: unset;
+  hyphens:none;
+}
+
+.item-value .item-text {
+  white-space: normal;        /* ✅ permite salto de línea */
+  overflow: visible;          /* ✅ permite expandirse */
+  text-overflow: unset;       /* ✅ desactiva los puntos suspensivos */
+  display: block;             /* ✅ obliga al enlace a comportarse como bloque */
+  text-align: center;         /* ✅ centra cada línea */
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* ====== ⭐️ Items de Nivel (habilidades, idiomas, etc.) ====== */
+
+.item-level {
+  display: inline-block;
+  position: relative;
+}
+
+.item-level.filled {
+  color: gold;
+}
+
+.item-level.empty {
+  color: var(--items-color);
+}
+
+.item-level i {
+  text-shadow: var(--text-shadow-items-level);
+  display: inline-block;
+  vertical-align: text-bottom; 
+  font-size: 0.95em; /* o 1.2em si quieres más grande */
+  line-height: 1.4; /* evita corte vertical */
+  margin-right: 0.1em; /* un pequeño espacio entre estrellas */
+  box-sizing: border-box; /* Esto evita que el borde aumente el tamaño */
+}
+
+/* ====== Contenedores de los ítems de contacto, habilidades e idiomas ====== */
+
+/* .content-container .item-contacto,
+.content-container .item-habilidades,
+.content-container .item-idiomas {
+  background-color: var(--item-background);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin: var(--space-xs);
+  padding: var(--section-padding-block) var(--section-padding-inline);
+  border-radius: var(--base-radius);
+} */
+
+
+
+
+/* ============================================================================
+   🌐 Modos de Visualización
+============================================================================ */
+
+/* ============================================================================
+   🌐 VISTA: LIST VIEW
+============================================================================ */
+
+/* Contenedor principal de cada ítem */
+/* .sidebar .list-view .section-item-container {
+  margin-bottom: var(--space-xs);
+  padding: var(--space-xs);
+  border-radius: var(--base-radius);
+  transition: background-color var(--transition-time);
+} */
+
+
+.sidebar .list-view .content-container {
+  /* gap: var(--card-gap); CHECK +* */
+}
+
+.sidebar .list-view .section-item-container {
+  font-size: var(--card-font-size);
+  padding: var(--card-padding);
+  gap: var(--card-gap);
+}
+
+.sidebar .list-view .item-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto; /* En lugar de height:100% */
+  min-height: 1.5em; /* Altura mínima de seguridad */
+  gap: var(--gap-sidebar-item);
+}
+
+.sidebar .list-view .item-left {
+  /* flex-direction: column; */
+  display: flex;
+  align-items: center;      /* centra vertical */
+  justify-content: center;  /* centra horizontal */
+  width: var(--card-icon-size);
+  height: var(--card-icon-size);
+}
+
+.sidebar .list-view .item-icon-container {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar .list-view .item-icon-container i {
+  font-size: calc(var(--card-icon-size) * 0.8);/* escala el ícono */
+  line-height: 1;  /* evita que se desplace */
+}
+
+.sidebar .list-view .item-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch; /* Permite que cada fila se alinee por su cuenta */
+  flex: 1;
+}
+
+.sidebar .list-view .item-name {
+  display: flex;
+  justify-content: flex-start; /* Alinea a la izquierda */
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar .list-view .item-value {
+  display: flex;
+  justify-content: flex-end;   /* Alinea a la derecha */
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar .list-view .item-right {
+  display: none;
+  min-width: 0;
+}
+
+
+
+/* Grid View */
+/* .sidebar .grid-view .contacto,
+.sidebar .grid-view .habilidades,
+.sidebar .grid-view .idiomas,
+.sidebar .grid-view .hobbies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(150px * var(--card-size-scale)), 1fr));
+  gap: var(--section-padding-block);
+  width: 100%;
+  padding: 0;
+} */
+
+/* ============================================================================
+   🌐 SIDEBAR - VISTA: GRID-VIEW
+============================================================================ */
+/* grid global */
+.sidebar.grid-view .contacto,
+.sidebar.grid-view .habilidades,
+.sidebar.grid-view .idiomas,
+.sidebar.grid-view .hobbies {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(10rem * var(--card-width-factor)), 1fr)
+  );
+  /* gap: var(--space-2xs); */
+  /* padding: var(--space-md); */
+  align-items: stretch; /* Hace que las tarjetas crezcan en altura */
+}
+
+/* tarjeta individual */
+.sidebar .grid-view .section-item-container {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--card-font-size);
+  /* padding: var(--section-padding-inline) 0; CHECK +* */
+  /* padding: var(--card-padding); CHECK +* */ 
+  gap: var(--card-gap);
+  transition: transform .2s, box-shadow .2s;
+  align-items: center;
+  /* height: 100%; /* Necesario para que .item-info pueda crecer - CHECK +* */
+  height: auto;
+  width: 100%; 
+}
+
+/* layout interno: icon | (nombre / valor) */
+.sidebar .grid-view .item-info {
+  display: grid;
+  /* grid-template-columns: minmax(0, 0.4fr) 1fr; /* 2 columns */
+  grid-template-columns: auto 1fr auto; /* 3 Columnas - Nota: La columna 3 (right) no se muestra por no tener contenido o tamaño definido */ 
+  align-items: center;
+  /* column-gap: var(--gap-sidebar-item); */
+
+  min-height: 1.5em; /* Para que ocupe al menos todo el espacio (del padre) vertical disponible y pueda crecer si el contenido es más grande */
+  height: auto;
+  width: 100%;
+  /* gap: var(--gap-sidebar-item); /* NO SE NECESITA GAP entre elementos del formato grid para el sidebar */
+  /* padding: var(--space-sm); /* 🟢 activo el padding */
+}
+
+.sidebar .grid-view .item-icon-container,
+.sidebar .grid-view .item-left,
+.sidebar .grid-view .item-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: var(--card-icon-size); /* ❗️Evita que se achique más de este valor */
+  min-height: var(--card-icon-size); /* ✅ Esto asegura que no sea más chico que el ícono */
+  flex-shrink: 0; /* ❗️Evita que se reduzca en layouts flexibles */
+}
+
+/* icon-container escala con el slider */
+.sidebar .grid-view .item-icon-container {
+  font-size: var(--card-icon-size);
+  width: var(--card-icon-size);   /* 🟢 Hace que el ancho coincida con el tamaño del ícono */
+  height: auto;
+}
+
+.sidebar .grid-view .item-left {
+  width: 100%;
+  height: 100%;
+}
+
+/* nombre / valor en columna, nombre arriba, valor abajo */
+.sidebar .grid-view .item-center {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%; /* CHECK *+ */
+  height: auto;
+  gap: var(--text-padding-block);                /* pequeño espacio entre nombre y estrellas */
+  align-items: stretch;     /* 'flex-start' para que se alinee a la izquierda. 'center' no funciona bien con wrap de texto en varias lineas, pero podemos usar 'stretch y luego 'text-align: center' */
+  text-align: center; /* centra el texto horizontalmente dentro del span/div */
+  justify-content: flex-start; /* 👈 'flex-start' es mejor que usar 'space-between' */  
+}
+
+.sidebar .grid-view .item-right {
+  display: contents; /* permite que su contenido se muestre pero no cree la columna extra */
+}
+
+.sidebar .grid-view .item-center .item-value {
+  padding: 0;
+}
+
+/* para poder centrar es necesario que 'item-name' no sea flex */ 
+.sidebar .grid-view .item-center .item-name {
+  display: inline-block;   /* o block */
+  width: auto;             /* que ocupe solo lo necesario */
+  text-align: center;      /* ahora sí centrará incluso con wrap */
+}
+
+/* Asegurarse de que el ícono ocupe todo el contenedor */
+.sidebar .grid-view .item-icon-container .item-icon {
+  font-size: inherit; /* Hereda el tamaño del contenedor */
+  width: 100%; /* El ícono ocupa todo el ancho del contenedor */
+  height: 100%; /* El ícono ocupa toda la altura del contenedor */
+  display: block; /* Asegura que el icono sea un bloque para ajustar tamaño */
+  line-height: 1; /* Elimina cualquier espacio extra vertical */
+  text-align: center; /* Centra el ícono dentro de su contenedor */
+  object-fit: contain; /* 🟢 Muy importante: asegura que la imagen no se deforme */
+}
+
+/* Si usas el pseudo-elemento ::before, asegúrate de que también ocupe todo el espacio */
+.sidebar .grid-view .item-icon-container .item-icon::before {
+  font-size: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============================================================================
+   🌐 VISTA: COMPACT VIEW
+============================================================================ */
+
+/* Compact View (Sidebar) */
+.sidebar .compact-view .section-item-container {
+  display: flex;                            /* Flexbox para distribuir los ítems */
+  align-items: center;                      /* Centra verticalmente los elementos */
+  /* gap: var(--space-xs);                     /* Espacio entre los elementos - CHECK +* */
+  /* padding: var(--section-padding-block) var(--section-padding-inline); /* Espaciado interior - CHECK +* */
+  font-size: var(--font-size-sm);           /* Tamaño de fuente más pequeño */
+  border-radius: var(--base-radius);        /* Borde redondeado */
+}
+
+.sidebar .compact-view .item-info {
+  display: flex;                            /* Flexbox para el contenedor */
+  flex-direction: row;                      /* Alinea los ítems en fila */
+  align-items: center;                      /* Centra verticalmente los ítems */
+  gap: var(--gap-sidebar-item);
+  width: 100%;                              /* Ocupa todo el ancho disponible */
+  height: auto; /* En lugar de height:100% */
+  min-height: 1.5em; /* Altura mínima de seguridad */
+}
+
+.sidebar .compact-view .item-icon-container {
+  width: 1.25rem;                           /* Ancho del ícono */
+  height: 1.25rem;                          /* Altura del ícono */
+  display: flex;                            /* Flexbox para centrar el ícono */
+  justify-content: center;                  /* Centra horizontalmente el ícono */
+  align-items: center;                      /* Centra verticalmente el ícono */
+}
+
+.sidebar .compact-view .item-center {
+  flex: 1 1 auto;                           /* Flexbox para que ocupe el espacio disponible */
+  min-width: 4.25rem;                          /* Asegura que el nombre no sea demasiado pequeño */
+  overflow-wrap: break-word;                /* Permite que el texto se rompa en palabras */
+  hyphens: auto;                            /* Permite cortar el texto por sílabas */
+}
+
+.sidebar .compact-view .item-value {
+  /* white-space: normal;                      /* Permite que el texto se ajuste a múltiples líneas */
+  /* overflow-wrap: break-word;                /* Permite que el texto se divida entre palabras */
+  /* hyphens: auto;                            /* Permite cortar el texto por sílabas */
+  /* font-size: var(--font-size-sm);           /* Mantiene el tamaño pequeño (Ya se aplica) */
+  text-align: right;                        /* Alinea el texto a la derecha */
+  /* flex-shrink: 1;                           /* Permite que el valor se reduzca si es necesario */
+  /* min-width: 0;                             /* Crucial para evitar desbordes en flex */
+
+  /* margin-left: auto;         /* 🔥 Empuja el item-value hacia la derecha - CHECK +* */
+
+  overflow: visible;       /* asegura que no se corten las estrellas */
+  line-height: 1.4;        /* suficiente espacio vertical */
+  white-space: nowrap;     /* mantiene la fila en una sola línea */
+}
+
+
+/* .main .compact-view .item-title { */
+  /* display: flex;                            /* Flexbox para alinear en línea */
+  /* align-items: center;                      /* Centra verticalmente el título */
+  /* flex: 1;                                  /* Hace que ocupe el espacio restante */
+/*}*/
+
+
+/* ============================================================================
+   6. 📄 SECCIONES DEL MAIN
+============================================================================ */
+
+/* Contenedor principal del Main */
+main.main {
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* 4.4.3 Estilo del contenido dentro de main */
+.main .main-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-gap-xs);
+  padding: var(--section-padding-block) var(--section-padding-inline);
+}
+
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+  margin-bottom: var(--space-xs);
+}
+
+.main-content p {
+  margin-bottom: var(--space-xs);
+  line-height: 1.6;
+}
+
+.main-content ul,
+.main-content ol {
+  margin-left: var(--space-sm);
+  padding-left: var(--space-sm);
+}
+
+.main-content li {
+  margin-bottom: var(--space-xs);
+}
+
+/* Secciones dentro del main */
+.section.main-section {
+  /* background-color: var(--section-bg-color); */
+  /* overflow: visible; */
+}
+
+/* Contenido colapsable de cada sección */
+.section.main-section .content-container {
+  /* padding: var(--space-sm) var(--section-padding-inline); /* Ya aplica el estilo general */
+  /* display: block; */
+}
+
+.section.main-section .item-info {
+  /* margin: var(--space-lg); /* CHECK +* */ 
+  padding: var(--section-padding-block) var(--section-padding-inline);
+}
+
+/* Esto es lo que alinea horizontalmente el icono y el texto: */
+.main-content .item-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg); 
+}
+
+/* Verificá que item-icon-container y item-name no tengan márgenes verticales inesperados */
+.main-content .item-title > * {
+  margin: 0;
+}
+
+/* ============================================================================
+   7. 🎛️ VISTAS / FORMATOS DE VISUALIZACIÓN
+============================================================================ */
+
+/* === 7.1 Sidebar: Grid / List / Compact === */
+/* Por desarrollar */
+
+/* === 7.2 Hobbies: Grid / List === */
+/* Por desarrollar */
+
+
+/* ============================================================================
+   🌐 7.2. VISTA MAIN: Lista-Tabla y Grid-Tabla
+============================================================================ */
+
+/* ======== Main - Vista List: Vista en Lista ======== */
+/* === Formato Lista para entradas como Estudios, Experiencia, Logros === */
+
+body[data-main-view="list"] .grid-tabla {
+  /* display: block; */
+}
+
+/* body[data-main-view="list"] .item {
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--neutral-300);
+} */
+
+/* body[data-main-view="list"] .item:last-child {
+  border-bottom: none;
+} */
+
+/* body[data-main-view="list"] .item h3 {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin-bottom: 0.25em;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+} */
+
+/* body[data-main-view="list"] .item p {
+  margin: 0.25em 0;
+  font-size: 0.95em;
+  color: var(--text-secondary);
+} */
+
+/* body[data-main-view="list"] .item p small {
+  font-size: 0.85em;
+  color: var(--text-muted);
+} */
+
+body[data-main-view="list"] .item-icon {
+  color: var(--primary-color);
+  display: inline-block;
+}
+
+/* Iconos de logros sin item-icon explícito */
+/* body[data-main-view="list"] .item-logros h3::before {
+  content: "🏆";
+  margin-right: 0.5em;
+} */
+
+
+.main .lista-tabla {
+  /* display: block; */
+}
+
+/* Cada item en lista ocupa toda la fila */
+.main .lista-tabla .section-item-container {
+  display: block;
+  /* padding: var(--space-sm) 0px; */
+}
+
+/* ======== Main - Vista Grid: Vista en Cuadrícula (Grid) ======== */
+.main .grid-tabla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--space-sm);
+}
+
+.main .grid-tabla .item-title {
+  padding: 0.5rem;
+}
+
+.main .grid-tabla .item-description {
+  white-space: normal;                      /* Permite que el texto se ajuste a múltiples líneas */
+  overflow-wrap: break-word;                /* Permite que el texto se divida entre palabras */
+  hyphens: auto;    
+  flex-shrink: 0;            /* Opcional: evita que se colapse demasiado */
+}
+
+.main .grid-tabla .item-date {
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   8. 🕒 TIMELINE (LÍNEA DE TIEMPO)
+============================================================================ */
+
+/* ========================== */
+/* === Estilos Timeline ==== */
+/* ========================== */
+
+/* === Variables específicas del timeline === */
+:root {
+  --color-prueba: rgb(0, 123, 255);
+  --accent-color-rgb: 0, 123, 255; /* Azul */
+  --accent-color: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-date-width: 10em;
+  --timeline-icon-size: 3em;
+  --timeline-width: 4px;
+  --timeline-font-size-hover: 1.1em;
+
+  --timeline-line-left: calc(var(--timeline-date-width) + calc(var(--timeline-icon-size) / 2));
+
+  --timeline-line-color: rgba(var(--accent-color-rgb), 1);
+  --timeline-line-hover: rgb(var(--accent-color-rgb)); /* color al pasar hover */
+  --timeline-icon-border-color: var(--timeline-line-color);
+  --timeline-icon-bg: var(--main-background-color); /* fondo original del icon-wrapper */
+  --timeline-icon-bg-hover: var(--timeline-line-hover); /* color hover icon-wrapper */
+  --timeline-font-color-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency))
+}
+
+
+/* ================================= */
+/* === Estructura principal Grid === */
+/* ================================= */
+
+#timeline {
+  overflow: hidden; /* oculta espacios sobresalientes de los contenedores hijos al escalar */
+}
+
+#timeline-visual {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--timeline-date-width) var(--timeline-icon-size) 1fr;
+  gap: 1.5em;
+  padding: 1.5em 1em 2.0em 1em;
+  align-items: center;
+  z-index: 1;
+}
+
+
+/* ============================ */
+/* === Línea vertical fija ==== */
+/* ============================ */
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--timeline-line-left) - var(--timeline-width) / 2);
+  width: var(--timeline-width);
+  background-color: var(--timeline-line-color);
+  transition: background-color 0.3s ease;
+  z-index: 0;
+}
+
+
+/* =========================== */
+/* === Elementos de la grid == */
+/* =========================== */
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline .date {
+  grid-column: 1;
+  text-align: right;
+  padding-right: 1em;
+  font-weight: bold;
+  transition: font-size 0.3s ease;
+}
+
+.timeline .icon-wrapper {
+  grid-column: 2;
+  width: var(--timeline-icon-size);
+  height: var(--timeline-icon-size);
+  background: var(--timeline-icon-bg);
+  border: var(--border-size-md) solid var(--timeline-icon-border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-all);
+  z-index: 2;
+  position: relative;
+}
+
+/* === Pseudo-elemento para tapar la línea debajo del icono === */
+.timeline .icon-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--timeline-width);
+  background-color: var(--timeline-line-bg-hv-transparent); /* igual al fondo del icon-wrapper */
+  transform: translateX(-50%);
+  transition: background-color 0.3s ease;
+  z-index: -1;
+}
+
+.timeline .content {
+  grid-column: 3;
+}
+
+.timeline .title {
+  font-weight: bold;
+}
+
+.timeline .subtitle {
+  font-size: var(--font-size-sm);
+}
+
+
+/* ================================= */
+/* === Animación inicial de fade === */
+/* ================================= */
+
+.timeline .event {
+  display: contents;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  gap: 2em;
+  margin-bottom: 1em;
+}
+
+.timeline .event.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================================
+   9. 🖱️ HOVERS GENERALES (SIDEBAR + MAIN)
+============================================================================ */
+
+/* ====== Estilos de Hover para Iconos y Titulos de Secciones (Sidebar y Main) ====== */
+
+/* Hover 1: Color */
+.nombre-titulo #nombre:hover, /* Nombre */
+.nombre-titulo #titulo:hover, /* Titulo */
+
+.title-container:hover, /* Titulo de la sección */
+/* .title-container:hover span, /* Titulo de la sección */
+/* .title-container:hover i /* Icono del Titulo de la Sección cuando pasa por el Titulo */
+.title-container:hover + .content-container *, /* Hover Alica sobre todos los elementos descendientes del hermano (No funciona en los iconos o items de nivel) */
+/* .title-container:hover ~ .content-container *, /* Hover Alica sobre todos los elementos descendientes del hermano (No funciona en los iconos o items de nivel) */
+/* .title-container:hover > .content-container *, /* No funciona */
+/* .title-container:hover > .content-container span, /* No funciona */
+/* itle-container:hover + .content-container span /* Hover Aplica sobre los textos de title-items (no a la descripción, ni date ni iconos) */
+/* .title-container:hover ~ .content-container p /* Hover solo aplica a los textos de main (descripción y date) */
+.title-container:hover ~ .content-container i, /* Hover funciona en los iconos y en los items de nivel de los descendientes del hermano*/
+/* Solución encontrada para marcar todos los items: aplicar Hover de title-container en ('content-container *' y 'content-container i') */ 
+
+.section-item-container:hover .item-info *,
+.section-item-container:hover .item-info i,
+.timeline-visual:hover
+{ 
+  color: var(--highlight-general-color-hover, #0073e6);
+  transition: var(--transition-all);
+  text-shadow: none; /* Anular el Sombreado de Texto (si hubiera) al aplicar Hover) */
+}
+
+.title-container:hover + .content-container * {
+  background-color: rgb(var(--item-background-rgb)); /* mismo color pero sólido */ /* para quitar la transparencia */
+}
+
+/* Hover 2: Tamaño (Escala) y resaltado para las secciones e items de sección */
+.section:hover,
+.section .title-container:hover,
+.section .section-item-container:hover
+{
+  /* transform: scale(1.05); /* Cada uno con su escala */
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  border: var(--border-size-md) solid var(--highlight-general-color-hover); /* O el color que desees */
+}
+
+.section:hover {
+  /* transform: scale(1.02); */
+  padding: 0.3rem;
+  gap: 0.3rem;  /* o aumentás padding */
+
+  z-index: 2;                    /* opcional: ponerla encima de las demás */
+} 
+
+.section .title-container:hover{
+  /* transform: scale(1.03); /* No es necesario escalar el titulo */
+}
+
+.section-item-container:hover {
+  position: relative; /* Sacar los items de .section al hacer hover */
+  background-color: rgb(var(--item-background-rgb)); /* mismo color pero sólido */ /* para quitar la transparencia */
+  transform: scaleX(1.02) scaleY(1.07); /* Escala del Section Item Container */
+  z-index: 999; /* para traer el hover por encima de sus contenedores padres  */
+}
+
+/* Escala el section-item-container para tarjetas pequeñas (y más cuadradas) */
+.sidebar .grid-view .section-item-container:hover,
+.main .grid-tabla .section-item-container:hover {
+  transform: scale(1.05);
+}
+
+#timeline .section-item-container:hover {
+  transform: scaleX(1.005) scaleY(1.02); /* Escala del Section Item Container */
+  transform-origin: center;      /* se expande hacia adentro del borde */
+}
+
+.main .grid-tabla .section-item-container:hover {
+  /* background-color: var(--main-item-hover-bg); */
+}
+
+
+/* Hover 3: Tamaño (Escala) individual */
+/* .item-description:hover,
+.item-date:hover
+{
+  transform: scale(1.025);
+  transition: transform 0.3s ease;
+  transform-origin: left center;
+} */
+
+/* Hover en item-name */ 
+.item-name:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  transform-origin: left center;
+}
+
+.sidebar .item-value:hover {
+  transform: scale(1.05);
+  transform-origin: right center; /* crucial: escala desde la derecha */
+  transition: transform 0.3s ease;
+}
+
+/* Sidebar GRID view: que el hover escale desde el centro */
+.sidebar.grid-view .item-name:hover,
+.sidebar.grid-view .item-value:hover {
+  transform: scale(1.07); /* o el factor que uses */
+  transform-origin: center center; /* ✅ escala desde el centro */
+  transition: transform 0.3s ease;
+}
+
+/* Hover en el main */
+.main .item-value:hover,
+.main .item-description:hover,
+.main .item-date:hover,
+.timeline .title:hover,
+.timeline .subtitle:hover
+{
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  transform-origin: left center;
+}
+
+.section-title:hover,
+.section-icon:hover,
+.item-icon-container:hover,
+.item-value .item-level:hover
+{
+  transform: scale(1.08);
+  transition: transform 0.3s ease;
+  transform-origin: left center;
+}
+
+.timeline .date:hover {
+  transform: scale(1.08);
+  transition: transform 0.3s ease;
+  transform-origin: right center;
+}
+
+
+/* Hover 4: Brillo para los items individuales*/
+.section-title:hover,
+.section-icon:hover,
+.item-icon-container:hover,
+.item-name:hover,
+.item-value:hover,
+.item-value .item-level:hover,
+.item-description:hover,
+.item-date:hover,
+.timeline .title:hover,
+.timeline .subtitle:hover,
+.timeline .date:hover
+{ 
+  filter: brightness(1.3);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+
+/* =============================== */
+/* === Efectos Hover en .event === */
+/* =============================== */
+
+/* 1 - Hover general sobre cada evento */
+.timeline .event:hover {
+  box-shadow: 0 0 1em rgba(255, 255, 255, 0.1);
+  transform: translateY(1em);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* 2 - Hover sobre el icon-wrapper dentro del evento */
+.timeline .event:hover .icon-wrapper {
+  transform: scale(1.25);
+  background-color: var(--timeline-icon-bg-hover);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 2.1 - Tapar la línea de tiempo con el mismo color que el bg del iconwrapper durante el hover */
+/* === Pseudo-elemento para tapar la línea debajo del icono === */
+.timeline .event:hover .icon-wrapper::before {
+  background-color: var(--timeline-line-bg-hv-transparent); /* igual al fondo del icon-wrapper */
+}
+
+/* 3 - Cambia (resalta) el color de texto en la fecha y contenido */
+.timeline .event:hover .date,
+.timeline .event:hover .content {
+  color: var(--highlight-general-color-hover);
+}
+
+/* 3 - Escala el tamaño del icono dentro del wrapper  */
+.timeline .icon:hover {
+  transform: scale(1.25);
+  transition: transform 0.3s ease;
+}
+
+/* ========================================= */
+/* === Efecto Hover Global (sobre línea) === */
+/* ========================================= */
+
+/* 4 - Cuando cualquier .event está en hover, cambia el color de la línea */
+.timeline:has(.event:hover) .timeline-line /* el has funciona en solo algunos navegadrores */
+{
+  /* background-color: var(--timeline-line-hover); */
+  background-color: var(--timeline-icon-bg-hover);
+}
+
+/* 5 - Si se pasa el mouse directamente sobre la línea */
+.timeline-line:hover {
+  background-color: var(--timeline-line-hover);
+}
+
+.timeline-line:hover ~ .event .icon-wrapper {
+  transform: scale(1.25);
+  background-color: var(--main-background-color);
+  border-color: var(--timeline-line-hover);
+}
+
+
+
+
+/* ====== Hover en items ====== */
+/* .sidebar-section > div:hover,
+.main-section > div:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+} */
+
+/* Hover para todos los items */
+/*.item:hover {
+  /* border-color: var(--highlight-general-color-hover, #FFD700); /* Cambiar borde en hover */
+  /* text-shadow: 0 0 3px black, 0 0 3px #FFD700; /* Cambio a sombra dorada cuando se pasa el ratón */
+/*} */
+
+/* Hover para Titulos de Secciones */
+/* .title-container:hover, */
+/* h3:before:hover, NO */  
+/* h3:hover {
+  /* color: var(--highlight-general-color-hover, #0073e6);  /* Color de íconos al pasar el mouse */
+  /* transform: scale(1.02);                            /* Leve ampliación */
+  /* transition: transform 0.3s ease; /* Transición para cambiar tamaño de fuente */
+/* } */
+
+/* Hover para Items de Sidebar NO */
+/* .item-hobbies:hover, NO */
+/* .item-icon:hover, 
+.item-title:hover, NO */
+/* .item-value:hover { */
+  /* color: var(--highlight-general-color-hover, #0073e6);  /* Color de íconos al pasar el mouse */
+  /* transform: scale(1.02);                            /* Leve ampliación */
+  /* transition: transform 0.3s ease; /* Transición para cambiar tamaño de fuente */
+/* } */
+
+/* Hover para Iconos de los items de cada sección */
+/* .item-icon i:hover { */
+  /* color: var(--highlight-general-color-hover, #0073e6);  /* Color de íconos al pasar el mouse */
+/* } */
+
+
+/* Hover para Items de Nivel (general) */
+/* .item-value .item:hover { */
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  /* transform: scale(1.02); /* Un pequeño zoom al pasar el mouse */
+  /* border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: var(--transition-all);
+  cursor: pointer;
+} */
+
+/* Hover para Items de Nivel (Rellenos) */
+/* .item-value .item.filled:hover {
+  color: var(--highlight-general-color-hover, #FFD700);
+} */
+
+/* Hover para Items de Nivel (Vacíos) */
+/* .item-value .item.empty:hover {
+  color: var(--items-color);
+} */
+
+
+
+/* .item:hover,
+.item-icon:hover,
+.item-title:hover {
+  background-color: var(--sidebar-item-hover-bg);
+  transform: scale(1.02);
+  transition: var(--transition-all);
+  cursor: pointer;
+}
+
+.seciton-item-icon:hover ~ .item-title,
+.item-title:hover ~ .item-icon {
+  color: var(--highlight-general-color-hover, #0073e6);
+} */
+
+
+/* .title-container:hover,
+.title-container:hover > div:hover {
+  color: var(--highlight-general-color-hover, #0073e6);
+  transform: scale(1.02);
+  transition: var(--transition-all);
+} */
+
+/* .content-container:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: var(--toggle-bg-hover);
+}
+
+.content-container .item:hover {
+  transform: scale(1.02);
+}
+
+.content-container #objetivo:hover,
+.content-container #resumen:hover,
+.main .content-container .item:hover {
+  background-color: var(--main-item-hover-bg);
+} */
+
+/* Hover en Sidebar */
+
+/* .sidebar .content-container .item:hover {
+  background-color: var(--sidebar-item-hover-bg);
+}
+
+
+.habilidad:hover,
+.idioma:hover,
+.hobby-item:hover,
+.contacto-item:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+} */
+
+/* .hobby-item:hover {
+  transform: scale(1.15);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  border-color: var(--highlight-general-color-hover, #007bff);
+} */
+
+
+/* ============================================================================
+   10. 🖼️ Temas (Light, Dark, Sepia, Agustin)
+============================================================================ */
+
+/* 10.1. Estilos Visuales por Temas */ 
+/* ====== Tema Claro ====== */
+body[data-theme="light"] {
+  /* === Transparencia y acento === */
+  --transparency: 0.8; /* Igual que siempre */
+
+  /* === Fondos y textos === */
+  --main-background-color: #ffffff;
+  --main-font-color: #000000;
+
+  --sidebar-background-color: #f0f0f0;
+  --sidebar-font-color: #000000;
+
+  /* === Secciones === */
+  --section-title-font-color: rgb(200, 200, 200); 
+  --section-title-bg-color: rgb(70, 70, 70);
+  --section-title-border-color: rgb(230, 230, 230);
+  --section-title-icon-color: rgb(70, 70, 70); /* No se Usa *+ */
+  --section-border-color: rgba(0,0,0,0.1);
+
+  /* === Items === */
+  --item-background-rgb: 0, 0, 0; /* negro base para rgba */
+  --item-background: rgba(var(--item-background-rgb), 0.05);
+  --sidebar-item-hover-bg: rgba(0,0,0,0.05);
+  --main-item-hover-bg: rgba(0,0,0,0.05);
+
+  /* === Toggles y placeholders === */
+  --toggle-bg-hover: rgba(255, 255, 255, 0.3);
+
+  /* === Sombras de texto === */
+  --text-shadow-name: var(--text-shadow-white); /* Sombra de texto para nombres */
+  --text-shadow-section-title-icon: var(--text-shadow-black); /* Sombra de iconos de títulos */
+  --text-shadow-items-level: var(--text-shadow-black); /* Sombra de ítems */
+  --text-shadow-hobbies: var(--text-shadow-white); /* Sombra de hobbies */ 
+}
+
+/* ====== Tema Oscuro ====== */
+body[data-theme="dark"] {
+  /* --section-title-color-rgb: ?? */
+  /* --section-title-bg-rgba: rgba(255, 255, 255, 0.06); /* Fondo de títulos de sección /* No se usó */
+  /* --section-title-hover-bg: rgba(255, 255, 255, 0.1); /* Fondo al pasar el cursor en títulos /* No se usó */
+
+  /* === Transparencia y acento === */
+  --transparency: 0.8; /* Igual que siempre */
+
+    /* === Fondos y textos === */
+  --main-background-color: #121212; /* fondo principal oscuro */
+  --main-font-color: #f1f1f1;
+
+  --sidebar-background-color: #1e1e1e;
+  --sidebar-font-color: #f1f1f1;
+
+  /* === Secciones === */
+  --section-title-font-color: #d4af37; 
+  --section-title-bg-color: #1f1f1f;
+  --section-title-border-color: var(--section-title-font-color);
+  --section-title-icon-color: var(--section-title-font-color);
+  --section-border-color: rgba(255, 255, 255, 0.1);  /* Borde de sección en modo oscuro */
+  --section-background: rgba(255, 255, 255, 0.15);  /* Fondo de sección en modo oscuro */
+
+  /* === Items === */
+  --item-background-rgb: 255, 255, 255;
+  --item-background: rgba(var(--item-background-rgb), 0.25);
+  --sidebar-item-hover-bg: rgba(255, 255, 255, 0.1);
+  --main-item-hover-bg: rgba(255, 255, 255, 0.06);
+
+  /* === Toggles y placeholders === */
+  --toggle-bg-hover: rgba(255, 255, 255, 0.08);
+
+  /* === Sombras de texto === */
+  --text-shadow-name: var(--text-shadow-black); /* Sombra de texto para nombres */
+  --text-shadow-section-title-icon: var(--text-shadow-black); /* Sombra de iconos de títulos */
+  --text-shadow-items-level: var(--text-shadow-black); /* Sombra de ítems */
+  --text-shadow-hobbies: var(--text-shadow-black); /* Sombra de hobbies */
+}
+
+/* ====== Tema Sepia ====== */
+body[data-theme="sepia"] {
+  /* --section-title-border-color: var(--section-title-font-color, #a57f69); /* Borde de títulos de sección */
+  /* --section-title-icon-color: (var(--section-title-font-color), #b07f47); /* Color de icono de título */
+
+  /* --section-title-bg-rgba: rgba(255, 248, 220, 0.4); /* Fondo de títulos de sección /* No se usó */
+  /* --section-title-hover-bg: rgba(160, 130, 100, 0.3); /* Fondo al pasar el cursor en títulos /* No se usó */
+
+  /* === Transparencia y acento === */
+  --transparency: 0.8; /* Igual que siempre */
+
+  --highlight-general-color-hover: rgb(179, 93, 0);
+
+  /* === Fondos y textos === */
+  --main-background-color: #f4ecd8;     /* Fondo principal */
+  --main-font-color: #5b4636;           /* Color de texto principal */
+
+  --sidebar-background-color: #e5d3b3;  /* Fondo del sidebar */
+  --sidebar-font-color: #5b4636;        /* Color de texto en sidebar */
+
+  /* === Secciones === */
+  --section-title-font-color: #d4af37;
+  --section-title-bg-color: #5a422e;
+  --section-title-border-color: var(--section-title-font-color);
+  --section-title-icon-color: var(--section-title-font-color);
+  --section-border-color: rgba(160, 130, 100, 0.2);
+  --section-background: rgba(255, 248, 220, 0.15);
+
+  /* === Items === */
+  --item-background-rgb: 250, 240, 200;
+  --item-background: rgba(var(--item-background-rgb), 0.2);
+  --sidebar-item-hover-bg: rgba(160, 130, 100, 0.1);
+  --main-item-hover-bg: rgba(160, 130, 100, 0.1);
+
+  /* === Toggles y placeholders === */
+  --toggle-bg-hover: rgba(240, 220, 180, 0.3);
+
+  /* === Sombras de texto === */
+  --text-shadow-name: var(--text-shadow-white);               /* Sombra de texto para nombres */
+  --text-shadow-section-title-icon: var(--text-shadow-black); /* Sombra de iconos de títulos */
+  --text-shadow-items-level: var(--text-shadow-black);        /* Sombra de ítems */
+  --text-shadow-hobbies: var(--text-shadow-white);            /* Sombra de hobbies */
+}
+
+body[data-theme="sepia"] .item.filled {
+  color: #b07f47;                       /* Color de ítems completados */
+}
+
+/* ====== Tema Agustin ====== */
+body[data-theme="agustin"] {
+  /* --color: rgb(0, 255, 255); /* Test */
+
+  /* --section-title-bg-rgba: rgba(153, 133, 52, 0.2); /* Fondo de títulos de sección /* No se usó */
+  /* --section-title-hover-bg: rgba(43, 103, 61, 0.2); /* Fondo al pasar el cursor en títulos /* No se usó */
+
+  /* === Transparencia y acento === */
+  --transparency: 0.8; /* Igual que siempre */
+
+  /* --section-background-rgba: rgba(153, 133, 52, 1); */
+
+  
+
+  /* --main-background-color: #fff;        /* Fondo principal */
+  --main-background-color: rgba(0, 0, 0, 0.15);
+  --main-font-color: #000;                   /* Color de texto principal */
+
+  --sidebar-background-color: #2b673d;        /* Fondo del sidebar */
+  /* --sidebar-font-color: var(--main-background-color, #ffffff);        Color de texto en sidebar */
+  --sidebar-font-color: #000;           /* Color de texto en sidebar */
+
+  /* --section-background: rgba(0, 0, 0, 0.1);  */
+  
+  /* --section-title-color-rgb: ?? */
+  --section-title-font-color: #d4af37;
+  --section-title-bg-color: rgba(26, 26, 26, 0.8);   /* Borde del sidebar */
+
+  --section-title-border-color: var(--section-title-font-color); /* Borde de títulos de sección */
+  --section-title-icon-color: (var(--section-title-font-color), #998534); /* Color de icono de título */
+  
+  --section-background: rgba(0, 0, 0, 0.15);
+  --section-border-color: rgba(0, 0, 0, 0.1);
+
+  --item-background-rgb: 255, 255, 255;
+  --item-background: rgba(var(--item-background-rgb), 0.4);
+
+  --toggle-bg-hover: rgba(255, 255, 255, 0.3);
+  --sidebar-item-hover-bg: rgba(0, 0, 0, 0.05);
+  --main-item-hover-bg: rgba(0, 0, 0, 0.05);
+
+  --text-shadow-name: var(--text-shadow-black); /* Sombra de texto para nombres */
+  --text-shadow-section-title-icon: var(--text-shadow-black); /* Sombra de iconos de títulos */
+  --text-shadow-items-level: var(--text-shadow-black); /* Sombra de ítems */
+  --text-shadow-hobbies: var(--text-shadow-black); /* Sombra de hobbies */
+
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); /* Aplicación de Sombreado - DIFIERE DEL RESTO DE TEMAS */
+}
+
+.body[data-theme="agustin"] main .content h1,
+.body[data-theme="agustin"] main .content h2,
+.body[data-theme="agustin"] main .content h3 {
+  color: #998534;
+  background-color: rgba(153, 133, 52, 0.2);
+  border-radius: var(--base-radius);
+  /* el padding aquí ya lo tomó el reset global */
+}
+
+.body[data-theme="agustin"] .nombre-titulo h2 {
+  background-color: #998534;
+  color: white;
+  border-radius: var(--base-radius);
+  /* padding tomado del reset global */
+}
+
+.body[data-theme="agustin"] .main-section .title-container {
+  background-color: rgba(43, 103, 61, 0.8); /* verde con transparencia */
+}
+
+/* ====== Tema Personalizado ====== */
+.body[data-theme="custom"] {
+  /* --section-background-rgba: rgba(153, 133, 52, 1); /* No se usa */
+
+  --section-border-color: rgba(0, 0, 0, 0.1); 
+
+  --item-background-rgb: 255, 255, 255;
+  --item-background: rgba(var(--item-background-rgb), 0.2);
+
+  --toggle-bg-hover: rgba(255, 255, 255, 0.3);
+  --sidebar-item-hover-bg: rgba(0, 0, 0, 0.05);
+  --main-item-hover-bg: rgba(0, 0, 0, 0.05);
+
+  --text-shadow-name: var(--text-shadow-white);
+  --text-shadow-section-title-icon: var(--text-shadow-black);
+  --text-shadow-items-level: var(--text-shadow-black);
+  --text-shadow-hobbies: var(--text-shadow-white);
+}
+
+/* Color de Fuente para el Sidebar (* = a todos sus hijos) CHECK +* */
+/* .body[data-theme="custom"] .sidebar,
+.body[data-theme="custom"] .sidebar * {
+  color: var(--sidebar-font-color);
+}
+
+.body[data-theme="custom"] .contacto-info, 
+.body[data-theme="custom"] .habilidad-info, 
+.body[data-theme="custom"] .idioma-info {
+  text-shadow: none;
+} */
+
+
+/* ====== Tema Pinky (Barbie Style) ====== */
+body[data-theme="pinky"] {
+  /* === Colores principales === */
+  --main-background-color: #c0f4ff;           /* Fondo principal - gris? #8c8c8c  */
+  --main-font-color: #5b2929;                 /* Texto principal */
+
+  --sidebar-background-color: #ffb8b8;        /* Sidebar rosado */
+  --sidebar-font-color: #896767;              /* Texto en sidebar */
+
+  --section-title-font-color: #39c0db;        /* Títulos celeste brillante */
+  --section-title-bg-color: #6d3737;          /* Fondo de títulos (bordó/marrón) */
+  --section-title-border-color: var(--section-title-font-color);
+  --section-title-icon-color: var(--section-title-font-color);
+
+  /* === Elementos === */
+  --item-background-rgb: 255, 240, 245;       /* Rosa muy claro (lavenderblush) */
+  --item-background: rgba(var(--item-background-rgb), 0.9);
+
+  --toggle-bg-hover: rgba(255, 255, 255, 0.4);
+  --sidebar-item-hover-bg: rgba(255, 182, 193, 0.5); /* LightPink */
+  --main-item-hover-bg: rgba(255, 182, 193, 0.3);
+
+  /* === Tipografía y sombras === */
+  --text-shadow-name: var(--text-shadow-black);
+  --text-shadow-section-title-icon: var(--text-shadow-black);
+  --text-shadow-items-level: var(--text-shadow-black);
+  --text-shadow-hobbies: var(--text-shadow-black);
+
+  text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.5); /* Rosa Barbie */
+}
+
+/* Títulos principales */
+body[data-theme="pinky"] main .content h1,
+body[data-theme="pinky"] main .content h2,
+body[data-theme="pinky"] main .content h3 {
+  color: var(--section-title-font-color);
+  background-color: rgba(109, 55, 55, 0.8); /* Bordó con transparencia */
+  border-radius: var(--base-radius);
+}
+
+/* Nombre principal destacado */
+body[data-theme="pinky"] .nombre-titulo h2 {
+  background-color: var(--section-title-font-color); /* Celeste brillante */
+  color: white;
+  border-radius: var(--base-radius);
+}
+
+/* Sidebar title container */
+body[data-theme=""] .main-section .title-container {
+  background-color: rgba(255, 182, 193, 0.8); /* Rosado suave */
+}
+
+/* 10.2. Estilos Visuales por Temas para el Timeline */
+
+/* ========================= */
+/* === Temas Timeline ====== */
+/* ========================= */
+
+/* === Tema Light === */
+body[data-theme="light"] {
+  --accent-color-rgb: 55, 0, 255; /* color principal */
+  /* --accent-color: rgb(55, 0, 255); /* Test color - antes */ 
+  --accent-color: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-line-color: rgba(var(--accent-color-rgb), 1);
+  --timeline-line-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-icon-border-color: var(--timeline-line-color);
+  --timeline-icon-bg: var(--timeline-line-color);
+  --timeline-icon-bg-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-content-bg: var(--section-title-bg-color, #fff); /* o una variable más específica si aplica */
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency));
+}
+
+/* === Tema Dark === */
+body[data-theme="dark"] {
+  --accent-color-rgb: 200, 200, 255; /* Azul pálido */
+  --accent-color: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-line-color: rgba(var(--accent-color-rgb), 1);
+  --timeline-line-hover: rgba(var(--accent-color-rgb), var(--transparency));
+  --timeline-icon-border-color: var(--timeline-line-color);
+  --timeline-icon-bg: var(--timeline-line-color);
+  --timeline-icon-bg-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-content-bg: var(--section-title-bg-color, #444); /* o una variable más específica si aplica */
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency));
+
+  /* Timeline - CHECK +* */
+  /* --section-background-rgba: rgba(153, 133, 52, 1); /* No se usa */
+  /* --accent-color-rgb: 255, 193, 7; /* Color Ámbar (#ffc107) */
+
+  /* --timeline-icon-bg: #ffc107;
+  --timeline-icon-border-color: #c59913;
+  --timeline-content-bg: #1e1e1e;
+  --timeline-border-color: #444; */
+}
+
+/* === Tema Sepia === */
+body[data-theme="sepia"] {
+  --color-prueba: rgb(112,66,20); 
+  --accent-color-rgb: 112, 66, 20;  /* Marrón sepia */
+  --accent-color: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-line-color: rgba(var(--accent-color-rgb), 1);
+  --timeline-line-hover: rgba(var(--accent-color-rgb), var(--transparency));
+  --timeline-icon-border-color: var(--timeline-line-color);
+  --timeline-icon-bg: var(--timeline-line-color);
+  --timeline-icon-bg-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-content-bg: var(--section-title-bg-color, #fff); /* o una variable más específica si aplica */
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency));
+
+  /* Timeline */
+  /* --timeline-icon-bg: #a05f2c;
+  --timeline-icon-border-color: #a05f2c;
+  --timeline-content-bg: #f4ecd8;
+  --timeline-border-color: #a37e58; */
+}
+
+/* === Tema Agustin === */
+body[data-theme="agustin"] {
+  --accent-color-rgb: 0, 170, 85;  /* Verde fuerte */
+  --accent-color: rgba(var(--accent-color-rgb), var(--transparency));
+  /* --accent-color-rgb: 43, 103, 61; /* Color Verde bosque (#2b673d) (sidebar-background) /* No se usa */ 
+
+  --timeline-line-color: rgba(var(--accent-color-rgb), 1);
+  /* --timeline-line-color: rgba(var(--section-title-font-color), 1); */
+  --timeline-line-hover: rgba(var(--accent-color-rgb), var(--transparency));
+  --timeline-icon-border-color: var(--timeline-line-color);
+  --timeline-icon-bg: var(--timeline-line-color);
+  --timeline-icon-bg-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-content-bg: var(--section-title-bg-color, #fff); /* o una variable más específica si aplica */
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency));
+}
+
+/* === Tema Personalizado === */
+body[data-theme="custom"] {
+  --prueba-color: rgb(100,100,255);
+  --accent-color-rgb: 100, 100, 255; /* Color azul violáceo (#6464ff) */
+
+  --timeline-content-bg: var(--section-title-bg-color, #fff); /* o una variable más específica si aplica */
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency));
+}
+
+/* === Tema Pinky === */
+body[data-theme="pinky"] {
+  --accent-color-rgb: 57, 192, 219;
+  --accent-color: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-line-color: rgba(var(--accent-color-rgb), 1);
+  --timeline-line-hover: rgba(var(--accent-color-rgb), var(--transparency));
+  --timeline-icon-border-color: var(--timeline-line-color);
+  --timeline-icon-bg: var(--timeline-line-color);
+  --timeline-icon-bg-hover: rgba(var(--accent-color-rgb), var(--transparency));
+
+  --timeline-content-bg: var(--section-title-bg-color, #fff);
+  --timeline-line-bg-hv-transparent: rgba(var(--main-background-color), var(--transparency));
+}
+
+
+/* ============================================================================
+   11. 🖨️ ESTILOS PARA IMPRESIÓN
+============================================================================ */
+/* ======================================================================
+   CONFIGURACIÓN DE IMPRESIÓN
+   ====================================================================== */
+
+   @page {
+    size: A4 portrait;
+    margin: 1mm;
+  }
+  
+  @media print {
+    /* Ocultar UI innecesaria */
+    .topbar, button, .toggle-button, .resizer,
+    #languageSwitcher, .personalize-btn, #personalization-panel,
+    header, footer, nav {
+      display: none !important;
+    }
+
+    html::before,
+    body::before {
+      display: none !important;
+      content: none !important;
+    }
+  
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      box-sizing: border-box;
+      height: auto !important;
+      -webkit-print-color-adjust: exact !important;
+    }
+  
+    #cvContainer {
+      margin-top: -1mm !important; /* o -2mm si hace falta */
+      display: flex !important;
+      flex-direction: row !important;
+      width: 210mm !important;
+      box-sizing: border-box;
+      overflow: visible !important;
+      gap: 0 !important;
+    }
+  
+    /* Sidebar escalado */
+    .sidebar {
+      width: 75mm !important;
+      padding: 2mm !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+      height: auto !important;
+      transform-origin: top; 
+      transform: scaleY(calc(295mm / var(--sidebar-height, 295mm))) !important;
+      page-break-inside: avoid !important;
+
+      scrollbar-width: none !important;      /* Firefox */
+      -ms-overflow-style: none !important;   /* IE 10+ */
+    }
+  
+    /* Estimar altura real vía JS opcional (o ajustar manualmente si es estático) */
+    .sidebar::after {
+      content: "";
+      display: block;
+      height: 0;
+    }
+  
+    /* Main normal */
+    #cvContainer > main, .main {
+      flex: 1 !important;
+      width: calc(210mm - 75mm - 4mm) !important;
+      padding: 2mm !important;
+      margin: 0 !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+      page-break-inside: auto !important;
+      margin-top: 1mm !important;
+    }
+  
+    /* Forzar secciones desplegadas */
+    .toggle-content, .toggle-content * {
+      visibility: visible !important;
+      opacity: 1 !important;
+      max-height: none !important;
+    }
+  
+    /* Control de cortes */
+    .section {
+      page-break-inside: auto !important;
+      break-inside: auto !important;
+    }
+  
+    body.no-print-break .section,
+    body.no-print-break #timelineSection,
+    body.no-print-break #timeline-visual {
+      page-break-inside: avoid !important;
+      break-inside: avoid-page !important;
+      -webkit-column-break-inside: avoid !important;
+    }
+
+    /* Habilitar el grid del sidebar */
+    .sidebar.grid-view .contacto,
+    .sidebar.grid-view .habilidades,
+    .sidebar.grid-view .idiomas,
+    .sidebar.grid-view .hobbies {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)) !important;
+    }
+
+    .sidebar .grid-view .item-value {
+      font-size: 0.85rem !important;
+      transform: scale(0.9);
+    }
+  
+    .sidebar .grid-view .item-icon-container {
+      font-size: 1.1rem !important;
+    }
+  
+    .sidebar .grid-view .item-center {
+      gap: 1mm !important;
+    }
+
+
+    /* Habilitar el grid de main */
+    /* .lista-tabla {
+      display: none !important;
+    } */
+  
+    .main .grid-tabla {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+    }
+
+
+  
+    #timelineSection,
+    #timeline-visual {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* 5) Ocultar scrollbars */
+    * { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+    *::-webkit-scrollbar { display: none !important; width:0; height:0; }
+
+  }
+  
+
+/* ============================================================================
+   12. 📱 ESTILOS RESPONSIVOS (MÓVILES)
+============================================================================ */
+
+@media screen and (max-width: 768px) {
+  .cvContainer {
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: none;
+    min-width: auto;
+  }
+
+  .resizer {
+    display: none;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+
+  .personalize-btn {
+    top: 70px;
+    right: 0.5rem;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .topbar h1 {
+    font-size: var(--font-size-base);
+  }
+
+  .topbar .topbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+
+/* ============================================================================
+   13. 📎 OTROS ESTILOS
+============================================================================ */
+
+/* Botón X para ocultar secciones permanente */
+.hidden-section {
+  display: none !important;
+}
+
+.hide-section-btn:hover {
+  color: #e00;
+}

@@ -1,0 +1,178 @@
+{
+  "es": {
+    "secciones": {
+      "sobreMi": "Sobre mí",
+      "objetivo": "Objetivo",
+      "contacto": "Contacto",
+      "habilidades": "Habilidades",
+      "idiomas": "Idiomas",
+      "hobbies": "Pasatiempos",
+      "experiencia": "Experiencia Profesional",
+      "estudios": "Estudios",
+      "logros": "Logros"
+    },
+    "nombre": "Pablo Marmol",
+    "titulo": "Doctor en Derecho y Abogado",
+    "foto": "foto-pablo1.jpg",
+    "contacto": [
+      { "tipo": "email", "valor": "pablo.marmol@ejemplo.com", "icono": "fas fa-envelope", "etiqueta": "Correo" },
+      { "tipo": "telefono", "valor": "+34 612 345 678", "icono": "fas fa-phone-alt", "etiqueta": "Teléfono" },
+      { "tipo": "ciudad", "valor": "Madrid, España", "icono": "fas fa-map-marker-alt", "etiqueta": "Ciudad" },
+      { "tipo": "web", "valor": "https://pablomarmol.com", "icono": "fas fa-globe", "etiqueta": "Sitio Web" }
+    ],
+    "resumen": "Profesional del derecho con más de 10 años de experiencia en derecho penal y constitucional. Experto en litigios complejos y asesoramiento legislativo.",
+    "objetivo": "Colaborar con instituciones judiciales o bufetes de prestigio donde pueda aplicar mis conocimientos legales y contribuir a la justicia social.",
+    "habilidades": [
+      { "nombre": "Derecho Penal", "nivel": 5, "icono": "fas fa-balance-scale" },
+      { "nombre": "Derecho Constitucional", "nivel": 5, "icono": "fas fa-gavel" },
+      { "nombre": "Redacción Legal", "nivel": 4, "icono": "fas fa-file-alt" },
+      { "nombre": "Litigios", "nivel": 4, "icono": "fas fa-briefcase" }
+    ],
+    "idiomas": [
+      { "idioma": "Español", "nivel": "Nativo", "codigo": "es", "icono": "fas fa-language" },
+      { "idioma": "Chino", "nivel": "B2", "codigo": "zh", "icono": "fas fa-language" },
+      { "idioma": "Ruso", "nivel": "B1", "codigo": "ru", "icono": "fas fa-language" }
+    ],
+    "hobbies": [
+      { "nombre": "Lectura Jurídica", "icono": "fas fa-book" },
+      { "nombre": "Ajedrez", "icono": "fas fa-chess" },
+      { "nombre": "Senderismo", "icono": "fas fa-hiking" }
+    ],
+    "experiencia": [
+      {
+        "puesto": "Abogado Senior Penalista",
+        "empresa": "Bufete Justicia Viva",
+        "fecha": "2015 - Presente",
+        "descripcion": "Defensa en casos penales de alto perfil y asesoría legal constitucional.",
+        "icono": "fas fa-briefcase",
+        "detalles": "Representación en más de 200 casos, con un 85% de éxito en litigios."
+      },
+      {
+        "puesto": "Asesor Jurídico",
+        "empresa": "Ministerio de Justicia",
+        "fecha": "2010 - 2015",
+        "descripcion": "Revisión y redacción de proyectos de ley en el área penal.",
+        "icono": "fas fa-landmark",
+        "detalles": "Participación en reformas clave al código penal nacional."
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "Doctorado en Derecho Constitucional",
+        "instituto": "Universidad Complutense de Madrid",
+        "fecha": "2007 - 2010",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "Tesis enfocada en la evolución del derecho penal internacional."
+      },
+      {
+        "titulo": "Grado en Derecho",
+        "instituto": "Universidad Autónoma de Madrid",
+        "fecha": "2002 - 2007",
+        "icono": "fas fa-university",
+        "detalles": "Graduado con honores, mención en Derecho Penal."
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "Publicación en Revista Jurídica Europea",
+        "descripcion": "Artículo sobre jurisprudencia penal comparada.",
+        "fecha": "2020",
+        "detalles": "Reconocido como uno de los artículos más influyentes del año."
+      },
+      {
+        "titulo": "Premio Nacional de Abogacía",
+        "descripcion": "Reconocimiento al mejor abogado joven del país.",
+        "fecha": "2012",
+        "detalles": "Otorgado por el Consejo General de la Abogacía Española."
+      }
+    ]
+  },
+  "ja": {
+    "secciones": {
+      "sobreMi": "私について",
+      "objetivo": "目的",
+      "contacto": "連絡先",
+      "habilidades": "スキル",
+      "idiomas": "言語",
+      "hobbies": "趣味",
+      "experiencia": "職務経験",
+      "estudios": "学歴",
+      "logros": "業績"
+    },
+    "nombre": "パブロ・ケリード",
+    "titulo": "法学博士・弁護士",
+    "foto": "foto-pablo.jpg",
+    "contacto": [
+      { "tipo": "email", "valor": "pablo.marmol@ejemplo.com", "icono": "fas fa-envelope", "etiqueta": "メール" },
+      { "tipo": "telefono", "valor": "+34 612 345 678", "icono": "fas fa-phone-alt", "etiqueta": "電話" },
+      { "tipo": "ciudad", "valor": "マドリード, スペイン", "icono": "fas fa-map-marker-alt", "etiqueta": "都市" },
+      { "tipo": "web", "valor": "https://pablomarmol.com", "icono": "fas fa-globe", "etiqueta": "ウェブサイト" }
+    ],
+    "resumen": "刑法および憲法法において10年以上の経験を持つ法律専門家。複雑な訴訟および立法助言に精通。",
+    "objetivo": "法律知識を活かして、司法制度または有名な法律事務所で社会正義に貢献したい。",
+    "habilidades": [
+      { "nombre": "刑法", "nivel": 5, "icono": "fas fa-balance-scale" },
+      { "nombre": "憲法法", "nivel": 5, "icono": "fas fa-gavel" },
+      { "nombre": "法的文書作成", "nivel": 4, "icono": "fas fa-file-alt" },
+      { "nombre": "訴訟", "nivel": 4, "icono": "fas fa-briefcase" }
+    ],
+    "idiomas": [
+      { "idioma": "スペイン語", "nivel": "母語", "codigo": "es", "icono": "fas fa-language" },
+      { "idioma": "中国語", "nivel": "B2", "codigo": "zh", "icono": "fas fa-language" },
+      { "idioma": "ロシア語", "nivel": "B1", "codigo": "ru", "icono": "fas fa-language" }
+    ],
+    "hobbies": [
+      { "nombre": "法学読書", "icono": "fas fa-book" },
+      { "nombre": "チェス", "icono": "fas fa-chess" },
+      { "nombre": "ハイキング", "icono": "fas fa-hiking" }
+    ],
+    "experiencia": [
+      {
+        "puesto": "上級刑事弁護士",
+        "empresa": "ビバ法律事務所",
+        "fecha": "2015年〜現在",
+        "descripcion": "重要な刑事事件の弁護と憲法的法的助言。",
+        "icono": "fas fa-briefcase",
+        "detalles": "200件以上の訴訟を担当し、85％の勝訴率を記録。"
+      },
+      {
+        "puesto": "法務アドバイザー",
+        "empresa": "司法省",
+        "fecha": "2010年〜2015年",
+        "descripcion": "刑法分野の法律案の審査と作成。",
+        "icono": "fas fa-landmark",
+        "detalles": "国の刑法改正の中心的役割を果たした。"
+      }
+    ],
+    "estudios": [
+      {
+        "titulo": "憲法法博士号",
+        "instituto": "マドリード・コンプルテンセ大学",
+        "fecha": "2007年〜2010年",
+        "icono": "fas fa-graduation-cap",
+        "detalles": "国際刑法の進化に関する博士論文。"
+      },
+      {
+        "titulo": "法学学士",
+        "instituto": "マドリード自治大学",
+        "fecha": "2002年〜2007年",
+        "icono": "fas fa-university",
+        "detalles": "優秀な成績で卒業。刑法に特化。"
+      }
+    ],
+    "logros": [
+      {
+        "titulo": "ヨーロッパ法律雑誌に論文掲載",
+        "descripcion": "刑法の比較判例法に関する論文。",
+        "fecha": "2020年",
+        "detalles": "年間最も影響力のある論文として認定。"
+      },
+      {
+        "titulo": "全国弁護士賞",
+        "descripcion": "若手弁護士として国内で最高の評価を受けた。",
+        "fecha": "2012年",
+        "detalles": "スペイン弁護士協会より授与。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CV Multilingüe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 30%;
+      background: #f0f0f0;
+      padding: 20px;
+      overflow-y: auto;
+      border-right: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .sidebar img {
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .sidebar h2, .sidebar h4 {
+      text-align: center;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .toggle-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      /* text-align: center; */
+      cursor: pointer;
+      margin-bottom: 5px;
+    }
+
+    .toggle-content {
+      display: none;
+      margin-top: 5px;
+    }
+
+    .personalization label,
+    .personalization input,
+    .personalization select,
+    .personalization button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px; /* Opcional: para que no queden muy pegados */
+    }
+
+    /* Personalización de estilos */
+    .personalization {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      display: none;
+      z-index: 1000;
+      flex-direction: column;
+      gap: 10px;
+      width: 300px;  /* Aumenta la anchura del panel */
+    }
+
+    .language-switcher {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 10px;
+      z-index: 9999;
+    }
+
+    .language-switcher button {
+      border: none;
+      background: none;
+      margin: 0 4px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .language-switcher button:hover {
+      transform: scale(1.1);
+    }
+
+    .language-switcher img {
+      width: 30px;
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    /* Contenedor general para habilidades e idiomas */
+    #habilidades, .idiomas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;  /* Centra los elementos en el contenedor */
+      width: 100%;  /* Asegura que ocupe todo el espacio disponible */
+      gap: 15px; /* Añadido para asegurar el mismo espaciado entre cada habilidad e idioma */
+      margin-bottom: 20px;  /* Asegura un margen al final de cada sección */
+    }
+
+    /* Estilo para cada habilidad */
+    .skill {
+      display: flex;
+      flex-direction: row;  /* Alinea los elementos en fila */
+      align-items: center;  /* Alinea verticalmente los elementos */
+      margin: 10px 0;  /* Añade margen arriba y abajo de cada habilidad */
+      width: 100%;  /* Hace que cada habilidad ocupe todo el ancho disponible */
+      justify-content: space-between;  /* Separa el contenido (icono + nombre) y las estrellas a la derecha */
+      box-sizing: border-box;  /* Asegura que los márgenes/paddings no afecten el tamaño total */
+    }
+
+    /* Estilo para cada idioma */
+    .idioma {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between; /* Separar el contenido (bandera + idioma) y las estrellas */
+      margin: 10px 0;  /* Añadido margen arriba y abajo de cada idioma */
+      width: 100%;  /* Hace que cada sección de idioma ocupe todo el ancho */
+      box-sizing: border-box;  /* Asegura que los márgenes/paddings no afecten el tamaño total */
+    }
+
+    /* Contenedor para alinear en línea todos los elementos de habilidad (icono, nombre y estrellas) */
+    .skill-content, .idioma-info {
+      display: flex;
+      align-items: center;  /* Alineación vertical de los elementos */
+      gap: 10px;  /* Espacio entre icono, nombre y estrellas */
+      flex-grow: 1;  /* Asegura que el contenedor se expanda para ocupar el espacio disponible */
+    }
+
+    /* Ajuste para el nombre de la habilidad */
+    .skill-name {
+      font-size: 16px;
+      margin: 0;  /* Elimina cualquier margen que pueda desalinear el texto */
+      line-height: 1;  /* Alineación perfecta del texto */
+      text-align: left;  /* Alinea el texto a la izquierda */
+    }
+
+    /* Ajuste para la bandera en idiomas */
+    .idioma img {
+      width: 20px;
+      height: 15px;
+      margin-right: 10px;  /* Espacio entre la bandera y el nombre del idioma */
+    }
+
+    /* Estilos para las estrellas */
+    .stars {
+      display: flex;
+      align-items: center;  /* Alineación vertical de las estrellas */
+      justify-content: flex-end;  /* Alinea las estrellas a la derecha */
+      gap: 5px;  /* Espacio entre las estrellas */
+      width: auto;  /* Permite que las estrellas no ocupen todo el ancho */
+      flex-shrink: 0;  /* Evita que las estrellas se encojan si hay mucho contenido */
+      margin-left: auto;  /* Empuja las estrellas hacia la derecha */
+    }
+
+    /* Ajustes para las estrellas */
+    .star {
+      font-size: 20px;  /* Tamaño de las estrellas */
+      color: #ccc;  /* Color predeterminado de las estrellas */
+      line-height: 1;  /* Asegura que las estrellas se alineen correctamente */
+    }
+
+    /* Estilos para las estrellas llenas */
+    .star.filled {
+      color: gold;
+    }
+
+    /* Estilos para las estrellas vacías */
+    .star.empty {
+      color: lightgray;
+    }
+
+    /* Ajustes para la alineación del idioma y las estrellas */
+    .level {
+      font-weight: normal;  /* Estilo de texto del idioma */
+      margin-right: 10px;  /* Espacio después del nombre del idioma */
+      line-height: 1;  /* Asegura la alineación vertical */
+    }
+
+    /* Contenedor para alinear la información del idioma */
+    .idioma-info {
+      display: flex;
+      align-items: center;  /* Alineación vertical */
+      gap: 10px;  /* Espacio entre la bandera, idioma y estrellas */
+      margin-bottom: 5px;  /* Espacio entre el idioma y las estrellas */
+      width: 100%;  /* Asegura que ocupe todo el espacio disponible */
+      box-sizing: border-box;  /* Asegura que los márgenes/paddings no afecten el tamaño total */
+    }
+
+
+    /* Añadido un reseteo en márgenes para evitar desplazamientos indeseados
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    } */
+
+    /* Estilo para que se visualice la linea divisora para ajustar tamaño */
+    .resizer {
+      width: 5px;
+      background: #ccc;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -2px;
+      cursor: ew-resize;
+    }
+
+    /* Estilos para modo oscuro */
+    .cv-dark {
+      background-color: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Barra de cambio de idioma -->
+<div class="language-switcher">
+    <button onclick="loadCV('es')">
+      <img src="https://flagcdn.com/w40/es.png" alt="Español">
+    </button>
+    <button onclick="loadCV('en')">
+      <img src="https://flagcdn.com/w40/us.png" alt="English">
+    </button>
+    <button onclick="loadCV('de')">
+      <img src="https://flagcdn.com/w40/de.png" alt="Deutsch">
+    </button>
+  </div>
+ 
+  <!-- Botón de Personalización -->
+  <button onclick="togglePersonalization()" style="position: fixed; top: 50px; right: 10px; padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer;">
+    Personalizar
+  </button>
+  
+  <!-- Panel de Personalización -->
+  <div class="personalization">
+    <h4>Personalización de Estilo</h4>
+    <label for="background-color">Color de Fondo</label>
+    <input type="color" id="background-color" value="#f0f0f0">
+    
+    <label for="sidebar-color">Color del Sidebar</label>
+    <input type="color" id="sidebar-color" value="#f0f0f0">
+    
+    <label for="font-color">Color de Texto</label>
+    <input type="color" id="font-color" value="#000000">
+    
+    <label for="font-size">Tamaño de Fuente</label>
+    <input type="number" id="font-size" value="16" min="12" max="24">
+    
+    <div>
+      <label for="font-family">Fuente</label>
+      <select id="font-family">
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'Arial', sans-serif">Arial</option>
+        <option value="'Courier New', monospace">Courier New</option>
+      </select>
+    </div>
+    <div class="buttons-line"></div>
+      <!-- <button onclick="applyChanges()">Aplicar</button>  --> <!-- Desactivado porque ahora se aplica en tiempo real  -->
+      <button onclick="togglePersonalization()">Cerrar</button>
+    </div>
+  </div>
+  
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div id="foto-container" style="text-align: center;">
+    <img id="foto" alt="Foto de perfil">
+    <div id="foto-placeholder" style="display: none; font-size: 18px; color: gray;">Imagen no disponible</div>
+  </div>
+  <h2 id="nombre"></h2>
+  <h4 id="titulo"></h4>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">📫 <span id="contactoTitulo"></span></div>
+    <div class="toggle-content" id="contacto" style="display: none;"></div>
+  </div>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">🛠 <span id="habilidadesTitulo"></span></div>
+    <div class="toggle-content" id="habilidades" style="display: none;"></div>
+  </div>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">🌍 <span id="idiomasTitulo"></span></div>
+    <div class="toggle-content" id="idiomas" style="display: none;"></div>
+  </div>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">🎯 <span id="hobbiesTitulo">Mis Hobbies</span></div>
+    <div class="toggle-content" id="hobbies" style="display: none;">
+      <!-- Aquí van los hobbies -->
+      <ul id="hobbies-list">
+        <!-- Lista vacía que será llenada por JavaScript -->
+      </ul>
+    </div>
+  </div>
+
+  <div class="resizer" onmousedown="startResizing(event)"></div>
+</div>
+
+<!-- Contenido principal -->
+<div class="main">
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">👤 <span id="sobreMiTitulo"></span></div>
+    <div class="toggle-content" id="resumen" style="display: none;"></div>
+  </div>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">🎯 <span id="objetivoTitulo"></span></div>
+    <div class="toggle-content" id="objetivo" style="display: none;"></div>
+  </div>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">🎓 <span id="estudiosTitulo"></span></div>
+    <div class="toggle-content" id="estudios" style="display: none;"></div>
+  </div>
+
+  <div class="section">
+    <div class="toggle-title" onclick="toggleSection(this)">💼 <span id="experienciaTitulo"></span></div>
+    <div class="toggle-content" id="experiencia" style="display: none;"></div>
+  </div>
+</div>
+
+    
+
+    <script>
+        let cvData = {};
+
+        // Mapeo de banderas para los idiomas
+        // const flagMap = {
+        //     'es': 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_Spain.svg',
+        //     'en': 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Flag_of_the_United_States.svg',
+        //     'de': 'https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg',
+        //     // Agrega más idiomas y banderas aquí
+        // };
+
+        const flagMap = {
+            'es': 'https://flagcdn.com/w40/es.png',   // Bandera de España
+            'en': 'https://flagcdn.com/w40/us.png',   // Bandera de Estados Unidos
+            'de': 'https://flagcdn.com/w40/de.png',   // Bandera de Alemania
+            'it': 'https://flagcdn.com/w40/it.png',   // Bandera de Italia
+            'fr': 'https://flagcdn.com/w40/fr.png',   // Bandera de Francia
+            'pl': 'https://flagcdn.com/w40/pl.png',   // Bandera de Polonia
+            'zh': 'https://flagcdn.com/w40/cn.png',   // Bandera de China
+
+            // Agrega más idiomas y banderas aquí
+        };
+
+        // Mapeo de niveles de idiomas (convertir cadenas a número de estrellas, 6 estrellas en total)
+        const nivelMap = {
+            "A1": 1,
+            "A2": 2,
+            "B1": 3,
+            "B2": 4,
+            "C1": 5,
+            "C2": 6
+        };
+
+        // Carga los datos del JSON
+        async function loadCV(lang = 'es') {
+          const res = await fetch('data.json');
+          const data = await res.json();
+          cvData = data[lang];
+     
+          // Actualizar los títulos de las secciones según el idioma seleccionado
+          document.getElementById('sobreMiTitulo').textContent = cvData.secciones.sobreMi;
+          document.getElementById('objetivoTitulo').textContent = cvData.secciones.objetivo;
+          document.getElementById('estudiosTitulo').textContent = cvData.secciones.estudios;
+          document.getElementById('experienciaTitulo').textContent = cvData.secciones.experiencia;
+          document.getElementById('contactoTitulo').textContent = cvData.secciones.contacto;
+          document.getElementById('habilidadesTitulo').textContent = cvData.secciones.habilidades;
+          document.getElementById('idiomasTitulo').textContent = cvData.secciones.idiomas;
+          document.getElementById('hobbiesTitulo').textContent = cvData.secciones.hobbies;
+
+          // Datos básicos (Nombre y Titulo)
+          document.getElementById('nombre').textContent = cvData.nombre;
+          document.getElementById('titulo').textContent = cvData.titulo;
+      
+          // Mostrar la foto si está disponible
+          const foto = document.getElementById('foto');
+          const fotoPlaceholder = document.getElementById('foto-placeholder');
+
+          if (cvData.foto && cvData.foto !== '') {
+            foto.src = cvData.foto;
+            foto.style.display = 'block';
+            document.getElementById('foto-placeholder').style.display = 'none';
+          } else {
+            foto.style.display = 'none';
+            document.getElementById('foto-placeholder').style.display = 'block';
+          }
+
+
+          // Sección de Contacto
+          // document.getElementById('contacto').innerHTML = `
+          //   <p><i class="fas fa-envelope"></i> Email: <a href="mailto:${cvData.contacto.email}">${cvData.contacto.email}</a></p>
+          //   <p><i class="fas fa-phone"></i> Tel: <a href="tel:${cvData.contacto.telefono}">${cvData.contacto.telefono}</a></p>
+          //   <p><i class="fas fa-map-marker-alt"></i> Ciudad: ${cvData.contacto.ciudad}</p>
+          //   <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/${cvData.contacto.linkedin}" target="_blank">LinkedIn</a></p>
+          // `;
+
+          document.getElementById('contacto').innerHTML = `
+          <p>
+            <i class="${cvData.contacto.email.icono}"></i> 
+            ${cvData.contacto.email.etiqueta}: 
+            <a href="mailto:${cvData.contacto.email.valor}">${cvData.contacto.email.valor}</a>
+          </p>
+          <p>
+            <i class="${cvData.contacto.telefono.icono}"></i> 
+            ${cvData.contacto.telefono.etiqueta}: 
+            <a href="tel:${cvData.contacto.telefono.valor}">${cvData.contacto.telefono.valor}</a>
+          </p>
+          <p>
+            <i class="${cvData.contacto.ciudad.icono}"></i> 
+            ${cvData.contacto.ciudad.etiqueta}: 
+            ${cvData.contacto.ciudad.valor}
+          </p>
+          <p>
+            <i class="fab fa-linkedin"></i> 
+            <a href="https://www.linkedin.com/in/${cvData.contacto.linkedin}" target="_blank">LinkedIn</a>
+          </p>
+        `;
+
+
+          // Sección de Habilidades
+          const habilidadesList = cvData.habilidades.map(h => `
+            <div class="skill">
+              <div class="skill-content">
+                <div class="skill-icon">
+                  <i class="${h.icono}"></i>
+                </div>
+                <div class="skill-name">${h.nombre}</div>
+                <div class="stars">
+                  ${[...Array(5)].map((_, i) => `<span class="star ${i < h.nivel ? 'filled' : 'empty'}">★</span>`).join('')}
+                </div>
+              </div>
+            </div>
+          `).join('');
+
+          document.getElementById('habilidades').innerHTML = habilidadesList;
+      
+          // Sección de Idiomas
+          const idiomasList = cvData.idiomas.map(i => {
+              const nivelNum = nivelMap[i.nivel] || 0;
+              const banderaUrl = flagMap[i.codigo] || ''; // Usamos el campo "codigo" para obtener la URL de la bandera
+
+              return `
+                  <div class="idioma">
+                      <div class="idioma-info">
+                          <img src="${banderaUrl}" alt="${i.idioma}" class="flag-icon"> <!-- Bandera al lado del idioma -->
+                          <div class="level">${i.idioma} (${i.nivel})</div>
+                      </div>
+                      <div class="stars">
+                          ${[...Array(nivelNum)].map(() => `<span class="star filled">★</span>`).join('')}
+                          ${[...Array(6 - nivelNum)].map(() => `<span class="star empty">★</span>`).join('')}
+                      </div>
+                  </div>
+              `;
+          }).join('');
+          document.getElementById('idiomas').innerHTML = idiomasList;
+      
+          // Sección de Hobbies
+          const hobbiesList = cvData.hobbies.map(h => `
+            <div class="hobby">
+              <i class="${h.icono} hobby-icon"></i>  <!-- Icono asociado al hobby -->
+              <span class="hobby-name">${h.nombre}</span>  <!-- Nombre del hobby -->
+            </div>
+          `).join('');
+
+          // Insertar en el contenedor de hobbies
+          document.getElementById('hobbies-list').innerHTML = hobbiesList;
+
+          // Sección de Sobre mí y Objetivo
+          document.getElementById('resumen').innerHTML = cvData.resumen;
+          document.getElementById('objetivo').innerHTML = cvData.objetivo;
+
+          // Sección de Estudios
+          const estudiosList = cvData.estudios.map(e => `
+            <div>${e.titulo} en ${e.instituto} (${e.fecha})</div>
+          `).join('');
+          document.getElementById('estudios').innerHTML = estudiosList;
+      
+          // Sección de Experiencia
+          const experienciaList = cvData.experiencia.map(e => `
+            <div>${e.puesto} en ${e.empresa} (${e.fecha})<br>
+            <em>${e.descripcion}</em></div>
+          `).join('');
+          document.getElementById('experiencia').innerHTML = experienciaList;
+  
+        }
+
+        
+        // Función para alternar la visibilidad de las secciones (Despliegue usando el Botón)
+        function toggleSection(el) {
+          const content = el.nextElementSibling;
+          content.style.display = (content.style.display === 'none' || content.style.display === '') ? 'block' : 'none';
+        }
+      
+        function togglePersonalization() {
+          const panel = document.querySelector('.personalization');
+          const currentDisplay = window.getComputedStyle(panel).display;
+          panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        }
+      
+        // Función para aplicar los cambios de personalización
+        function applyChanges() {
+          const backgroundColor = document.getElementById('background-color').value;
+          const sidebarColor = document.getElementById('sidebar-color').value;
+          const fontColor = document.getElementById('font-color').value;
+          const fontSize = document.getElementById('font-size').value;
+          const fontFamily = document.getElementById('font-family').value;    
+          
+          // Guardar en localStorage
+          localStorage.setItem('backgroundColor', backgroundColor);
+          localStorage.setItem('sidebarColor', sidebarColor);
+          localStorage.setItem('fontColor', fontColor);
+          localStorage.setItem('fontSize', fontSize);
+          localStorage.setItem('fontFamily', fontFamily);
+          
+          // Aplicar los cambios
+          document.body.style.backgroundColor = backgroundColor;
+          document.getElementById('sidebar').style.backgroundColor = sidebarColor;
+          document.body.style.color = fontColor;
+          document.body.style.fontSize = fontSize + "px";
+          document.body.style.fontFamily = fontFamily;
+        }
+
+        // Añadir eventos de cambio a los inputs de personalización
+        document.getElementById('background-color').addEventListener('input', applyChanges);
+        document.getElementById('sidebar-color').addEventListener('input', applyChanges);
+        document.getElementById('font-color').addEventListener('input', applyChanges);
+        document.getElementById('font-size').addEventListener('input', applyChanges);
+        document.getElementById('font-family').addEventListener('change', applyChanges);
+
+        // Resizer
+        let isResizing = false;
+        let lastDownX = 0; // Posición horizontal inicial del mouse
+
+        // Función para iniciar el redimensionado
+        function startResizing(e) {
+          isResizing = true;
+          lastDownX = e.clientX; // Guarda la posición inicial del mouse
+          document.addEventListener('mousemove', handleResizing); // Escucha el movimiento
+          document.addEventListener('mouseup', stopResizing); // Escucha cuando se deja de hacer clic
+        }
+
+        // Función para redimensionar
+        function handleResizing(e) {
+          if (!isResizing) return;
+
+          const offset = e.clientX - lastDownX; // Calcula el cambio de la posición
+          const sidebar = document.getElementById('sidebar');
+          let newWidth = sidebar.offsetWidth + offset; // Calcula el nuevo ancho
+
+          // Restringir el ancho para que no sea demasiado pequeño o grande
+          newWidth = Math.max(200, Math.min(500, newWidth)); // Ancho mínimo 200px y máximo 500px
+
+          sidebar.style.width = `${newWidth}px`; // Aplica el nuevo ancho
+
+          // Guardar el nuevo ancho de la barra lateral en localStorage
+          localStorage.setItem('sidebarWidth', newWidth);
+
+          lastDownX = e.clientX; // Actualiza la posición del mouse
+        }
+
+        // Función para detener el redimensionado
+        function stopResizing() {
+          isResizing = false;
+          document.removeEventListener('mousemove', handleResizing);
+          document.removeEventListener('mouseup', stopResizing);document.getElementById('sidebar').style.width = `${sidebarWidth}px`;
+}
+    
+        // Cargar estilos guardados y el CV
+        window.onload = function() {
+          const backgroundColor = localStorage.getItem('backgroundColor') || '#f0f0f0';
+          const sidebarColor = localStorage.getItem('sidebarColor') || '#f0f0f0';
+          const fontColor = localStorage.getItem('fontColor') || '#000000';
+          const fontSize = localStorage.getItem('fontSize') || '16';
+          const fontFamily = localStorage.getItem('fontFamily') || "'Inter', sans-serif";
+          const sidebarWidth = localStorage.getItem('sidebarWidth') || '250'; // Ancho de la barra lateral guardado
+      
+          document.body.style.backgroundColor = backgroundColor;
+          document.getElementById('sidebar').style.backgroundColor = sidebarColor;
+          document.body.style.color = fontColor;
+          document.body.style.fontSize = fontSize + "px";
+          document.body.style.fontFamily = fontFamily;
+          document.getElementById('sidebar').style.width = `${sidebarWidth}px`; // Aplicar el ancho guardado de la barra lateral
+          
+      
+          // Cargar el CV en español por defecto al inicio
+          loadCV('en');
+        };
+      </script>
+      
+      </body>
+      </html>
