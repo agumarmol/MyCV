@@ -197,6 +197,10 @@
           <i class="fas fa-sync-alt"></i> Restablecer imagen
         </button>
 
+        <button id="detect-face-btn" class="action-btn" aria-label="Detectar rostro">
+          <i class="fas fa-user-check"></i> Detectar rostro
+        </button>
+
         <button id="center-face-btn" class="action-btn" aria-label="Centrar rostro">
           <i class="fas fa-user-circle"></i> Centrar rostro
         </button>
@@ -239,8 +243,8 @@
         <div class="section sidebar-section" id="fotoSection" role="region" aria-labelledby="fotoTitulo">
           <div id="foto-container">
             <div id="foto-wrapper">
-              <img id="foto" src="assets/foto.jpg" alt="Foto de perfil" 
-                  onerror="handleImageError()" class="foto">
+              <img id="foto" src="assets/foto.jpg" alt="Foto de perfil" onerror="handleImageError()" class="foto">
+              <canvas class="face-overlay"></canvas>
             </div>
             <div class="foto-placeholder" id="foto-placeholder">Foto</div>
           </div>

@@ -424,9 +424,11 @@ function setupLanguageButtons(idiomasDisponibles, data) {
 }
 
 // 4️⃣ - Foto de perfil
-
-// Función principal para actualizar la foto de perfil
-function updatePhoto(src) {
+/**
+ * Actualiza la foto de perfil y asegura que esté redimensionada antes de asignarla
+ * @param {string} src - URL de la imagen original
+ */
+async function updatePhoto(src) {
   const img = document.getElementById('foto');
   const wrapper = document.getElementById('foto-wrapper');
   const placeholder = document.getElementById('foto-placeholder');
@@ -443,22 +445,29 @@ function updatePhoto(src) {
   img.classList.remove('visible');
   placeholder.classList.remove('show');
 
-  // Función que se llama cuando la imagen falla
   img.onerror = () => {
-    console.warn('No se pudo cargar la imagen, mostrando placeholder.');
+    console.warn('❌ updatePhoto: no se pudo cargar la imagen, mostrando placeholder.');
     img.src = '';
     placeholder.classList.add('show');
   };
 
-  // Función que se llama cuando la imagen carga correctamente
-  img.onload = () => {
-    console.log('✅ updatePhoto: imagen cargada y visible');
+  try {
+    // --- 1️⃣ Redimensionar imagen
+    const { dataUrl, width, height, scale } = await resizeImageAsync(src, 350, 350); // Redimensionamiento 400x400 para que faceapi lo detecte
+
+    // --- 2️⃣ Asignar imagen al <img> y esperar decode
+    img.src = dataUrl;
+    await img.decode(); // asegura que la imagen esté completamente lista
+
+    console.log('✅ updatePhoto: imagen redimensionada y decodificada');
+
+    // --- 3️⃣ Mostrar imagen y ocultar placeholder
     placeholder.classList.remove('show');
     img.classList.add('visible');
 
     // Escala mínima para que la imagen quepa en el container
-    const scaleX = container.clientWidth / img.naturalWidth;
-    const scaleY = container.clientHeight / img.naturalHeight;
+    const scaleX = container.clientWidth / width;
+    const scaleY = container.clientHeight / height;
     const minScale = Math.min(scaleX, scaleY);
 
     // Recuperar offsets previos guardados (opcional)
@@ -467,10 +476,84 @@ function updatePhoto(src) {
 
     // Inicializar Drag & Zoom sobre el wrapper usando offsets y scale
     setupImageDragAndZoom(wrapper, container.clientWidth, container.clientHeight, startX, startY, minScale, minScale);
-  };
 
-  // Dispara la carga de la imagen (la carga ocurre de manera asíncrona, y no es inmediata)
-  img.src = src;
+    // Guardar datos para drawLandmarks
+    wrapper.dataset.scale = scale;
+    wrapper.dataset.width = width;
+    wrapper.dataset.height = height;
+
+    console.log(`📏 Tamaño natural definitivo: ${width}x${height} | scale real: ${scale}`);
+    console.log('🔹 updatePhoto: Drag & Zoom inicializado');
+
+  } catch (err) {
+    console.error('❌ updatePhoto: error redimensionando/cargando imagen', err);
+  }
+}
+
+
+
+/**
+ * Redimensiona una imagen a un tamaño máximo manteniendo proporción
+ * @param {string} src - URL de la imagen original
+ * @param {number} maxWidth - Ancho máximo deseado
+ * @param {number} maxHeight - Alto máximo deseado
+ * @returns {Promise<{dataUrl: string, width: number, height: number, scale: number}>}
+ */
+function resizeImageAsync(src, maxWidth, maxHeight) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = src;
+
+    img.onload = () => {
+      const scaleX = maxWidth / img.naturalWidth;
+      const scaleY = maxHeight / img.naturalHeight;
+      const scale = Math.min(scaleX, scaleY, 1); // no agrandar imágenes pequeñas
+
+      const width = img.naturalWidth * scale;
+      const height = img.naturalHeight * scale;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const dataUrl = canvas.toDataURL();
+      console.log(`📏 Imagen redimensionada: ${width}x${height} | scale: ${scale}`);
+      resolve({ dataUrl, width, height, scale });
+    };
+
+    img.onerror = (err) => reject(err);
+  });
+}
+
+
+/**
+ * addPaddingToImage
+ * Agrega un padding alrededor de la imagen para que face-api detecte mejor toda la cara
+ * @param {HTMLImageElement} img - Imagen original
+ * @param {number} padding - Pixeles de padding
+ * @param {function} callback - Se llama con la nueva imagen con padding
+ */
+export function addPaddingToImage(img, padding = 50, callback) {
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth + 2 * padding;
+  canvas.height = img.naturalHeight + 2 * padding;
+
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'white'; // fondo blanco para padding
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Dibujar la imagen original centrada
+  ctx.drawImage(img, padding, padding);
+
+  const paddedImg = new Image();
+  paddedImg.crossOrigin = 'anonymous'; // por si la imagen viene de otro dominio
+  paddedImg.onload = () => callback(paddedImg);
+  paddedImg.src = canvas.toDataURL();
+
+  console.log(`📏 Padding agregado: ${padding}px | Tamaño final: ${canvas.width}x${canvas.height}`);
 }
 
 

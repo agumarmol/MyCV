@@ -59,7 +59,7 @@ import {
   adjustTextShadowBasedOnSidebarColor, adjustColorBasedOnInversion,
   updateTimelineLine } from './utils.js';
 
-import { setFaceCentering, setLandmarksDraw, setupFaceCenteringButton } from './faceCentering.js';
+import { setupFaceCenteringButton, setupFaceDetectionButton } from './faceCentering.js';
 
 
   // 1️⃣ - Inicialización de todos los listeners del panel de personalización
@@ -92,14 +92,11 @@ export function setupPersonalizationListeners() {
     setupSliderListener(setting.id, setting.key, setting.cssVar, setting.suffix || '')
   );
 
-  // 🟢 Configuración temporal para probar drawLandmarks sin centrar la cara
-  setFaceCentering(true);  // desactiva centrado
-  setLandmarksDraw(true);   // activa dibujo de landmarks
-
   // 1️⃣.4️⃣ Botones de acción
   const buttons = [
     { id: 'reset-img-btn',             callback: setupResetImgButton },
     { id: 'center-face-btn',           callback: setupFaceCenteringButton },
+    { id: 'detect-face-btn',           callback: setupFaceDetectionButton }, 
     { id: 'import-prefs-btn',          callback: () => document.getElementById('import-prefs-file').click() },
     { id: 'export-prefs-btn',          callback: exportCustomStyles },
     { id: 'reset-preferences-btn',     callback: resetPreferences },
