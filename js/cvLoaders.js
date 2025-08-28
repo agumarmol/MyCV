@@ -9,6 +9,8 @@ import {
   renderIcon, renderItems
 } from './utils.js';
 
+import { drawLandmarks } from './faceCentering.js';
+
 export {
   initCVData, // 1 - main.js
 
@@ -78,6 +80,10 @@ const mainSectionsConfig = {
     dateField: 'fecha'
   }
 };
+
+/////////////////////////
+// MAIN FUNCTION
+/////////////////////////
 
 // 1️⃣ - Cargar el contenido del CV
 async function initCVData(jsonFile = 'assets/data.json', photoFile = 'assets/foto.jpg') {
@@ -170,7 +176,7 @@ function renderTextContent(section, contenido) {
   }
 }
 
-// 2️⃣.2️⃣ - Renderizar secciones con Arrays (por defecto en tipo de vista 'list-view')
+// 2️⃣.2️⃣ - Renderizar secciones con Arrays (por defecto renderiza la vista 'list-view')
 function renderArrayContent(section, data, viewType = 'list-view') {
   if (!Array.isArray(data)) {
     console.error(`renderArrayContent: "${section}" requiere un array. Recibido:`, data);
@@ -319,7 +325,8 @@ function renderSectionLabels(sections) {
 }
 
 // 2️.4. - Agregar un Hipervinculo
-// Función post-procesado del HTML para identificar un hipervinculo (https o mailto) y agregarlo al HTML (aparece oculto con un <a> dentro de 'item-value', y sin reemplazar el 'item-text' sino que lo envuelve al mismo)
+// Función post-procesado del HTML para identificar un hipervinculo (https o mailto) en un 'item-value'
+// y agregarlo al HTML (aparece oculto con un <a> dentro de 'item-value', y sin reemplazar el 'item-text' sino que lo envuelve al mismo)
 function addLinksToSidebar(container = document) {
   const items = container.querySelectorAll('.item-value');
 
@@ -351,9 +358,7 @@ function addLinksToSidebar(container = document) {
   });
 }
 
-
-
-// Función para agregar el acceso del hipervinculo a la tarjeta
+// Función para extender la clickeabilidad del hipervinculo a la tarjeta (y no solo al item-value)
 function makeCardsClickable(container = document) {
   const cards = container.querySelectorAll('.section-item-container');
   cards.forEach(card => {
@@ -420,6 +425,54 @@ function setupLanguageButtons(idiomasDisponibles, data) {
 
 // 4️⃣ - Foto de perfil
 
+// Función principal para actualizar la foto de perfil
+function updatePhoto(src) {
+  const img = document.getElementById('foto');
+  const wrapper = document.getElementById('foto-wrapper');
+  const placeholder = document.getElementById('foto-placeholder');
+  const container = document.getElementById('foto-container');
+
+  console.log('🔹 updatePhoto: preparando la foto', src);
+
+  // Resetear transformaciones del wrapper
+  wrapper.style.transform = 'translate(-50%, -50%) scale(1)';
+  wrapper.dataset.offsetX = 0;
+  wrapper.dataset.offsetY = 0;
+  wrapper.dataset.scale = 1;
+
+  img.classList.remove('visible');
+  placeholder.classList.remove('show');
+
+  // Función que se llama cuando la imagen falla
+  img.onerror = () => {
+    console.warn('No se pudo cargar la imagen, mostrando placeholder.');
+    img.src = '';
+    placeholder.classList.add('show');
+  };
+
+  // Función que se llama cuando la imagen carga correctamente
+  img.onload = () => {
+    console.log('✅ updatePhoto: imagen cargada y visible');
+    placeholder.classList.remove('show');
+    img.classList.add('visible');
+
+    // Escala mínima para que la imagen quepa en el container
+    const scaleX = container.clientWidth / img.naturalWidth;
+    const scaleY = container.clientHeight / img.naturalHeight;
+    const minScale = Math.min(scaleX, scaleY);
+
+    // Recuperar offsets previos guardados (opcional)
+    const startX = parseFloat(localStorage.getItem('fotoOffsetX')) || 0;
+    const startY = parseFloat(localStorage.getItem('fotoOffsetY')) || 0;
+
+    // Inicializar Drag & Zoom sobre el wrapper usando offsets y scale
+    setupImageDragAndZoom(wrapper, container.clientWidth, container.clientHeight, startX, startY, minScale, minScale);
+  };
+
+  // Dispara la carga de la imagen (la carga ocurre de manera asíncrona, y no es inmediata)
+  img.src = src;
+}
+
 
 // Función principal para actualizar la foto de perfil
 // async function updatePhoto(photoFile) {
@@ -470,46 +523,6 @@ function setupLanguageButtons(idiomasDisponibles, data) {
 //     setupImageDragAndZoom(img, container.clientWidth, container.clientHeight);
 //   };
 // }
-
-// Función principal para actualizar la foto de perfil
-function updatePhoto(src) {
-  const img = document.getElementById('foto');
-  const placeholder = document.getElementById('foto-placeholder');
-  const container = document.getElementById('foto-container');
-
-  // Resetear transformaciones
-  img.style.transform = 'translate(-50%, -50%) scale(1)';
-  img.classList.remove('visible');
-  placeholder.classList.remove('show');
-
-  // Función que se llama cuando la imagen falla
-  img.onerror = () => {
-    console.warn('No se pudo cargar la imagen, mostrando placeholder.');
-    img.src = '';
-    placeholder.classList.add('show');
-  };
-
-  // Función que se llama cuando la imagen carga correctamente
-  img.onload = () => {
-    placeholder.classList.remove('show');
-    img.classList.add('visible');
-
-    // Escala mínima para que la imagen quepa
-    const scaleX = container.clientWidth / img.naturalWidth;
-    const scaleY = container.clientHeight / img.naturalHeight;
-    const minScale = Math.min(scaleX, scaleY);
-
-    // Cargar offsets guardados solo si queremos restaurar
-    const startX = parseFloat(localStorage.getItem('fotoOffsetX')) || 0;
-    const startY = parseFloat(localStorage.getItem('fotoOffsetY')) || 0;
-
-    // Siempre iniciar con minScale
-    setupImageDragAndZoom(img, container.clientWidth, container.clientHeight, startX, startY, minScale, minScale);
-  };
-
-  // Asignar la nueva fuente
-  img.src = src;
-}
 
 
 
@@ -585,7 +598,6 @@ async function tryFaceApi(img) {
 }
 
 
-
 // 4.1.2.1 - Cargar los modelos de Face-api.js (solo una vez)
 async function loadFaceApiModels() {
   try {
@@ -615,114 +627,159 @@ function getDefaultFaceCenter(img, container) {
 // 4.3 - Función Drag & Zoom para la foto
 /**
  * setupImageDragAndZoom: permite arrastrar y hacer zoom sobre la imagen.
- * - img: el <img>
- * - cW,cH: dimensiones del contenedor
- * - initialX, initialY, initialScale: valores de offset y escala iniciales
+ * Se aplica al wrapper (#foto-wrapper) en lugar de la imagen directamente.
+ *
+ * @param {HTMLElement} wrapper - Elemento wrapper que contiene la imagen
+ * @param {number} containerWidth - Ancho del contenedor principal
+ * @param {number} containerHeight - Alto del contenedor principal
+ * @param {number} startX - Offset inicial X (px)
+ * @param {number} startY - Offset inicial Y (px)
+ * @param {number} startScale - Escala inicial
+ * @param {number} minScale - Escala mínima permitida
  */
-export function setupImageDragAndZoom(img, containerWidth, containerHeight, 
-  startX = 0, startY = 0, 
-  startScale = 1, minScale = 1) {
+export function setupImageDragAndZoom(
+  wrapper,
+  containerWidth,
+  containerHeight,
+  startX = 0,
+  startY = 0,
+  startScale = 1,
+  minScale = 1
+) {
 
-  // --- Asegurar que no queden listeners duplicados
-  if (img._dragZoomListeners) {
-    removeImageDragAndZoomListeners(img);
+  // --- Evitar duplicar listeners si ya existen
+  if (wrapper._dragZoomListeners) {
+    removeImageDragAndZoomListeners(wrapper);
   }
 
-  // --- Recuperar valores guardados en localStorage (si existen)
+  // --- Recuperar offsets y escala guardados previamente en localStorage
   const savedX = parseFloat(localStorage.getItem('fotoOffsetX'));
   const savedY = parseFloat(localStorage.getItem('fotoOffsetY'));
   const savedScale = parseFloat(localStorage.getItem('fotoScale'));
 
+  // --- Inicializar variables con valores guardados o predeterminados
   let offsetX = !isNaN(savedX) ? savedX : startX;
   let offsetY = !isNaN(savedY) ? savedY : startY;
-  let scale   = !isNaN(savedScale) ? savedScale : Math.max(minScale, startScale);  // <-- aplicar minScale al inicio
-  let isDragging = false;
-  let lastX, lastY;
+  let scale   = !isNaN(savedScale) ? savedScale : Math.max(minScale, startScale);
 
-  // Función para actualizar las transformaciones de la imagen y guardar en localStorage
+  let isDragging = false;  // Bandera para controlar si se está arrastrando
+  let lastX, lastY;        // Coordenadas previas del mouse durante el drag
+
+  /**
+   * updateTransform: aplica transformaciones CSS al wrapper y redibuja landmarks
+   */
   const updateTransform = () => {
-    const maxOffsetX = (img.naturalWidth * scale - containerWidth) / 2;
-    const maxOffsetY = (img.naturalHeight * scale - containerHeight) / 2;
+    const img = wrapper.querySelector('img');
 
-    const clampedX = clampOffset(offsetX, maxOffsetX);
-    const clampedY = clampOffset(offsetY, maxOffsetY);
+    if (!img) return;
 
-    console.log('Transformación actualizada:', { clampedX, clampedY, scale });
+    // Limitar desplazamiento máximo según escala y tamaño de la imagen
+    const maxOffsetX = Math.max((img.naturalWidth * scale - containerWidth) / 2, 0);
+    const maxOffsetY = Math.max((img.naturalHeight * scale - containerHeight) / 2, 0);
 
-    img.style.transform = `translate(calc(-50% + ${clampedX}px), calc(-50% + ${clampedY}px)) scale(${scale})`;
+    // Aplicar clamp para que no se salga del contenedor
+    const clampedX = Math.max(Math.min(offsetX, maxOffsetX), -maxOffsetX);
+    const clampedY = Math.max(Math.min(offsetY, maxOffsetY), -maxOffsetY);
 
-    // Guardar en localStorage los valores de transformación
+    // Transformación CSS: centrado + offset + escala
+    wrapper.style.transform = `translate(-50%, -50%) translate(${clampedX}px, ${clampedY}px) scale(${scale})`;
+
+    // Guardar valores en localStorage para restaurar después
     localStorage.setItem('fotoOffsetX', clampedX);
     localStorage.setItem('fotoOffsetY', clampedY);
     localStorage.setItem('fotoScale', scale);
+
+    // --- Redibujar landmarks si existe detección previa
+    const canvas = wrapper.querySelector('canvas.face-overlay');
+    if (canvas && wrapper.dataset.lastDetection) {
+      const detection = JSON.parse(wrapper.dataset.lastDetection);
+      drawLandmarks(img, wrapper.parentElement, detection, scale, clampedX, clampedY);
+    }
   };
 
-  // // Listeners ( Eventos para comenzar a arrastrar la Foto )
+  // --- Listeners de interacción
 
-  const onMouseDown = (e) => { 
-    isDragging = true; 
-    lastX = e.clientX; 
-    lastY = e.clientY; 
-    e.preventDefault(); 
-    console.log('mousedown activado');
+  // Comenzar a arrastrar
+  const onMouseDown = (e) => {
+    isDragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    e.preventDefault();
   };
-  
-  // Evento para mover la imagen mientras se mantiene presionado el mouse
 
+  // Arrastrar
   const onMouseMove = (e) => {
     if (!isDragging) return;
     offsetX += e.clientX - lastX;
     offsetY += e.clientY - lastY;
-    lastX = e.clientX; 
+    lastX = e.clientX;
     lastY = e.clientY;
     updateTransform();
   };
 
-  // Evento para soltar el mouse y terminar el arrastre
-  const onMouseUp = () => { isDragging = false; };
+  // Soltar
+  const onMouseUp = () => {
+    isDragging = false;
+  };
 
-  // Evento para hacer zoom con la rueda del ratón
+  // Zoom con la rueda del mouse
   const onWheel = (e) => {
     e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.05 : 0.05;
+    const delta = e.deltaY > 0 ? -0.025 : 0.025;
+
+    // Nueva escala limitada entre minScale y 2
     const newScale = Math.max(minScale, Math.min(scale + delta, 2));
-    // Mantener centrado relativo al puntero
-    const rect = img.getBoundingClientRect();
+
+    // Mantener zoom centrado relativo al puntero
+    const rect = wrapper.getBoundingClientRect();
     const relX = (e.clientX - rect.left - rect.width / 2) / scale;
     const relY = (e.clientY - rect.top - rect.height / 2) / scale;
     offsetX -= relX * delta;
     offsetY -= relY * delta;
     scale = newScale;
-    console.log('Zoom actualizado:', { offsetX, offsetY, scale });
+
     updateTransform();
   };
 
-  // Asignar listeners
-  img.addEventListener('mousedown', onMouseDown);
+  // --- Asignar listeners
+  wrapper.addEventListener('mousedown', onMouseDown);
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
-  img.addEventListener('wheel', onWheel);
+  wrapper.addEventListener('wheel', onWheel);
 
-  // Guardar referencias para poder removerlos
-  img._dragZoomListeners = { onMouseDown, onMouseMove, onMouseUp, onWheel };
+  // Guardar referencias para poder eliminarlos más tarde
+  wrapper._dragZoomListeners = { onMouseDown, onMouseMove, onMouseUp, onWheel };
 
-  // Inicialización de la imagen con las transformaciones iniciales
-  updateTransform(); // <-- escala inicial ya respetando minScale
+  // Inicializar transformación
+  updateTransform();
 }
 
 
-export function removeImageDragAndZoomListeners(img) {
-  if (!img._dragZoomListeners) return;
-  const { onMouseDown, onMouseMove, onMouseUp, onWheel } = img._dragZoomListeners;
-  img.removeEventListener('mousedown', onMouseDown);
+/**
+ * Elimina todos los listeners de Drag & Zoom de un wrapper.
+ * @param {HTMLElement} wrapper - Elemento wrapper (#foto-wrapper)
+ */
+export function removeImageDragAndZoomListeners(wrapper) {
+  if (!wrapper._dragZoomListeners) return;
+
+  const { onMouseDown, onMouseMove, onMouseUp, onWheel } = wrapper._dragZoomListeners;
+
+  wrapper.removeEventListener('mousedown', onMouseDown);
   document.removeEventListener('mousemove', onMouseMove);
   document.removeEventListener('mouseup', onMouseUp);
-  img.removeEventListener('wheel', onWheel);
-  
-  delete img._dragZoomListeners;
+  wrapper.removeEventListener('wheel', onWheel);
+
+  delete wrapper._dragZoomListeners;
 }
 
+
 // 4.3.1 - Función auxiliar para limitar desplazamiento
+/**
+ * Limita un offset entre -max y +max
+ * @param {number} offset - Offset actual
+ * @param {number} max - Valor máximo permitido
+ * @returns {number} Offset limitado
+ */
 function clampOffset(offset, max) {
   return Math.min(Math.max(offset, -max), max);
 }

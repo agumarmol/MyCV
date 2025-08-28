@@ -22,7 +22,7 @@ import {
   setupPhotoUploadListener 
 } from './cvUploader.js';
 
-import { preloadFaceApiModels, setupFaceCentering } from './faceCentering.js';
+import { preloadFaceApiModels } from './faceCentering.js';
 
 
 export {
@@ -134,9 +134,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 🔹 🆕 Carga de modelos de face-api en segundo plano (no bloquea la página)
   preloadFaceApiModels();
-
-  // 🔹 Configura el botón de centrar rostro
-  setupFaceCentering();
 });
 
 // ===================================

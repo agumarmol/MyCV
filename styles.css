@@ -933,7 +933,6 @@ body[data-theme="dark"] .resizer:hover {
 /* ============================================================================
    5. 🗂 SECCIONES DEL SIDEBAR
 ============================================================================ */
-
 /* ================================= */
 /* ====== 5.1. Foto de perfil ====== */
 /* ================================= */
@@ -953,12 +952,12 @@ body[data-theme="dark"] .resizer:hover {
 #foto-container {
   position: relative;
   text-align: center;
-  width: var(--foto-size, 250px);         /* Usamos variable de tamaño */
-  aspect-ratio: var(--foto-aspect, 1/1);  /* Usamos variable de proporción */
+  width: var(--foto-size, 250px);
+  aspect-ratio: var(--foto-aspect, 1/1);
   overflow: hidden;
   cursor: grab;
-  background-color: var(--foto-bg, #f0f0f0); /* Personalizable por tema */
-  border-radius: var(--foto-radius, 50%);   /* Variable para bordes redondeados */
+  background-color: var(--foto-bg, #f0f0f0);
+  border-radius: var(--foto-radius, 50%);
   border: var(--foto-border-size, 8px) solid var(--page-background-color, #ccc);
   display: flex;
   justify-content: center;
@@ -967,43 +966,52 @@ body[data-theme="dark"] .resizer:hover {
 }
 
 /* Wrapper interno para manipulación */
-#foto-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  #foto-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 2;
+  }
 
 /* Imagen de perfil */
 #foto-wrapper img,
 #foto {
-  width: auto; /* tamaño original para manipulación */
-  height: auto;
-
-  object-fit: none;              /* 'contain' evita recortes no deseados o 'none' para que JS maneje el zoom y desplazamiento */  
-  /* border-radius: 50%; /* No necesario -> máscara ya redondea */
-
-  object-position: center center;
-  opacity: 0;                       /* Oculto inicialmente */
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 2;
-  display: block;                  /* Siempre en bloque, el control es por `opacity` */
-}
-
-#foto {
-  transform: translate(-50%, -50%); /* Centrado inicial, luego actualizado vía JS */
-  cursor: grab;
   position: absolute;
   top: 50%;
   left: 50%;
+  width: auto;
+  height: auto;
+  object-fit: none;
+  object-position: center center;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 2;
+  display: block;
+  transform: translate(-50%, -50%);
+  cursor: grab;
 }
 
 /* Imagen visible */
 #foto-wrapper img.visible,
 #foto.visible {
   opacity: 1;
+}
+
+/* Canvas de landmarks sobre la imagen */
+.face-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999; /* ponerlo bien arriba por debug */
+  width: 100% !important;   /* cubrir el wrapper */
+  height: 100% !important;
 }
 
 /* Placeholder si no hay imagen cargada */

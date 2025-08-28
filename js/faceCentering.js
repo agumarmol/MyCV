@@ -1,9 +1,17 @@
 /*
  * faceCentering.js
  * Detecta y centra la cara dentro del contenedor usando face-api.js
+ * Estrategia:
+ * 1️⃣ Detectar rostro + landmarks
+ * 2️⃣ Aplicar centrado y escalado al wrapper
+ * 3️⃣ Dibujar landmarks sobre canvas alineado al wrapper
  */
 
 let modelsLoaded = false;
+
+/* ==========================================================
+   1️⃣ Carga de modelos face-api
+========================================================== */
 
 /**
  * Carga los modelos de face-api desde la carpeta local `/models-face-api`
@@ -22,185 +30,237 @@ export async function loadModels() {
 }
 
 /**
- * Función para precargar los modelos en segundo plano
+ * Precarga los modelos en segundo plano
  */
 export async function preloadFaceApiModels() {
   console.log('Cargando modelos de face-api en segundo plano...');
-  try {
-    await loadModels();
-    console.log('✅ Modelos de face-api listos para usar');
-  } catch (err) {
-    console.error('❌ Error cargando modelos de face-api en segundo plano:', err);
-  }
+  await loadModels();
+  console.log('✅ Modelos de face-api listos para usar');
 }
 
-/**
- * Espera a que la imagen termine de cargar
- */
-async function waitForImageLoad(img) {
-  if (img.complete && img.naturalHeight !== 0) return;
+/* ==========================================================
+   2️⃣ Espera a que la imagen termine de cargar
+========================================================== */
+export function waitForImageLoad(img) {
   return new Promise(resolve => {
-    img.onload = resolve;
-    img.onerror = () => resolve(); // evita bloqueo si falla
+    if (img.complete && img.naturalWidth > 0) {
+      resolve();
+    } else {
+      img.addEventListener('load', () => resolve(), { once: true });
+      img.addEventListener('error', () => resolve(), { once: true });
+    }
   });
 }
 
+/* ==========================================================
+   3️⃣ Función de centrado de la imagen
+========================================================== */
+
 /**
- * Detecta y centra la cara dentro del contenedor
- * @param {HTMLImageElement} imageElement - Imagen de la cara
- * @param {HTMLElement} containerElement - Contenedor del placeholder
+ * Centra y escala la imagen dentro del contenedor
+ * @param {HTMLElement} wrapper - Wrapper que contiene la imagen
+ * @param {HTMLElement} container - Contenedor visible
+ * @param {Object} detection - Resultado face-api (bounding box)
+ * @returns {Object} { scale, offsetX, offsetY }
  */
-async function detectAndCenterFace(imageElement, containerElement) {
-  console.log('🔎 Detectando rostro...');
+export function centerFaceWrapper(wrapper, container, detection) {
+  if (!detection) return null;
 
-  // Detectar rostro + landmarks + expresiones
-  const detection = await faceapi
-    .detectSingleFace(imageElement)
-    .withFaceLandmarks()
-    .withFaceExpressions();
+  // Resetear transform previo
+  wrapper.style.transform = 'translate(-50%, -50%) scale(1)';
+  wrapper.dataset.offsetX = 0;
+  wrapper.dataset.offsetY = 0;
+  wrapper.dataset.scale = 1;
 
-  if (!detection) {
-    console.warn('⚠️ No se detectó ninguna cara en la imagen.');
-    return;
-  }
-
-  // Obtener dimensiones naturales de la imagen
-  const imageWidth = imageElement.naturalWidth;
-  const imageHeight = imageElement.naturalHeight;
-
-  // Información de la caja del rostro
   const { x, y, width, height } = detection.detection.box;
-  console.log('📦 Caja de detección:', { x, y, width, height });
-
-  // Landmarks (ojos, nariz, boca)
-  console.log('👁️ Landmarks ojos:', detection.landmarks.getLeftEye(), detection.landmarks.getRightEye());
-  console.log('👃 Nariz:', detection.landmarks.getNose());
-  console.log('👄 Boca:', detection.landmarks.getMouth());
-
-  // Centro de la cara detectada
   const faceCenterX = x + width / 2;
   const faceCenterY = y + height / 2;
 
-  // Dimensiones del contenedor (placeholder)
-  const containerWidth = containerElement.clientWidth;
-  const containerHeight = containerElement.clientHeight;
-
-  // Margen opcional para que no toque bordes
-  const margin = 10; // px
-
-  // Escala dinámica para que la cara encaje dentro del contenedor
-  const scaleX = (containerWidth - 2 * margin) / width;
-  const scaleY = (containerHeight - 2 * margin) / height;
+  const margin = 10;
+  const scaleX = (container.clientWidth - 2 * margin) / width;
+  const scaleY = (container.clientHeight - 2 * margin) / height;
   const scale = Math.min(scaleX, scaleY);
-  console.log('⚖️ Scale calculado dinámicamente:', scale);
 
-  // Offset para centrar la cara en el contenedor
-  const offsetX = containerWidth / 2 - faceCenterX * scale;
-  const offsetY = containerHeight / 2 - faceCenterY * scale;
-  console.log('📐 Offset calculado:', offsetX, offsetY);
+  const offsetX = container.clientWidth / 2 - faceCenterX * scale;
+  const offsetY = container.clientHeight / 2 - faceCenterY * scale;
 
-  // ⚡ Forzar que la transformación se haga desde el centro de la imagen
-  imageElement.style.transformOrigin = 'center center';
+  wrapper.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+  wrapper.dataset.offsetX = offsetX;
+  wrapper.dataset.offsetY = offsetY;
+  wrapper.dataset.scale = scale;
 
-  // Aplicar transformación final
-  imageElement.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
-
-  console.log('✅ Cara centrada y ajustada al contenedor');
-
-  // 🔹 Dibujar canvas de depuración alineado con la imagen transformada
-  drawDetectionCanvas(imageElement, containerElement, detection, scale, offsetX, offsetY);
+  return { scale, offsetX, offsetY };
 }
 
+/* ==========================================================
+   4️⃣ Función de dibujo de landmarks
+========================================================== */
+
 /**
- * Función opcional para dibujar el canvas de depuración sobre la imagen
- * @param {HTMLImageElement} imageElement - Imagen sobre la que se detecta la cara
- * @param {HTMLElement} containerElement - Contenedor donde se coloca el canvas
- * @param {Object} detection - Resultado de la detección de face-api
- * @param {number} scale - Escala aplicada a la imagen
- * @param {number} offsetX - Offset X aplicado a la imagen
- * @param {number} offsetY - Offset Y aplicado a la imagen
+ * Dibuja los landmarks en un canvas alineado con la imagen
+ * @param {HTMLImageElement} imageElement - Imagen de la cara
+ * @param {HTMLElement} containerElement - Contenedor visible
+ * @param {Object} detection - Resultado face-api
  */
-function drawDetectionCanvas(imageElement, containerElement, detection, scale = 1, offsetX = 0, offsetY = 0) {
+export function drawLandmarks(imageElement, containerElement, detection) {
   if (!detection) return;
 
-  // Buscar canvas existente o crear uno nuevo
-  let canvas = containerElement.querySelector('canvas.face-overlay');
+  const wrapper = imageElement.parentElement;
+
+  // --- 1️⃣ Recuperar escala y offsets del dataset (ya actualizado por centerFaceWrapper)
+  const scale = parseFloat(wrapper.dataset.scale) || 1;
+  const offsetX = parseFloat(wrapper.dataset.offsetX) || 0;
+  const offsetY = parseFloat(wrapper.dataset.offsetY) || 0;
+
+  // --- 2️⃣ Crear canvas overlay si no existe
+  let canvas = wrapper.querySelector('canvas.face-overlay');
   if (!canvas) {
     canvas = document.createElement('canvas');
     canvas.classList.add('face-overlay');
-    canvas.style.position = 'absolute';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.pointerEvents = 'none'; // no bloquea la interacción
-    containerElement.style.position = 'relative'; // asegurar contenedor relativo
-    containerElement.appendChild(canvas);
+    wrapper.appendChild(canvas);
   }
 
   // Ajustar tamaño del canvas al contenedor
   canvas.width = containerElement.clientWidth;
   canvas.height = containerElement.clientHeight;
+  canvas.style.width = `${containerElement.clientWidth}px`;
+  canvas.style.height = `${containerElement.clientHeight}px`;
 
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Escalar detección a tamaño de la imagen transformada
-  const scaleX = scale;
-  const scaleY = scale;
-
   const { x, y, width, height } = detection.detection.box;
-  ctx.strokeStyle = 'red';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(x * scaleX + offsetX, y * scaleY + offsetY, width * scaleX, height * scaleY);
 
-  // Función para dibujar landmarks
-  const drawPoints = (points, color = 'blue') => {
+  // --- 3️⃣ Transformar coordenadas de la imagen a coordenadas visibles
+  const transformPoint = (px, py) => {
+    const cx = containerElement.clientWidth / 2;
+    const cy = containerElement.clientHeight / 2;
+    const imgW = imageElement.naturalWidth;
+    const imgH = imageElement.naturalHeight;
+    return {
+      x: (px - imgW / 2) * scale + offsetX + cx,
+      y: (py - imgH / 2) * scale + offsetY + cy
+    };
+  };
+
+  // --- 4️⃣ Dibujar bounding box completo
+  const topLeft = transformPoint(x, y);
+  const bottomRight = transformPoint(x + width, y + height);
+  ctx.strokeStyle = 'rgba(255,0,0,0.5)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+
+  // --- 5️⃣ Dibujar landmarks
+  const drawPoints = (points, color) => {
     ctx.fillStyle = color;
     points.forEach(p => {
+      const tp = transformPoint(p.x, p.y);
       ctx.beginPath();
-      ctx.arc(p.x * scaleX + offsetX, p.y * scaleY + offsetY, 2, 0, 2 * Math.PI);
+      ctx.arc(tp.x, tp.y, 2, 0, 2 * Math.PI);
       ctx.fill();
     });
   };
 
-  // Dibujar landmarks con colores diferenciados
   drawPoints(detection.landmarks.getLeftEye(), 'blue');
   drawPoints(detection.landmarks.getRightEye(), 'blue');
   drawPoints(detection.landmarks.getNose(), 'green');
   drawPoints(detection.landmarks.getMouth(), 'purple');
 
-  // Dibujar centro de la cara
-  const faceCenterX = x + width / 2;
-  const faceCenterY = y + height / 2;
+  // --- 6️⃣ Dibujar centro del rostro
+  const center = transformPoint(x + width / 2, y + height / 2);
   ctx.fillStyle = 'yellow';
   ctx.beginPath();
-  ctx.arc(faceCenterX * scaleX + offsetX, faceCenterY * scaleY + offsetY, 3, 0, 2 * Math.PI);
+  ctx.arc(center.x, center.y, 3, 0, 2 * Math.PI);
   ctx.fill();
+
+  // --- 7️⃣ Log para debug
+  console.log('🎨 Landmarks dibujados | scale:', scale, 'offsetX:', offsetX, 'offsetY:', offsetY);
 }
 
+
+
+/* ==========================================================
+   5️⃣ Configuración de flags y botones
+========================================================== */
+
+let ENABLE_FACE_CENTERING = false;   // centrar automáticamente
+let ENABLE_LANDMARKS_DRAW = true;    // dibujar landmarks
+
+export function setFaceCentering(enabled) { ENABLE_FACE_CENTERING = enabled; }
+export function setLandmarksDraw(enabled) { ENABLE_LANDMARKS_DRAW = enabled; }
+
 /**
- * Configura el botón "Centrar rostro"
+ * Inicializa el botón "center-face-btn"
+ * - Dibuja landmarks sin mover la imagen si ENABLE_FACE_CENTERING=false
+ * - Centra la imagen si ENABLE_FACE_CENTERING=true
  */
-export function setupFaceCentering() {
+export function setupFaceCenteringButton() {
   const btn = document.getElementById('center-face-btn');
-  const imageElement = document.getElementById('foto');
-  const containerElement = document.getElementById('foto-container');
-
-  if (!btn || !imageElement || !containerElement) {
-    console.warn("⏩ No se encontró algún elemento para centrar la cara.");
-    return;
-  }
-
-  console.log('⚡ Botón de centrar rostro listo');
+  if (!btn) return;
 
   btn.addEventListener('click', async () => {
-    console.log('🖱️ Botón presionado');
+    const img = document.getElementById('foto');
+    const container = document.getElementById('foto-container');
+    if (!img || !container) {
+      console.warn('⚠️ Imagen o contenedor no encontrados');
+      return;
+    }
+
     try {
-      await loadModels();               // asegura que los modelos estén cargados
-      await waitForImageLoad(imageElement);
-      await detectAndCenterFace(imageElement, containerElement);
+      console.log('🖱️ center-face-btn presionado');
+
+      // 1️⃣ Cargar modelos de face-api si no están cargados
+      await loadModels();
+      console.log('✅ Modelos de face-api listos');
+
+      // 2️⃣ Esperar que la imagen cargue completamente
+      await waitForImageLoad(img);
+      await new Promise(r => setTimeout(r, 50)); // asegurar dimensiones finales
+      console.log('✅ Imagen lista para procesar');
+
+      // 3️⃣ Detectar rostro + landmarks
+      const detection = await faceapi.detectSingleFace(img).withFaceLandmarks();
+      if (!detection) {
+        console.warn('⚠️ No se detectó ninguna cara en la imagen');
+        return;
+      }
+      console.log('✅ Cara detectada');
+
+      const wrapper = img.parentElement;
+      let scale, offsetX, offsetY;
+
+      if (ENABLE_FACE_CENTERING) {
+        // 4️⃣ Centrar la imagen usando bounding box
+        console.log('🔹 Centrado automático activado, aplicando transform...');
+        ({ scale, offsetX, offsetY } = centerFaceWrapper(wrapper, container, detection));
+        console.log(`📐 Transform aplicado | scale=${scale.toFixed(2)}, offsetX=${offsetX.toFixed(1)}, offsetY=${offsetY.toFixed(1)}`);
+
+        // 5️⃣ Actualizar dataset del wrapper para drawLandmarks
+        wrapper.dataset.scale = scale;
+        wrapper.dataset.offsetX = offsetX;
+        wrapper.dataset.offsetY = offsetY;
+
+      } else {
+        // 6️⃣ Mantener posición actual sin centrar
+        scale = parseFloat(wrapper.dataset.scale) || 1;
+        offsetX = parseFloat(wrapper.dataset.offsetX) || 0;
+        offsetY = parseFloat(wrapper.dataset.offsetY) || 0;
+        console.log('🔹 Centrado automático desactivado, usando posición actual');
+
+        wrapper.dataset.scale = scale;
+        wrapper.dataset.offsetX = offsetX;
+        wrapper.dataset.offsetY = offsetY;
+      }
+
+      // 7️⃣ Dibujar landmarks si está habilitado
+      if (ENABLE_LANDMARKS_DRAW) {
+        console.log('🎨 Dibujando landmarks sobre la imagen...');
+        drawLandmarks(img, container, detection);
+        console.log('✅ Landmarks dibujados correctamente');
+      }
+
     } catch (err) {
-      console.error('❌ Error al centrar la cara:', err);
-      alert('No se pudo centrar la cara. Revisa la consola para más detalles.');
+      console.error('❌ Error centrando/dibujando rostro:', err);
     }
   });
 }
